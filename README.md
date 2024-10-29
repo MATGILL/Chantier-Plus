@@ -2,11 +2,11 @@
 
 ## 📍: Initialisation du Projet
 
-- [ ] **Initialiser le projet Flutter** : Créer le projet dans Flutter et organiser les dossiers de base.
-- [ ] **Theme de l'application**
-- [ ] **Dossier d'assets et font**
+- [X] **Initialiser le projet Flutter** : Créer le projet dans Flutter et organiser les dossiers de base.
+- [X] **Theme de l'application**
+- [X] **Dossier d'assets et font**
 
-- [ ] **Configurer Firebase pour le projet** :
+- [⏰] **Configurer Firebase pour le projet** :
   - Créer le projet Firebase dans la console Firebase.
   - Ajouter les fichiers de configuration (`google-services.json` pour Android et `GoogleService-Info.plist` pour iOS) au projet.
   - Configurer les dépendances Firebase dans `pubspec.yaml` et dans les fichiers de configuration d'Android et iOS.
