@@ -1,5 +1,5 @@
 import 'package:chantier_plus/core/configs/theme/app_theme.dart';
-import 'package:chantier_plus/presentation/page/splash.dart';
+import 'package:chantier_plus/presentation/page/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
+      home: const AuthScreen(),
     );
   }
 }
