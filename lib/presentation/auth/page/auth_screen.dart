@@ -1,5 +1,5 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
-import 'package:chantier_plus/presentation/widgets/inputs/custom_password_field.dart';
+import 'package:chantier_plus/presentation/auth/widgets/custom_password_field.dart';
 import 'package:chantier_plus/presentation/widgets/inputs/cutom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
