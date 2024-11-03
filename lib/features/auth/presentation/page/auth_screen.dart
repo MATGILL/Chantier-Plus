@@ -1,9 +1,9 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
-import 'package:chantier_plus/data/models/auth/login_user.dart';
-import 'package:chantier_plus/domain/usecases/auth/login_usecase.dart';
-import 'package:chantier_plus/presentation/auth/page/signup_screen.dart';
-import 'package:chantier_plus/presentation/auth/widgets/custom_password_field.dart';
-import 'package:chantier_plus/presentation/widgets/inputs/cutom_text_form_field.dart';
+import 'package:chantier_plus/features/auth/data/models%20(Dto)/login_user.dart';
+import 'package:chantier_plus/features/auth/domain/usecases/login_usecase.dart';
+import 'package:chantier_plus/features/auth/presentation/page/signup_screen.dart';
+import 'package:chantier_plus/features/auth/presentation/widget/custom_password_field.dart';
+import 'package:chantier_plus/common/widgets/inputs/cutom_text_form_field.dart';
 import 'package:chantier_plus/service_locator.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +12,12 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: ListView(
           children: [
             Padding(
@@ -43,13 +43,13 @@ class AuthScreen extends StatelessWidget {
                     child: CustomTextFormField(
                       labelText: "Adresse mail",
                       hintText: "Adresse mail",
-                      controller: _emailController,
+                      controller: emailController,
                     ),
                   ),
                   CustomPasswordField(
                     labelText: "Mot de passe",
                     hintText: "Mot de passe",
-                    controller: _passwordController,
+                    controller: passwordController,
                   ),
                   const TextNoAccount()
                 ],
@@ -63,12 +63,12 @@ class AuthScreen extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           var result =
                               await serviceLocator<LoginUsecase>().call(
                             params: LoginUser(
-                              email: _emailController.text,
-                              password: _passwordController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
                             ),
                           );
 
