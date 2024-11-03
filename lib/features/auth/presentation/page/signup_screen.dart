@@ -1,9 +1,9 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
-import 'package:chantier_plus/data/models/auth/create_user.dart';
-import 'package:chantier_plus/domain/usecases/auth/signup_usecase.dart';
-import 'package:chantier_plus/presentation/auth/widgets/custom_password_field.dart';
-import 'package:chantier_plus/presentation/widgets/inputs/cutom_text_form_field.dart';
-import 'package:chantier_plus/service_locator.dart';
+import 'package:chantier_plus/features/auth/application(services)/services/auth_service.dart';
+import 'package:chantier_plus/features/auth/domain/entities/user.dart';
+import 'package:chantier_plus/features/auth/presentation/widget/custom_password_field.dart';
+import 'package:chantier_plus/common/widgets/inputs/cutom_text_form_field.dart';
+import 'package:chantier_plus/core/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -76,13 +76,12 @@ class SignUpScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            var result =
-                                await serviceLocator<SignupUsecase>().call(
-                              params: CreateUser(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  fullName: _userNameController.text),
-                            );
+                            var result = await serviceLocator<AuthService>()
+                                .signUp(
+                                    UserEntity(
+                                        email: _emailController.text,
+                                        fullName: _userNameController.text),
+                                    _passwordController.text);
 
                             if (result.success) {
                               // Si la connexion est réussie
