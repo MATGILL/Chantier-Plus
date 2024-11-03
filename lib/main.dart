@@ -1,14 +1,17 @@
 import 'package:chantier_plus/core/configs/theme/app_theme.dart';
 import 'package:chantier_plus/firebase_options.dart';
 import 'package:chantier_plus/presentation/auth/page/auth_screen.dart';
+import 'package:chantier_plus/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeDependencies();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MainApp());
 }
 
