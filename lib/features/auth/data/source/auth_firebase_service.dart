@@ -1,17 +1,23 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/auth/data/models (Dto)/create_user.dart';
 import 'package:chantier_plus/features/auth/data/models (Dto)/login_user.dart';
+import 'package:chantier_plus/features/auth/domain/repository/auth_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// Service pour gérer l'authentification des utilisateurs avec Firebase.
-class AuthFirebaseService {
+class AuthFirebaseService extends AuthRepository {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   /// Tente de connecter un utilisateur avec les informations d'identification fournies.
   ///
   /// Retourne un [ServiceResult] contenant un message de succès ou d'erreur.
+  @override
   Future<ServiceResult<String>> login(LoginUser user) async {
     return await _handleAuthAction(
       () async {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await _auth.signInWithEmailAndPassword(
             email: user.email, password: user.password);
         return ServiceResult<String>(content: "Login was successful");
       },
@@ -21,11 +27,25 @@ class AuthFirebaseService {
   /// Tente de créer un nouveau compte utilisateur avec les informations fournies.
   ///
   /// Retourne un [ServiceResult] contenant un message de succès ou d'erreur.
+  @override
   Future<ServiceResult<String>> signUp(CreateUser user) async {
     return await _handleAuthAction(
       () async {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: user.email, password: user.password);
+        // Crée l'utilisateur dans FirebaseAuth
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
+          email: user.email,
+          password: user.password,
+        );
+
+        // Ajoute l'utilisateur à Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'email': user.email,
+          'fullName': user.fullName,
+          'role': user.role,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
         return ServiceResult<String>(content: "L'inscription a été réussie.");
       },
     );
@@ -74,6 +94,30 @@ class AuthFirebaseService {
         return "Le mot de passe fourni n'est pas assez fort.";
       default:
         return "Une erreur inconnue s'est produite. Veuillez réessayer.";
+    }
+  }
+
+  /// Méthode pour récupérer le rôle de l'utilisateur à partir de son userId
+  ///
+  /// [userId] est l'identifiant de l'utilisateur pour lequel nous voulons récupérer le rôle.
+  /// Retourne un [ServiceResult] contenant le rôle ou un message d'erreur.
+  @override
+  Future<ServiceResult<String>> getUserRoleById(String userId) async {
+    try {
+      // Récupérer les données de l'utilisateur depuis Firestore
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('users').doc(userId).get();
+
+      if (userSnapshot.exists) {
+        // Extraire le rôle de l'utilisateur
+        String role = userSnapshot['role'];
+        return ServiceResult<String>(content: role);
+      } else {
+        return ServiceResult<String>(error: "Utilisateur non trouvé.");
+      }
+    } catch (e) {
+      return ServiceResult<String>(
+          error: "Erreur lors de la récupération du rôle.");
     }
   }
 }

@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeDependencies();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  initializeDependencies();
 
   runApp(const MainApp());
 }

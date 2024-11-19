@@ -1,7 +1,6 @@
-import 'package:chantier_plus/features/auth/application(services)/services/auth_service.dart';
-import 'package:chantier_plus/features/auth/data/repository/auth_repository_impl.dart';
-import 'package:chantier_plus/features/auth/data/source/auth_firebase_service.dart';
 import 'package:chantier_plus/features/auth/domain/repository/auth_repository.dart';
+import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
+import 'package:chantier_plus/features/auth/data/source/auth_firebase_service.dart';
 import 'package:get_it/get_it.dart';
 
 /// Configuration du service locator pour l'application.
@@ -20,8 +19,7 @@ Future<void> initializeDependencies() async {
 }
 
 Future<void> initializeAuthServices() async {
-  serviceLocator.registerSingleton<AuthFirebaseService>(AuthFirebaseService());
-  serviceLocator.registerSingleton<AuthRepository>(AuthRepositoryImpl());
+  serviceLocator.registerSingleton<AuthRepository>(AuthFirebaseService());
   serviceLocator.registerSingleton<AuthService>(
       AuthService(serviceLocator<AuthRepository>()));
 }

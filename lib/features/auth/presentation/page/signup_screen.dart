@@ -1,34 +1,51 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
-import 'package:chantier_plus/features/auth/application(services)/services/auth_service.dart';
+import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
 import 'package:chantier_plus/features/auth/domain/entities/user.dart';
+import 'package:chantier_plus/features/auth/presentation/page/auth_gate.dart';
 import 'package:chantier_plus/features/auth/presentation/widget/custom_password_field.dart';
 import 'package:chantier_plus/common/widgets/inputs/cutom_text_form_field.dart';
 import 'package:chantier_plus/core/service_locator.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
-  //TODO add form validation and add user info in the database
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  bool _isLoading = false; // État de chargement
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // Variable pour stocker le rôle sélectionné
+  String _selectedRole = "";
+
+  @override
+  void dispose() {
+    // Nettoyer les contrôleurs pour éviter les fuites de mémoire
+    emailController.dispose();
+    passwordController.dispose();
+    userNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _userNameController = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 24.0),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 37.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const TitleWidget(),
                     const SizedBox(height: 16.0),
@@ -37,7 +54,7 @@ class SignUpScreen extends StatelessWidget {
                       child: CustomTextFormField(
                         labelText: "Nom d'utilisateur",
                         hintText: "Nom d'utilisateur",
-                        controller: _userNameController,
+                        controller: userNameController,
                       ),
                     ),
                     Padding(
@@ -45,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
                       child: CustomTextFormField(
                         labelText: "Adresse mail",
                         hintText: "Adresse mail",
-                        controller: _emailController,
+                        controller: emailController,
                       ),
                     ),
                     Padding(
@@ -53,7 +70,7 @@ class SignUpScreen extends StatelessWidget {
                       child: CustomPasswordField(
                         labelText: "Mot de passe",
                         hintText: "Mot de passe",
-                        controller: _passwordController,
+                        controller: passwordController,
                       ),
                     ),
                     Padding(
@@ -64,49 +81,62 @@ class SignUpScreen extends StatelessWidget {
                         controller: TextEditingController(),
                       ),
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8.0, bottom: 12),
+                      child: Text(
+                        "Vous êtes :",
+                        style: TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                "Responsable de chantier",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Radio<String>(
+                                value: "RESP",
+                                activeColor: AppColors.primary,
+                                groupValue: _selectedRole,
+                                onChanged: onChanged,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                "Chef de chantier",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Radio<String>(
+                                value: "CHEF",
+                                activeColor: AppColors.primary,
+                                groupValue: _selectedRole,
+                                onChanged: onChanged,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            var result = await serviceLocator<AuthService>()
-                                .signUp(
-                                    UserEntity(
-                                        email: _emailController.text,
-                                        fullName: _userNameController.text),
-                                    _passwordController.text);
-
-                            if (result.success) {
-                              // Si la connexion est réussie
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      result.content ?? "Login successful"),
-                                  backgroundColor: Colors.green,
-                                ),
-                              );
-                              // Vous pouvez également naviguer vers une autre page ici
-                            } else {
-                              // En cas d'échec de la connexion
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(result.getErrorMessage()),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        child: const Text("SignUp"),
-                      ),
-                    ],
+                  child: ElevatedButton(
+                    onPressed: onPressed,
+                    child: const Text("SignUp"),
                   ),
                 ),
               ),
@@ -116,12 +146,62 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> onPressed() async {
+    if (formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true; // Commence le chargement
+      });
+
+      var result = await serviceLocator<AuthService>().signUp(
+        UserEntity(
+            email: emailController.text,
+            fullName: userNameController.text,
+            role: _selectedRole),
+        passwordController.text,
+      );
+
+      setState(() {
+        _isLoading = false; // Arrête le chargement
+      });
+
+      if (result.success) {
+        // Si la connexion est réussie
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.content ?? "Inscription réussie"),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const AuthGate()),
+        );
+        // Naviguer vers une autre page si nécessaire
+      } else {
+        // En cas d'échec
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.getErrorMessage()),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  void onChanged(String? value) {
+    setState(() {
+      _selectedRole = value!;
+    });
+  }
 }
 
 class TitleWidget extends StatelessWidget {
-  const TitleWidget({
-    super.key,
-  });
+  const TitleWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

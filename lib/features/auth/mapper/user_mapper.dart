@@ -14,10 +14,10 @@ class UserMapper {
   /// Transforme un [UserEntity] en [CreateUser].
   static CreateUser toCreateDto(UserEntity user, String password) {
     return CreateUser(
-      email: user.email!,
-      password: password,
-      fullName: user.fullName!,
-    );
+        email: user.email!,
+        password: password!,
+        fullName: user.fullName!,
+        role: user.role!);
   }
 
   /// Transforme un [LoginUser] en [UserEntity].
