@@ -15,6 +15,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // ignore: unused_field
   bool _isLoading = false; // État de chargement
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();

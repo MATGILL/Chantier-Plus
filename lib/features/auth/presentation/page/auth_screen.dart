@@ -1,7 +1,6 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
 import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
 import 'package:chantier_plus/features/auth/domain/entities/user.dart';
-import 'package:chantier_plus/features/auth/presentation/page/auth_gate.dart';
 import 'package:chantier_plus/features/auth/presentation/page/signup_screen.dart';
 import 'package:chantier_plus/features/auth/presentation/widget/custom_password_field.dart';
 import 'package:chantier_plus/common/widgets/inputs/cutom_text_form_field.dart';
