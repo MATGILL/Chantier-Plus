@@ -1,6 +1,5 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/auth/presentation/page/auth_screen.dart';
-import 'package:chantier_plus/features/construction_site%20management/presentation/pages/home_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/chef_home_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/resp_home_screen.dart';
 import 'package:chantier_plus/core/service_locator.dart';

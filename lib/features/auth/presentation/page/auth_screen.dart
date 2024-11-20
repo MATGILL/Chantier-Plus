@@ -112,6 +112,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
       if (result.success) {
         // Si la connexion est réussie
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.content ?? "Login successful"),
@@ -120,6 +121,7 @@ class _AuthScreenState extends State<AuthScreen> {
         );
       } else {
         // En cas d'échec de la connexion
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.getErrorMessage()),

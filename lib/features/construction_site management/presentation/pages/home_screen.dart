@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                 },
-                child: Text("logOut"))
+                child: const Text("logOut"))
           ],
         ),
       ),

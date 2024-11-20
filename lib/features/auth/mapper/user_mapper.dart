@@ -15,7 +15,7 @@ class UserMapper {
   static CreateUser toCreateDto(UserEntity user, String password) {
     return CreateUser(
         email: user.email!,
-        password: password!,
+        password: password,
         fullName: user.fullName!,
         role: user.role!);
   }
