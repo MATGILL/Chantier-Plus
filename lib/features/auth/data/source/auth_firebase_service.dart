@@ -1,6 +1,7 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/auth/data/models (Dto)/create_user.dart';
 import 'package:chantier_plus/features/auth/data/models (Dto)/login_user.dart';
+import 'package:chantier_plus/features/auth/domain/entities/user.dart';
 import 'package:chantier_plus/features/auth/domain/repository/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -97,27 +98,29 @@ class AuthFirebaseService extends AuthRepository {
     }
   }
 
-  /// Méthode pour récupérer le rôle de l'utilisateur à partir de son userId
-  ///
-  /// [userId] est l'identifiant de l'utilisateur pour lequel nous voulons récupérer le rôle.
-  /// Retourne un [ServiceResult] contenant le rôle ou un message d'erreur.
   @override
-  Future<ServiceResult<String>> getUserRoleById(String userId) async {
+  Future<ServiceResult<UserEntity>> getUserById(String userId) async {
     try {
       // Récupérer les données de l'utilisateur depuis Firestore
       DocumentSnapshot userSnapshot =
           await _firestore.collection('users').doc(userId).get();
 
       if (userSnapshot.exists) {
-        // Extraire le rôle de l'utilisateur
-        String role = userSnapshot['role'];
-        return ServiceResult<String>(content: role);
+        // Extraire les informations de l'utilisateur
+        final data = userSnapshot.data() as Map<String, dynamic>;
+        final user = UserEntity(
+          userId: userId,
+          email: data['email'] ?? '',
+          fullName: data['fullName'],
+          role: data['role'] ?? '',
+        );
+        return ServiceResult<UserEntity>(content: user);
       } else {
-        return ServiceResult<String>(error: "Utilisateur non trouvé.");
+        return ServiceResult<UserEntity>(error: "Utilisateur non trouvé.");
       }
     } catch (e) {
-      return ServiceResult<String>(
-          error: "Erreur lors de la récupération du rôle.");
+      return ServiceResult<UserEntity>(
+          error: "Erreur lors de la récupération de l'utilisateur.");
     }
   }
 }
