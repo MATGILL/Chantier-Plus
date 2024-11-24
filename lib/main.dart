@@ -1,6 +1,7 @@
 import 'package:chantier_plus/core/configs/theme/app_theme.dart';
 import 'package:chantier_plus/features/auth/presentation/bloc/authentication_bloc.dart';
 import 'package:chantier_plus/features/auth/presentation/page/auth_gate.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/construction_iste_bloc/construction_site_bloc.dart';
 import 'package:chantier_plus/firebase_options.dart';
 import 'package:chantier_plus/core/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,9 +23,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          AuthenticationBloc()..add(AuthenticationSubscriptionRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              AuthenticationBloc()..add(AuthenticationSubscriptionRequested()),
+        ),
+      ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         home: const AuthGate(),

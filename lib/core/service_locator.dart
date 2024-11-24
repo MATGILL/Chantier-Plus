@@ -1,6 +1,9 @@
 import 'package:chantier_plus/features/auth/domain/repository/auth_repository.dart';
 import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
 import 'package:chantier_plus/features/auth/data/source/auth_firebase_service.dart';
+import 'package:chantier_plus/features/construction_site%20management/data/source/construction_site_firestore.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/repository/construction_site_repository.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
 import 'package:get_it/get_it.dart';
 
 /// Configuration du service locator pour l'application.
@@ -16,10 +19,18 @@ final GetIt serviceLocator = GetIt.instance;
 Future<void> initializeDependencies() async {
   //Authentification services
   await initializeAuthServices();
+  await initializeConstructionSiteServices();
 }
 
 Future<void> initializeAuthServices() async {
   serviceLocator.registerSingleton<AuthRepository>(AuthFirebaseService());
   serviceLocator.registerSingleton<AuthService>(
       AuthService(serviceLocator<AuthRepository>()));
+}
+
+Future<void> initializeConstructionSiteServices() async {
+  serviceLocator.registerSingleton<ConstructionSiteRepository>(
+      ConstructionSiteFirestore());
+  serviceLocator.registerSingleton<ConstructionSiteService>(
+      ConstructionSiteService(serviceLocator<ConstructionSiteRepository>()));
 }
