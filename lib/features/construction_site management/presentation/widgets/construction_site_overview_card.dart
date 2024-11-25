@@ -4,7 +4,9 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 import 'package:flutter/material.dart';
 
 class ConstructionSiteOverviewCard extends StatefulWidget {
-  ConstructionSiteOverviewCard({super.key});
+  final ConstructionSite constructionSite;
+  const ConstructionSiteOverviewCard(
+      {super.key, required this.constructionSite});
 
   @override
   State<ConstructionSiteOverviewCard> createState() =>
@@ -13,23 +15,10 @@ class ConstructionSiteOverviewCard extends StatefulWidget {
 
 class _ConstructionSiteOverviewCardState
     extends State<ConstructionSiteOverviewCard> {
-  //Mock object
-  final constructionSite = ConstructionSite(
-    id: "site123",
-    object: "Rénovation d'appartement",
-    startingDate: DateTime(2024, 12, 1),
-    durationInHalfDays: 20,
-    location: "12 Rue des Lilas, Paris",
-    clientContact: "Jean Dupont - 0601020304",
-    status: Status.inProgress,
-    photos: const [
-      "https://batiadvisor.fr/wp-content/uploads/2020/07/imprevus-chantier.jpg",
-      "https://example.com/photo2.jpg",
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
+    final ConstructionSite constructionSite = widget.constructionSite;
+
     return Card(
       color: AppColors.lightBackground,
       elevation: 4,
@@ -91,6 +80,16 @@ class _ConstructionSiteOverviewCardState
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Image.network(
                 constructionSite.photos[0],
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (constructionSite.photos.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Image.asset(
+                "assets/images/Image_not_found.png",
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,

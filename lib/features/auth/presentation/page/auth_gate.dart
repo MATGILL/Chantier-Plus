@@ -20,16 +20,16 @@ class _AuthGateState extends State<AuthGate> {
         if (state.status == AuthenticationStatus.authenticated) {
           final user = state.user;
           if (user?.role == 'RESP') {
-            return RespHomeScreen();
+            return const RespHomeScreen();
           } else if (user?.role == 'CHEF') {
-            return ChefHomeScreen();
+            return const ChefHomeScreen();
           } else {
             _showError(context, 'Rôle utilisateur inconnu.');
           }
         } else if (state.status == AuthenticationStatus.unauthenticated) {
-          return AuthScreen();
+          return const AuthScreen();
         }
-        return AuthScreen();
+        return const AuthScreen();
       },
     );
   }

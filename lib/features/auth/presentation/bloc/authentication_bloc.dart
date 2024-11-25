@@ -41,7 +41,6 @@ class AuthenticationBloc
         emit(const AuthenticationState.unauthenticated());
       }
     }
-    ;
   }
 
   void _onLogoutRequested(

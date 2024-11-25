@@ -30,7 +30,6 @@ class ConstructionSiteBloc
 
     // Gestion du succès ou de l'échec
     if (result.content != null) {
-      print(result.content);
       emit(ConstructionSiteState(
         status: ConstructionStateStatus.success,
         constructionSites: result.content!,
