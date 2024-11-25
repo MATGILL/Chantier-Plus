@@ -1,5 +1,5 @@
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_chef.dart';
 import 'package:flutter/material.dart';
-import 'package:chantier_plus/features/construction_site%20management/presentation/pages/chef_home_screen.dart';
 
 class NavigationChef extends StatefulWidget {
   const NavigationChef({super.key});
@@ -12,7 +12,7 @@ class _NavigationChefState extends State<NavigationChef> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const ChefHomeScreen(), // Écran principal
+    const ConstructionSiteListScreenChef(), // Écran principal
     const Center(child: Text('Map Screen')),
     //TODO add other screen
   ];

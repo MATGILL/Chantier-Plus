@@ -1,4 +1,4 @@
-import 'package:chantier_plus/common/widgets/navigation_chef.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/navigation_chef.dart';
 import 'package:chantier_plus/features/auth/presentation/bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
