@@ -37,18 +37,21 @@ class ConstructionSiteListScreenChef extends StatelessWidget {
                         .read<ConstructionSiteBloc>()
                         .add(FetchConstructionSites());
                   },
-                  child: ListView.builder(
-                    itemCount: constructionSites.length,
-                    itemBuilder: (context, index) {
-                      final constructionSite = constructionSites[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: ConstructionSiteOverviewCard(
-                          key: Key(constructionSites[index].id),
-                          constructionSite: constructionSite,
-                        ),
-                      );
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: ListView.builder(
+                      itemCount: constructionSites.length,
+                      itemBuilder: (context, index) {
+                        final constructionSite = constructionSites[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: ConstructionSiteOverviewCard(
+                            key: Key(constructionSites[index].id),
+                            constructionSite: constructionSite,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               } else {

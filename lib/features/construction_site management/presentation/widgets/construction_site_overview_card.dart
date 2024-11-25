@@ -98,32 +98,6 @@ class _ConstructionSiteOverviewCardState
                 fit: BoxFit.cover,
               ),
             ),
-          // Description
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: "📞 ",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const TextSpan(
-                    text: "contact : ",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  TextSpan(
-                    text: constructionSite.clientContact,
-                    style: const TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
           // Bouton "Signaler un problème"
           Padding(
             padding: const EdgeInsets.all(16.0),
