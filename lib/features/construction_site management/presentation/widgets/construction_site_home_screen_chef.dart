@@ -30,6 +30,7 @@ class ConstructionSiteListScreenChef extends StatelessWidget {
               } else if (state.status == ConstructionStateStatus.success) {
                 final constructionSites = state.constructionSites;
                 return RefreshIndicator(
+                  color: Theme.of(context).progressIndicatorTheme.color,
                   onRefresh: () async {
                     // Réappel de l'événement FetchConstructionSites
                     context

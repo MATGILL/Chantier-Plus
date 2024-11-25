@@ -48,6 +48,7 @@ class _ConstructionSiteOverviewCardState
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16),
             child: DropdownMenu<String>(
+              width: MediaQuery.of(context).size.width,
               initialSelection: constructionSite.status.name,
               dropdownMenuEntries: [
                 Status.notStarted,
@@ -66,9 +67,11 @@ class _ConstructionSiteOverviewCardState
                 padding: WidgetStateProperty.all(EdgeInsets.zero),
               ),
               inputDecorationTheme: InputDecorationTheme(
-                alignLabelWithHint: false,
+                alignLabelWithHint: true,
                 isDense: true,
-                constraints: BoxConstraints.tight(const Size.fromHeight(40)),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 0.5)),
+                constraints: BoxConstraints.tight(const Size.fromHeight(45)),
               ),
               onSelected: changeStatus,
             ),

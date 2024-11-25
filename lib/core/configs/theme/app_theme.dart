@@ -6,6 +6,7 @@ class AppTheme {
     useMaterial3: true,
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
+    indicatorColor: AppColors.primary,
     navigationBarTheme: const NavigationBarThemeData(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
