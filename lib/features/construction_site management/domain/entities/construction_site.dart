@@ -46,4 +46,26 @@ class ConstructionSite extends Equatable {
         // materials,
         // teamMembers,
       ];
+
+  ConstructionSite copyWith({
+    String? id,
+    String? object,
+    DateTime? startingDate,
+    int? durationInHalfDays,
+    String? location,
+    String? clientContact,
+    Status? status,
+    List<String>? photos,
+  }) {
+    return ConstructionSite(
+      id: id ?? this.id,
+      object: object ?? this.object,
+      startingDate: startingDate ?? this.startingDate,
+      durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
+      location: location ?? this.location,
+      clientContact: clientContact ?? this.clientContact,
+      status: status ?? this.status,
+      photos: photos ?? this.photos,
+    );
+  }
 }

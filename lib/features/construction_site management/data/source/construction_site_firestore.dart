@@ -4,9 +4,11 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/construction_site_repository.dart';
 import 'package:chantier_plus/features/construction_site%20management/mapper/construction_site_mapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ConstructionSiteFirestore implements ConstructionSiteRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   /// Nom de la collection Firestore pour les sites de construction.
   final String _collectionName = 'construction_sites';
@@ -25,22 +27,32 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
 
   @override
   Future<ServiceResult<List<ConstructionSite>>> getAll() async {
-    try {
-      final snapshot = await _firestore.collection(_collectionName).get();
-      if (snapshot.docs.isEmpty) {
-        return ServiceResult(content: []);
+    final owner = _firebaseAuth.currentUser;
+    if (owner != null) {
+      try {
+        final snapshot = await _firestore
+            .collection(_collectionName)
+            .where("ownerId", isEqualTo: owner.uid)
+            .get();
+        if (snapshot.docs.isEmpty) {
+          return ServiceResult(content: []);
+        }
+
+        final constructionSites = snapshot.docs.map((doc) {
+          final constructionSiteLightDto =
+              ConstructionSiteLightDto.fromJson(doc.data())
+                  .copyWith(id: doc.id);
+          return ConstructionSiteMapper.fromDto(constructionSiteLightDto);
+        }).toList();
+
+        return ServiceResult<List<ConstructionSite>>(
+            content: constructionSites);
+      } catch (e) {
+        return ServiceResult<List<ConstructionSite>>(
+            error: "Erreur lors de la récupération des chantiers : $e");
       }
-
-      final constructionSites = snapshot.docs.map((doc) {
-        final constructionSiteLightDto =
-            ConstructionSiteLightDto.fromJson(doc.data());
-        return ConstructionSiteMapper.fromDto(constructionSiteLightDto);
-      }).toList();
-
-      return ServiceResult<List<ConstructionSite>>(content: constructionSites);
-    } catch (e) {
-      return ServiceResult<List<ConstructionSite>>(
-          error: "Erreur lors de la récupération des chantiers : $e");
+    } else {
+      return ServiceResult(error: "Not connected");
     }
   }
 

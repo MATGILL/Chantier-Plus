@@ -36,7 +36,7 @@ class ConstructionSiteLightDto extends Equatable {
   /// Conversion depuis Firestore (fromJson)
   factory ConstructionSiteLightDto.fromJson(Map<String, dynamic> json) {
     return ConstructionSiteLightDto(
-      id: json['id'] as String,
+      id: "",
       object: json['object'] as String,
       startingDate: DateTime.now(),
       durationInHalfDays: json['duration_in_half_days'] as int,
@@ -59,5 +59,27 @@ class ConstructionSiteLightDto extends Equatable {
       'status': status,
       'photos': photos,
     };
+  }
+
+  ConstructionSiteLightDto copyWith({
+    String? id,
+    String? object,
+    DateTime? startingDate,
+    int? durationInHalfDays,
+    String? location,
+    String? clientContact,
+    String? status,
+    List<String>? photos,
+  }) {
+    return ConstructionSiteLightDto(
+      id: id ?? this.id,
+      object: object ?? this.object,
+      startingDate: startingDate ?? this.startingDate,
+      durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
+      location: location ?? this.location,
+      clientContact: clientContact ?? this.clientContact,
+      status: status ?? this.status,
+      photos: photos ?? this.photos,
+    );
   }
 }
