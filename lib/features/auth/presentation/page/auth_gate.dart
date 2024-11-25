@@ -1,8 +1,8 @@
+import 'package:chantier_plus/common/widgets/navigation_chef.dart';
 import 'package:chantier_plus/features/auth/presentation/bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chantier_plus/features/auth/presentation/page/auth_screen.dart';
-import 'package:chantier_plus/features/construction_site%20management/presentation/pages/chef_home_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/resp_home_screen.dart';
 
 class AuthGate extends StatefulWidget {
@@ -22,7 +22,7 @@ class _AuthGateState extends State<AuthGate> {
           if (user?.role == 'RESP') {
             return const RespHomeScreen();
           } else if (user?.role == 'CHEF') {
-            return const ChefHomeScreen();
+            return const NavigationChef();
           } else {
             _showError(context, 'Rôle utilisateur inconnu.');
           }

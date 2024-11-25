@@ -5,8 +5,13 @@ class AppTheme {
   static final lightTheme = ThemeData(
     useMaterial3: true,
     primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.lightBackground,
     brightness: Brightness.light,
+    navigationBarTheme: const NavigationBarThemeData(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      indicatorColor: AppColors.primary,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.primary,
     ),
