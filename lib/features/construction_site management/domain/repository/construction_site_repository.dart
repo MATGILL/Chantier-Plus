@@ -1,5 +1,6 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 
 /// L'interface `ConstructionSiteRepository` définit les opérations nécessaires
 /// pour gérer les sites de construction dans le système.
@@ -70,4 +71,10 @@ abstract class ConstructionSiteRepository {
   /// Paramètres :
   /// - [id] : L'identifiant unique du site de construction à supprimer.
   Future<void> delete(String id);
+
+  /// Change le statut d'un chantier dans Firestore.
+  ///
+  /// [id] : ID du chantier à mettre à jour.
+  /// [newStatus] : Nouveau statut à définir.
+  Future<ServiceResult<String>> changeStatus(String id, Status newStatus);
 }

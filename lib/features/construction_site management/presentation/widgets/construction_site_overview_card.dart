@@ -1,7 +1,9 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/construction_iste_bloc/construction_site_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConstructionSiteOverviewCard extends StatefulWidget {
   final ConstructionSite constructionSite;
@@ -47,9 +49,9 @@ class _ConstructionSiteOverviewCardState
           // Dropdown pour le statut
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16),
-            child: DropdownMenu<String>(
+            child: DropdownMenu<Status>(
               width: MediaQuery.of(context).size.width,
-              initialSelection: constructionSite.status.name,
+              initialSelection: constructionSite.status,
               dropdownMenuEntries: [
                 Status.notStarted,
                 Status.inProgress,
@@ -57,8 +59,8 @@ class _ConstructionSiteOverviewCardState
                 Status.stopped
               ]
                   .map(
-                    (status) => DropdownMenuEntry<String>(
-                      value: status.name,
+                    (status) => DropdownMenuEntry<Status>(
+                      value: status,
                       label: "${status.statusIcon} ${status.name}",
                     ),
                   )
@@ -73,7 +75,9 @@ class _ConstructionSiteOverviewCardState
                     borderSide: BorderSide(width: 0.5)),
                 constraints: BoxConstraints.tight(const Size.fromHeight(45)),
               ),
-              onSelected: changeStatus,
+              onSelected: (status) {
+                changeStatus(context, constructionSite.id, status!);
+              },
             ),
           ),
 
@@ -127,9 +131,12 @@ class _ConstructionSiteOverviewCardState
     );
   }
 
-  void changeStatus(status) {
-    //TODO : implemenet changeStatus
-    throw UnimplementedError();
+  void changeStatus(BuildContext context, String siteId, Status newStatus) {
+    // Accède au bloc via le contexte
+    final constructionSiteBloc = context.read<ConstructionSiteBloc>();
+
+    // Émet un événement pour changer le statut
+    constructionSiteBloc.add(ChangeConstructionSiteStatus(siteId, newStatus));
   }
 
   void reportProblem() {

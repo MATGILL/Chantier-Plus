@@ -17,7 +17,7 @@ extension StatusExtension on Status {
     switch (statusString.toLowerCase()) {
       case 'not_started':
         return Status.notStarted;
-      case 'doing':
+      case 'in_progress':
         return Status.inProgress;
       case 'stopped':
         return Status.stopped;
@@ -40,6 +40,21 @@ extension StatusExtension on Status {
         return Colors.red; // Arrêté
       default:
         return Colors.black; // Couleur par défaut
+    }
+  }
+
+  String get firestoreFormat {
+    switch (this) {
+      case Status.notStarted:
+        return "not_started"; // Non commencé
+      case Status.inProgress:
+        return "in_progress"; // En cours
+      case Status.over:
+        return "over"; // Terminé
+      case Status.stopped:
+        return "stopped"; // Arrêté
+      default:
+        return ""; // Icône par défaut
     }
   }
 
