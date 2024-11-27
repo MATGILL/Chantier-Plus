@@ -49,8 +49,6 @@ class ConstructionSiteBloc
     ChangeConstructionSiteStatus event,
     Emitter<ConstructionSiteState> emit,
   ) async {
-    emit(state.copyWith(status: ConstructionStateStatus.loading));
-
     // Appel au service pour changer le statut
     final result = await _service.changeConstructionSiteStatus(
       event.siteId,
