@@ -83,6 +83,7 @@ class CreateAnomalyPage extends StatelessWidget {
                   itemCount: 5, // Nombre de cartes
                   itemBuilder: (context, index) {
                     return PhotoCard(
+                      index: index,
                       photoUrl: index < state.selectedPhotos.length
                           ? state.selectedPhotos[index].path
                           : null,
@@ -156,6 +157,7 @@ class _TitleWidget extends StatelessWidget {
 }
 
 class PhotoCard extends StatelessWidget {
+  final int index;
   final String? photoUrl;
   final VoidCallback onAddPhoto;
   final VoidCallback onRemovePhoto;
@@ -165,6 +167,7 @@ class PhotoCard extends StatelessWidget {
     this.photoUrl,
     required this.onAddPhoto,
     required this.onRemovePhoto,
+    required this.index,
   });
 
   @override
@@ -187,6 +190,7 @@ class PhotoCard extends StatelessWidget {
           bottom: 1.0,
           right: 1.0,
           child: FloatingActionButton(
+            heroTag: "btn-$index",
             onPressed: photoUrl == null ? onAddPhoto : onRemovePhoto,
             backgroundColor:
                 photoUrl == null ? AppColors.primary : Colors.grey[700],
