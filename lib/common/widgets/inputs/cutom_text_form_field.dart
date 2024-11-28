@@ -5,13 +5,16 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final bool optional;
+  final bool isLongText;
 
-  const CustomTextFormField(
-      {super.key,
-      required this.labelText,
-      required this.hintText,
-      required this.controller,
-      this.optional = false});
+  const CustomTextFormField({
+    super.key,
+    required this.labelText,
+    required this.hintText,
+    required this.controller,
+    this.optional = false,
+    this.isLongText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,12 @@ class CustomTextFormField extends StatelessWidget {
         }
         return null;
       },
+      maxLines: isLongText
+          ? 5
+          : 1, // Fixe la taille visible à 5 lignes pour les textes longs
+      keyboardType: isLongText ? TextInputType.multiline : TextInputType.text,
+      textInputAction:
+          isLongText ? TextInputAction.newline : TextInputAction.done,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -51,6 +60,9 @@ class CustomTextFormField extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
+      // Active le défilement interne pour les textes longs
+      scrollPhysics: const BouncingScrollPhysics(),
+      scrollController: ScrollController(), // Contrôle du scrolling
     );
   }
 }

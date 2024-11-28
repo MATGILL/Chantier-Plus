@@ -2,6 +2,7 @@ import 'package:chantier_plus/core/configs/theme/app_colors.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/construction_iste_bloc/construction_site_bloc.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/create_anomaly_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -140,7 +141,11 @@ class _ConstructionSiteOverviewCardState
   }
 
   void reportProblem() {
-    //TODO : implemenet reportProblem
-    throw UnimplementedError();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateAnomalyScreen(),
+      ),
+    );
   }
 }
