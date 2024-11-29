@@ -10,6 +10,7 @@ part 'create_anomaly_state.dart';
 
 class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
   final ImagePicker _imagePicker = ImagePicker();
+
   CreateAnomalyBloc()
       : super(CreateAnomalyState(
           anomaly: Anomaly(
@@ -17,33 +18,32 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
             title: '',
             description: '',
             date: DateTime.now(),
-            photos: [],
+            photos: const [],
             author: UserEntity(),
           ),
         )) {
     on<TitleChanged>(_onTitleChanged);
-
-    on<DescriptionChanged>(_descriptionChanged);
-
-    on<PhotoRemoved>(_photoRemoved);
-
+    on<DescriptionChanged>(_onDescriptionChanged);
     on<PickPhotoFromCamera>(_pickPhotoFromCamera);
-
     on<PickPhotoFromGallery>(_pickPhotoFromGallery);
-
-    ///Submit the complete form
+    on<PhotoRemoved>(_photoRemoved);
     on<SubmitAnomaly>(_onSubmit);
   }
 
-  FutureOr<void> _onTitleChanged(event, emit) {
+  void _onTitleChanged(TitleChanged event, Emitter<CreateAnomalyState> emit) {
+    final title = event.title;
+
     emit(state.copyWith(
-      anomaly: state.anomaly.copyWith(title: event.title),
+      anomaly: state.anomaly.copyWith(title: title),
     ));
   }
 
-  FutureOr<void> _descriptionChanged(event, emit) {
+  void _onDescriptionChanged(
+      DescriptionChanged event, Emitter<CreateAnomalyState> emit) {
+    final description = event.description;
+
     emit(state.copyWith(
-      anomaly: state.anomaly.copyWith(description: event.description),
+      anomaly: state.anomaly.copyWith(description: description),
     ));
   }
 
@@ -56,6 +56,9 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
   }
 
   FutureOr<void> _pickPhotoFromCamera(event, emit) async {
+    emit(state.copyWith(
+      errorMessage: null,
+    ));
     try {
       final returnedImage =
           await _imagePicker.pickImage(source: ImageSource.camera);
@@ -64,11 +67,16 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
             selectedPhotos: [...state.selectedPhotos, returnedImage]));
       }
     } catch (e) {
-      print("error loading photos");
+      emit(state.copyWith(
+        errorMessage: "Erreur lors de la prise de photo.",
+      ));
     }
   }
 
   FutureOr<void> _pickPhotoFromGallery(event, emit) async {
+    emit(state.copyWith(
+      errorMessage: null,
+    ));
     try {
       final returnedImage =
           await _imagePicker.pickImage(source: ImageSource.gallery);
@@ -77,19 +85,47 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
             selectedPhotos: [...state.selectedPhotos, returnedImage]));
       }
     } catch (e) {
-      print("error loading photos");
+      emit(state.copyWith(
+        errorMessage: "Erreur lors de la prise de photo.",
+      ));
     }
   }
 
-  FutureOr<void> _onSubmit(event, emit) async {
+  Future<void> _onSubmit(
+      SubmitAnomaly event, Emitter<CreateAnomalyState> emit) async {
+    final titleError = _validateTitle(state.anomaly.title);
+    final descriptionError = _validateDescription(state.anomaly.description);
+
+    if (titleError != null || descriptionError != null) {
+      emit(state.copyWith(
+        titleError: titleError,
+        descriptionError: descriptionError,
+      ));
+      return;
+    }
+
     emit(state.copyWith(isSubmitting: true));
+
     try {
-      // Appel Firebase ou autre service pour enregistrer l'anomalie
-      //TODO
-      await Future.delayed(const Duration(seconds: 2)); // Placeholder
+      // Appel Firebase ou autre service
+      await Future.delayed(const Duration(seconds: 2));
       emit(state.copyWith(isSubmitting: false, isSuccess: true));
     } catch (_) {
       emit(state.copyWith(isSubmitting: false, isError: true));
     }
+  }
+
+  String? _validateTitle(String title) {
+    if (title.isEmpty) {
+      return "Le titre est requis.";
+    }
+    return null;
+  }
+
+  String? _validateDescription(String description) {
+    if (description.isEmpty) {
+      return "La description est requise.";
+    }
+    return null;
   }
 }
