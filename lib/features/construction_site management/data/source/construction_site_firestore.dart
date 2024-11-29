@@ -106,4 +106,30 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
       return ServiceResult(error: "Erreur lors du changement de statut : $e");
     }
   }
+
+  @override
+  Future<ServiceResult<String>> addAnomalyToConstructionSite(
+      String siteId, String anomalyId) async {
+    final constructionSiteRef =
+        _firestore.collection(_collectionName).doc(siteId);
+
+    // Vérification de l'existence du chantier
+    final constructionSiteSnapshot = await constructionSiteRef.get();
+
+    if (!constructionSiteSnapshot.exists) {
+      // Si le site n'existe pas, retour d'une erreur
+      return ServiceResult(
+          error: "Le site de construction avec l'ID $siteId n'existe pas.");
+    }
+
+    try {
+      await constructionSiteRef.update({
+        'anomalies': FieldValue.arrayUnion([anomalyId]),
+      });
+      return ServiceResult(content: "Anomaly addedd successfully");
+    } catch (e) {
+      return ServiceResult(
+          error: "unable to add specified anomaly to constructionSite");
+    }
+  }
 }

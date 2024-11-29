@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:chantier_plus/features/auth/domain/entities/user.dart';
+import 'package:chantier_plus/core/service_locator.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/anomaly.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/service/anomaly_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,17 +11,19 @@ part 'create_anomaly_state.dart';
 
 class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
   final ImagePicker _imagePicker = ImagePicker();
+  final AnomalyService _anomalyService;
 
-  CreateAnomalyBloc()
-      : super(CreateAnomalyState(
+  CreateAnomalyBloc({required String constructionSiteId})
+      : _anomalyService = serviceLocator<AnomalyService>(),
+        super(CreateAnomalyState(
           anomaly: Anomaly(
-            id: '',
-            title: '',
-            description: '',
-            date: DateTime.now(),
-            photos: const [],
-            author: UserEntity(),
-          ),
+              id: '',
+              title: '',
+              description: '',
+              date: DateTime.now(),
+              photos: const [],
+              authorId: "",
+              constructionSiteId: constructionSiteId),
         )) {
     on<TitleChanged>(_onTitleChanged);
     on<DescriptionChanged>(_onDescriptionChanged);
@@ -108,13 +111,21 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
 
     try {
       // Appel Firebase ou autre service
-      await Future.delayed(const Duration(seconds: 2));
-      emit(state.copyWith(isSubmitting: false, isSuccess: true));
+      var result = await _anomalyService.createAnomaly(
+          state.anomaly, state.selectedPhotos);
+
+      if (result.error.isEmpty) {
+        emit(state.copyWith(isSubmitting: false, isSuccess: true));
+      } else {
+        emit(state.copyWith(isSubmitting: false, isError: true));
+      }
     } catch (_) {
       emit(state.copyWith(isSubmitting: false, isError: true));
     }
   }
 
+  /// function to validate the Title field.
+  /// If it is not valid it return the displayed errorMessage
   String? _validateTitle(String title) {
     if (title.isEmpty) {
       return "Le titre est requis.";
@@ -122,6 +133,8 @@ class CreateAnomalyBloc extends Bloc<CreateAnomalyEvent, CreateAnomalyState> {
     return null;
   }
 
+  /// function to validate the Title field.
+  /// If it is not valid it return the displayed errorMessage
   String? _validateDescription(String description) {
     if (description.isEmpty) {
       return "La description est requise.";

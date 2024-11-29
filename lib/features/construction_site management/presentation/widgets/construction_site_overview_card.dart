@@ -112,7 +112,7 @@ class _ConstructionSiteOverviewCardState
                 SizedBox(
                   height: 32,
                   child: ElevatedButton.icon(
-                    onPressed: reportProblem,
+                    onPressed: () => reportProblem(constructionSite.id),
                     icon: const Icon(Icons.error_outline, color: Colors.red),
                     label: const Text(
                       "Signaler un problème",
@@ -140,11 +140,13 @@ class _ConstructionSiteOverviewCardState
     constructionSiteBloc.add(ChangeConstructionSiteStatus(siteId, newStatus));
   }
 
-  void reportProblem() {
+  void reportProblem(String siteId) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateAnomalyScreen(),
+        builder: (context) => CreateAnomalyScreen(
+          constructionSiteId: siteId,
+        ),
       ),
     );
   }

@@ -14,7 +14,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: false, // Désactive le cache local
+    persistenceEnabled: true, // Active le cache local
   );
   initializeDependencies();
 

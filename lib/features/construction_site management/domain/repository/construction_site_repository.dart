@@ -75,6 +75,15 @@ abstract class ConstructionSiteRepository {
   /// Change le statut d'un chantier dans Firestore.
   ///
   /// [id] : ID du chantier à mettre à jour.
+  ///
   /// [newStatus] : Nouveau statut à définir.
   Future<ServiceResult<String>> changeStatus(String id, Status newStatus);
+
+  ///Ajoute une anomaly à un chantier
+  ///
+  /// [siteId] : l'id du chantier à metter à jours
+  ///
+  /// [anomalyId] : Nouveau statut à définir.
+  Future<ServiceResult<void>> addAnomalyToConstructionSite(
+      String siteId, String anomalyId);
 }

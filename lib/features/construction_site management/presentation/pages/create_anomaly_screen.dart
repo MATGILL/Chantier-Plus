@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateAnomalyScreen extends StatelessWidget {
-  const CreateAnomalyScreen({super.key});
+  final String constructionSiteId;
+  const CreateAnomalyScreen({super.key, required this.constructionSiteId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CreateAnomalyBloc(),
+      create: (_) => CreateAnomalyBloc(constructionSiteId: constructionSiteId),
       child: const CreateAnomalyPage(),
     );
   }
@@ -28,6 +29,11 @@ class CreateAnomalyPage extends StatelessWidget {
         appBar: const SimpleAppBar(),
         body: BlocBuilder<CreateAnomalyBloc, CreateAnomalyState>(
             builder: (context, state) {
+          if (state.isSuccess) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pop();
+            });
+          }
           if (state.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.errorMessage!)),
