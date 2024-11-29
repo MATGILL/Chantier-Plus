@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RespHomeScreen extends StatelessWidget {
@@ -11,11 +10,6 @@ class RespHomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const Text("Resp"),
-            ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                child: const Text("logOut"))
           ],
         ),
       ),
