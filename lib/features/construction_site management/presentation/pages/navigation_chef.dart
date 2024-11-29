@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_chef.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/setting_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationChef extends StatefulWidget {
@@ -14,7 +15,7 @@ class _NavigationChefState extends State<NavigationChef> {
   final List<Widget> _screens = [
     const ConstructionSiteListScreenChef(), // Écran principal
     const Center(child: Text('Map Screen')),
-    //TODO add other screen
+    const SettingsScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -60,6 +61,10 @@ class _NavigationChefState extends State<NavigationChef> {
                   NavigationDestination(
                     icon: Icon(Icons.map),
                     label: 'Map',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.settings),
+                    label: 'settings',
                   ),
                 ],
               ),
