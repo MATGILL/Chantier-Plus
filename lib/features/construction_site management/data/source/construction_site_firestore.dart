@@ -1,6 +1,7 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/construction_site%20management/data/dto/construction_site_light.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/construction_site_repository.dart';
 import 'package:chantier_plus/features/construction_site%20management/mapper/construction_site_mapper.dart';
@@ -27,14 +28,20 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
   }
 
   @override
-  Future<ServiceResult<List<ConstructionSite>>> getAll() async {
+  Future<ServiceResult<List<ConstructionSite>>> getAll(Role role) async {
     final owner = _firebaseAuth.currentUser;
     if (owner != null) {
       try {
-        final snapshot = await _firestore
-            .collection(_collectionName)
-            .where("ownerId", isEqualTo: owner.uid)
-            .get();
+        final snapshot = role == Role.chef
+            ? await _firestore
+                .collection(_collectionName)
+                .where("chefId", isEqualTo: owner.uid)
+                .get()
+            : await _firestore
+                .collection(_collectionName)
+                .where("respid", isEqualTo: owner.uid)
+                .get();
+
         if (snapshot.docs.isEmpty) {
           return ServiceResult(content: []);
         }

@@ -65,6 +65,32 @@ class AuthFirebaseService extends AuthRepository {
     }
   }
 
+  @override
+  Future<ServiceResult<UserEntity>> getUserById(String userId) async {
+    try {
+      // Récupérer les données de l'utilisateur depuis Firestore
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('users').doc(userId).get();
+
+      if (userSnapshot.exists) {
+        // Extraire les informations de l'utilisateur
+        final data = userSnapshot.data() as Map<String, dynamic>;
+        final user = UserEntity(
+          userId: userId,
+          email: data['email'] ?? '',
+          fullName: data['fullName'],
+          role: data['role'] ?? '',
+        );
+        return ServiceResult<UserEntity>(content: user);
+      } else {
+        return ServiceResult<UserEntity>(error: "Utilisateur non trouvé.");
+      }
+    } catch (e) {
+      return ServiceResult<UserEntity>(
+          error: "Erreur lors de la récupération de l'utilisateur.");
+    }
+  }
+
   /// Retourne un message d'erreur basé sur le code d'erreur de l'exception FirebaseAuthException.
   ///
   /// [e] est l'exception capturée qui contient le code d'erreur.
@@ -95,32 +121,6 @@ class AuthFirebaseService extends AuthRepository {
         return "Le mot de passe fourni n'est pas assez fort.";
       default:
         return "Une erreur inconnue s'est produite. Veuillez réessayer.";
-    }
-  }
-
-  @override
-  Future<ServiceResult<UserEntity>> getUserById(String userId) async {
-    try {
-      // Récupérer les données de l'utilisateur depuis Firestore
-      DocumentSnapshot userSnapshot =
-          await _firestore.collection('users').doc(userId).get();
-
-      if (userSnapshot.exists) {
-        // Extraire les informations de l'utilisateur
-        final data = userSnapshot.data() as Map<String, dynamic>;
-        final user = UserEntity(
-          userId: userId,
-          email: data['email'] ?? '',
-          fullName: data['fullName'],
-          role: data['role'] ?? '',
-        );
-        return ServiceResult<UserEntity>(content: user);
-      } else {
-        return ServiceResult<UserEntity>(error: "Utilisateur non trouvé.");
-      }
-    } catch (e) {
-      return ServiceResult<UserEntity>(
-          error: "Erreur lors de la récupération de l'utilisateur.");
     }
   }
 }

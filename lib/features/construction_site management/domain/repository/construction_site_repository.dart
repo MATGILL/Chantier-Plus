@@ -1,5 +1,6 @@
 import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 
 /// L'interface `ConstructionSiteRepository` définit les opérations nécessaires
@@ -34,7 +35,7 @@ abstract class ConstructionSiteRepository {
   ///   dans le `ServiceResult`.
   /// - En cas d'échec : le `ServiceResult` contiendra une erreur décrivant
   ///   la raison de l'échec (par exemple, problème de connexion à la base de données).
-  Future<ServiceResult<List<ConstructionSite>>> getAll();
+  Future<ServiceResult<List<ConstructionSite>>> getAll(Role role);
 
   /// Crée un nouveau site de construction.
   ///
