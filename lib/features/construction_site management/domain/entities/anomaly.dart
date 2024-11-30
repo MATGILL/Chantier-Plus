@@ -40,6 +40,15 @@ class Anomaly extends Equatable {
   List<Object?> get props =>
       [id, title, description, date, photos, authorId, constructionSiteId];
 
+  Anomaly.empty()
+      : id = '',
+        title = '',
+        description = '',
+        date = DateTime.now(),
+        photos = const [],
+        authorId = '',
+        constructionSiteId = '';
+
   // toJson
   Map<String, dynamic> toJson() {
     return {

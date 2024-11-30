@@ -1,4 +1,4 @@
-import 'package:chantier_plus/features/construction_site%20management/presentation/pages/resp_home_screen.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_resp.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/setting_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class _NavigationChefState extends State<NavigationResp> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const RespHomeScreen(), // Écran principal
+    const ConstructionSiteHomeScreenResp(), // Écran principal
     const Center(child: Text('Map Screen')),
     const SettingsScreen()
   ];

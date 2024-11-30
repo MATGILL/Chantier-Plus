@@ -12,6 +12,7 @@ class ConstructionSite extends Equatable {
   final Status status;
   final List<String> photos;
   final List<Anomaly> anomalies;
+  final int anomalyNumber;
   // final List<Vehicle> vehicles;
   // final List<Material> materials;
   // final List<TeamMember> teamMembers;
@@ -25,6 +26,7 @@ class ConstructionSite extends Equatable {
     required this.clientContact,
     required this.status,
     required this.photos,
+    this.anomalyNumber = 0,
     this.anomalies = const [],
     // this.vehicles = const [],
     // this.materials = const [],
@@ -41,31 +43,34 @@ class ConstructionSite extends Equatable {
         clientContact,
         status,
         photos,
+        anomalyNumber,
         anomalies,
         // vehicles,
         // materials,
         // teamMembers,
       ];
 
-  ConstructionSite copyWith({
-    String? id,
-    String? object,
-    DateTime? startingDate,
-    int? durationInHalfDays,
-    String? location,
-    String? clientContact,
-    Status? status,
-    List<String>? photos,
-  }) {
+  ConstructionSite copyWith(
+      {String? id,
+      String? object,
+      DateTime? startingDate,
+      int? durationInHalfDays,
+      String? location,
+      String? clientContact,
+      Status? status,
+      List<String>? photos,
+      int? anomalyNumber,
+      List<Anomaly>? anomalies}) {
     return ConstructionSite(
-      id: id ?? this.id,
-      object: object ?? this.object,
-      startingDate: startingDate ?? this.startingDate,
-      durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
-      location: location ?? this.location,
-      clientContact: clientContact ?? this.clientContact,
-      status: status ?? this.status,
-      photos: photos ?? this.photos,
-    );
+        id: id ?? this.id,
+        object: object ?? this.object,
+        startingDate: startingDate ?? this.startingDate,
+        durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
+        location: location ?? this.location,
+        clientContact: clientContact ?? this.clientContact,
+        status: status ?? this.status,
+        photos: photos ?? this.photos,
+        anomalyNumber: anomalyNumber ?? this.anomalyNumber,
+        anomalies: anomalies ?? this.anomalies);
   }
 }

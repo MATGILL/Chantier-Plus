@@ -9,8 +9,9 @@ class ConstructionSiteService {
 
   ConstructionSiteService(this._repository);
 
-  Future<ServiceResult<List<ConstructionSite>>> getAllConstructionSites() {
-    return _repository.getAll(Role.chef);
+  Future<ServiceResult<List<ConstructionSite>>> getAllConstructionSites(
+      Role role) {
+    return _repository.getAll(role);
   }
 
   Future<ServiceResult<String>> changeConstructionSiteStatus(

@@ -1,5 +1,6 @@
 import 'package:chantier_plus/core/service_locator.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
 import 'package:equatable/equatable.dart';
@@ -28,7 +29,7 @@ class ConstructionSiteBloc
     emit(const ConstructionSiteState(status: ConstructionStateStatus.loading));
 
     // Appel au service pour récupérer les données
-    final result = await _service.getAllConstructionSites();
+    final result = await _service.getAllConstructionSites(Role.chef);
 
     // Gestion du succès ou de l'échec
     if (result.content != null) {
