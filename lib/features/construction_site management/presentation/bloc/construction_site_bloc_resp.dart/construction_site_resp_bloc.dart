@@ -1,4 +1,5 @@
 import 'package:chantier_plus/core/service_locator.dart';
+import 'package:chantier_plus/core/service_result.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
@@ -28,14 +29,17 @@ class ConstructionSiteRespBloc
         status: ConstructionStateRespStatus.loading));
 
     // Appel au service pour récupérer les données
-    final result = await _service.getAllConstructionSites(Role.resp);
+    ServiceResult<List<ConstructionSite>> result =
+        await _service.getAllConstructionSites(Role.resp);
 
     // Gestion du succès ou de l'échec
-    if (result.content != null) {
+    if (result.error.isEmpty) {
       emit(ConstructionSiteRespState(
-        status: ConstructionStateRespStatus.success,
-        constructionSites: result.content!,
-      ));
+          status: ConstructionStateRespStatus.success,
+          constructionSites: result.content!,
+          totalAnomalies: result.content!
+              .map((site) => site.anomalyNumber)
+              .reduce((value, element) => value + element)));
     } else {
       emit(const ConstructionSiteRespState(
         status: ConstructionStateRespStatus.error,

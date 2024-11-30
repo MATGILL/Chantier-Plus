@@ -32,12 +32,6 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
               } else if (state.status == ConstructionStateRespStatus.success) {
                 final constructionSites = state.constructionSites;
 
-                // Exemple de données pour la SummaryCard
-                final int ongoingSites = constructionSites.length;
-                final int totalAnomalies = constructionSites
-                    .map((site) => site.anomalyNumber)
-                    .reduce((value, element) => value + element);
-
                 return RefreshIndicator(
                   color: Theme.of(context).progressIndicatorTheme.color,
                   onRefresh: () async {
@@ -54,8 +48,8 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
                             padding: const EdgeInsets.all(16.0),
                             child: SummaryCard(
                               title: "Résumé général",
-                              ongoingSites: ongoingSites,
-                              anomalies: totalAnomalies,
+                              ongoingSites: state.constructionSites.length,
+                              anomalies: state.totalAnomalies!,
                             ),
                           ),
                         ),
