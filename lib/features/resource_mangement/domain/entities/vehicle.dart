@@ -1,19 +1,18 @@
-import 'package:equatable/equatable.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/resource.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/unavailability.dart';
 
-class Vehicle extends Equatable {
-  final String id;
+class Vehicle extends Resource {
   final String brand;
   final String model;
-  final List<Unavailability> unavailabilities;
 
   const Vehicle({
-    required this.id,
+    required super.id,
     required this.brand,
     required this.model,
-    required this.unavailabilities,
+    required super.unavailabilities,
   });
 
+  @override
   Vehicle copyWith({
     String? id,
     String? brand,
@@ -31,13 +30,7 @@ class Vehicle extends Equatable {
   @override
   List<Object?> get props => [id, brand, model, unavailabilities];
 
-  const Vehicle.empty()
-      : id = '',
-        brand = '',
-        model = '',
-        unavailabilities = const [];
-
-  // toJson
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -47,7 +40,7 @@ class Vehicle extends Equatable {
     };
   }
 
-  // fromJson
+  @override
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
       id: json['id'] as String,

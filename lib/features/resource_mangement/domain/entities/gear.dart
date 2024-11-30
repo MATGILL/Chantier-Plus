@@ -1,20 +1,19 @@
 import 'package:chantier_plus/features/resource_mangement/domain/entities/gear_type.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/resource.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/unavailability.dart';
-import 'package:equatable/equatable.dart';
 
-class Gear extends Equatable {
-  final String id;
+class Gear extends Resource {
   final GearType type;
   final int availableQuantity;
-  final List<Unavailability> unavailabilities;
 
   const Gear({
-    required this.id,
+    required String id,
     required this.type,
     required this.availableQuantity,
-    required this.unavailabilities,
-  });
+    required List<Unavailability> unavailabilities,
+  }) : super(id: id, unavailabilities: unavailabilities);
 
+  @override
   Gear copyWith({
     String? id,
     GearType? type,
@@ -32,17 +31,11 @@ class Gear extends Equatable {
   @override
   List<Object?> get props => [id, type, availableQuantity, unavailabilities];
 
-  Gear.empty()
-      : id = '',
-        type = GearType.hammer,
-        availableQuantity = 0,
-        unavailabilities = const [];
-
-  // toJson
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'type': type.toString(), // Convertir GearType en chaîne si nécessaire
+      'type': type.toString(),
       'availableQuantity': availableQuantity,
       'unavailabilities': unavailabilities
           .map((unavailability) => unavailability.toJson())
@@ -50,12 +43,12 @@ class Gear extends Equatable {
     };
   }
 
-  // fromJson
+  @override
   factory Gear.fromJson(Map<String, dynamic> json) {
     return Gear(
       id: json['id'] as String,
-      type: GearType.values.firstWhere((e) =>
-          e.toString() == 'GearType.${json['type']}'), // Exemple pour GearType
+      type: GearType.values
+          .firstWhere((e) => e.toString() == 'GearType.${json['type']}'),
       availableQuantity: json['availableQuantity'] as int,
       unavailabilities: (json['unavailabilities'] as List)
           .map((unavailabilityJson) =>
