@@ -5,14 +5,17 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 
 class ConstructionSiteMapper {
   static ConstructionSite fromDto(ConstructionSiteLightDto data) {
+    //Build a list of anomaly only with id
     var anomalies = data.anomalies
         .map((anomaliesId) => Anomaly.empty().copyWith(id: anomaliesId))
         .toList();
+
     return ConstructionSite(
         id: data.id,
         object: data.object,
-        startingDate: data.startingDate,
         durationInHalfDays: data.durationInHalfDays,
+        startingDate: data.startingDate,
+        halfDayStarting: data.halfDayStarting,
         location: data.location,
         clientContact: data.clientContact,
         status: StatusExtension.fromString(data.status),

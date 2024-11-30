@@ -1,12 +1,14 @@
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/anomaly.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 import 'package:equatable/equatable.dart';
 
 class ConstructionSite extends Equatable {
   final String id;
   final String object;
-  final DateTime startingDate;
   final int durationInHalfDays;
+  final DateTime startingDate;
+  final HalfDay halfDayStarting;
   final String location;
   final String clientContact;
   final Status status;
@@ -20,8 +22,9 @@ class ConstructionSite extends Equatable {
   const ConstructionSite({
     required this.id,
     required this.object,
-    required this.startingDate,
     required this.durationInHalfDays,
+    required this.startingDate,
+    required this.halfDayStarting,
     required this.location,
     required this.clientContact,
     required this.status,
@@ -37,8 +40,9 @@ class ConstructionSite extends Equatable {
   List<Object?> get props => [
         id,
         object,
-        startingDate,
         durationInHalfDays,
+        startingDate,
+        halfDayStarting,
         location,
         clientContact,
         status,
@@ -53,8 +57,10 @@ class ConstructionSite extends Equatable {
   ConstructionSite copyWith(
       {String? id,
       String? object,
-      DateTime? startingDate,
       int? durationInHalfDays,
+      DateTime? startingDate,
+      HalfDay? halfDayStarting,
+      DateTime? endingDate,
       String? location,
       String? clientContact,
       Status? status,
@@ -64,8 +70,9 @@ class ConstructionSite extends Equatable {
     return ConstructionSite(
         id: id ?? this.id,
         object: object ?? this.object,
-        startingDate: startingDate ?? this.startingDate,
         durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
+        startingDate: startingDate ?? this.startingDate,
+        halfDayStarting: halfDayStarting ?? this.halfDayStarting,
         location: location ?? this.location,
         clientContact: clientContact ?? this.clientContact,
         status: status ?? this.status,

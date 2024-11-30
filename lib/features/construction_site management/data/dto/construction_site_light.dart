@@ -1,10 +1,13 @@
+import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 import 'package:equatable/equatable.dart';
 
 class ConstructionSiteLightDto extends Equatable {
   final String id;
   final String object;
-  final DateTime startingDate;
   final int durationInHalfDays;
+  final DateTime startingDate;
+  final HalfDay halfDayStarting;
+  final DateTime endingDate;
   final String location;
   final String clientContact;
   final String status;
@@ -14,8 +17,10 @@ class ConstructionSiteLightDto extends Equatable {
   const ConstructionSiteLightDto(
       {required this.id,
       required this.object,
-      required this.startingDate,
       required this.durationInHalfDays,
+      required this.startingDate,
+      required this.halfDayStarting,
+      required this.endingDate,
       required this.location,
       required this.clientContact,
       required this.status,
@@ -26,8 +31,10 @@ class ConstructionSiteLightDto extends Equatable {
   List<Object?> get props => [
         id,
         object,
-        startingDate,
         durationInHalfDays,
+        startingDate,
+        halfDayStarting,
+        endingDate,
         location,
         clientContact,
         status,
@@ -40,8 +47,11 @@ class ConstructionSiteLightDto extends Equatable {
     return ConstructionSiteLightDto(
         id: "",
         object: json['object'] as String,
-        startingDate: DateTime.now(),
         durationInHalfDays: json['duration_in_half_days'] as int,
+        startingDate: DateTime.now(),
+        halfDayStarting:
+            HalfDayExtension.fromString(json['halfDayStarting'] ?? ""),
+        endingDate: DateTime.now(),
         location: json['location'] as String,
         clientContact: json['client_contact'] as String,
         status: json['status'] as String,
@@ -56,8 +66,10 @@ class ConstructionSiteLightDto extends Equatable {
     return {
       'id': id,
       'object': object,
-      'startingDate': startingDate.toIso8601String(),
       'duration_in_half_days': durationInHalfDays,
+      'startingDate': startingDate.toIso8601String(),
+      'halfDayStarting': halfDayStarting.toFirebaseFormat(),
+      'endingDate': endingDate.toIso8601String(),
       'location': location,
       'client_contact': clientContact,
       'status': status,
@@ -69,8 +81,10 @@ class ConstructionSiteLightDto extends Equatable {
   ConstructionSiteLightDto copyWith(
       {String? id,
       String? object,
-      DateTime? startingDate,
       int? durationInHalfDays,
+      DateTime? startingDate,
+      HalfDay? halfDayStarting,
+      DateTime? endingDate,
       String? location,
       String? clientContact,
       String? status,
@@ -79,8 +93,10 @@ class ConstructionSiteLightDto extends Equatable {
     return ConstructionSiteLightDto(
         id: id ?? this.id,
         object: object ?? this.object,
-        startingDate: startingDate ?? this.startingDate,
         durationInHalfDays: durationInHalfDays ?? this.durationInHalfDays,
+        startingDate: startingDate ?? this.startingDate,
+        halfDayStarting: halfDayStarting ?? this.halfDayStarting,
+        endingDate: endingDate ?? this.endingDate,
         location: location ?? this.location,
         clientContact: clientContact ?? this.clientContact,
         status: status ?? this.status,
