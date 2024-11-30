@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_resp.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/resource_list_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/setting_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,8 @@ class _NavigationChefState extends State<NavigationResp> {
   final List<Widget> _screens = [
     const ConstructionSiteHomeScreenResp(), // Écran principal
     const Center(child: Text('Map Screen')),
-    const SettingsScreen()
+    const ResourceListScreen(),
+    const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -27,7 +29,7 @@ class _NavigationChefState extends State<NavigationResp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
+      extendBody: _currentIndex != 2,
       body: _screens[_currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -61,6 +63,10 @@ class _NavigationChefState extends State<NavigationResp> {
                   NavigationDestination(
                     icon: Icon(Icons.map),
                     label: 'Map',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.bookmark_add),
+                    label: 'ressources',
                   ),
                   NavigationDestination(
                     icon: Icon(Icons.settings),

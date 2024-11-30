@@ -1,0 +1,14 @@
+import 'package:chantier_plus/core/service_result.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/repository/ressource_repository.dart';
+
+class ResourceService {
+  final RessourceRepository _repository;
+
+  ResourceService({required RessourceRepository repository})
+      : _repository = repository;
+
+  Future<ServiceResult<String>> createVehicle(Vehicle vehicle) async {
+    return await _repository.createVehicle(vehicle);
+  }
+}

@@ -17,6 +17,8 @@ class AppTheme {
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
       ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          focusColor: AppColors.primary, backgroundColor: AppColors.primary),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary, // Couleur de fond

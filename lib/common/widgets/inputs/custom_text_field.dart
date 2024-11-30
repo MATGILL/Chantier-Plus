@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Importation nécessaire pour les TextInputFormatters
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
@@ -6,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final bool isLongText;
   final ValueChanged<String>? onChanged;
   final String? erroText;
+  final bool isDigit; // Nouveau paramètre pour valider les chiffres
 
   const CustomTextField({
     super.key,
@@ -14,13 +16,22 @@ class CustomTextField extends StatelessWidget {
     this.isLongText = false,
     this.erroText = "",
     this.onChanged,
+    this.isDigit =
+        false, // Par défaut, on ne valide pas uniquement les chiffres
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       maxLines: isLongText ? 5 : 1,
-      keyboardType: isLongText ? TextInputType.multiline : TextInputType.text,
+      keyboardType: isDigit
+          ? TextInputType.number
+          : TextInputType.text, // Change le type de clavier si isDigit est vrai
+      inputFormatters: isDigit
+          ? [
+              FilteringTextInputFormatter.digitsOnly
+            ] // Permet uniquement les chiffres
+          : [],
       textInputAction:
           isLongText ? TextInputAction.newline : TextInputAction.done,
       onChanged: onChanged,

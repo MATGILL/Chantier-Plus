@@ -4,11 +4,12 @@ import 'package:chantier_plus/features/resource_mangement/domain/entities/unavai
 import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/repository/ressource_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ResourceFirestore implements RessourceRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  final String collectionNameVehcile = 'vehicle';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String _collectionNameVehicle = 'vehicle';
 
   @override
   Future<ServiceResult<List<Vehicle>>> getAvailableVehicleForPeriod(
@@ -16,7 +17,7 @@ class ResourceFirestore implements RessourceRepository {
       DateTime startingDate,
       int durationInHalfDays) async {
     //récupère tout les vehcile
-    final vehiclesRef = _firestore.collection('collectionNameVehcile');
+    final vehiclesRef = _firestore.collection(_collectionNameVehicle);
     final snapshot = await vehiclesRef.get();
 
     final availableVehicles = <Vehicle>[];
@@ -51,5 +52,24 @@ class ResourceFirestore implements RessourceRepository {
       }
     }
     return true;
+  }
+
+  @override
+  Future<ServiceResult<String>> createVehicle(Vehicle vehicle) async {
+    if (_auth.currentUser == null) {
+      return ServiceResult(error: "User not connected");
+    }
+    final anomaliesRef = _firestore.collection(_collectionNameVehicle);
+    final docRef = anomaliesRef.doc();
+
+    final vehicleDate = vehicle.toJson();
+
+    try {
+      await docRef.set(vehicleDate);
+    } catch (e) {
+      ServiceResult(error: "Unable to add the anomaly");
+    }
+
+    return ServiceResult(content: docRef.id);
   }
 }

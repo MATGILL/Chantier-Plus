@@ -33,7 +33,6 @@ class Vehicle extends Resource {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'brand': brand,
       'model': model,
       'unavailabilities': unavailabilities.map((u) => u.toJson()).toList(),

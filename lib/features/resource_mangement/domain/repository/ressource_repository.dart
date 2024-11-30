@@ -5,4 +5,6 @@ import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicl
 abstract class RessourceRepository {
   Future<ServiceResult<List<Vehicle>>> getAvailableVehicleForPeriod(
       HalfDay halfDayBeginning, DateTime startingDate, int durationInDays);
+
+  Future<ServiceResult<String>> createVehicle(Vehicle vehicle);
 }
