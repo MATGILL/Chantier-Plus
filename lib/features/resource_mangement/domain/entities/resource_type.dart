@@ -5,10 +5,8 @@ extension ResourceTypeExtension on ResourceType {
     switch (this) {
       case ResourceType.vehicle:
         return "Véhicule";
-      case ResourceType.gear:
-        return "Matériel";
       case ResourceType.supply:
-        return "Materiaux";
+        return "Fourniture";
       default:
         return '';
     }

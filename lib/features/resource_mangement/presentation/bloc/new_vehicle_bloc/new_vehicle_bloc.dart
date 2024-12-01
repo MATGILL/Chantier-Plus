@@ -1,4 +1,4 @@
-import 'package:chantier_plus/features/resource_mangement/data/source/resource_firestore.dart';
+import 'package:chantier_plus/core/service_locator.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/service/resource_service.dart';
 import 'package:equatable/equatable.dart';
@@ -11,8 +11,7 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
   final ResourceService _resourceService;
 
   CreateVehicleBloc()
-      : _resourceService =
-            ResourceService(repository: ResourceFirestore()), //TODO change !!
+      : _resourceService = serviceLocator<ResourceService>(), //TODO change !!
         super(const CreateVehicleState(
           vehicule: Vehicle(
             id: '',
@@ -51,7 +50,6 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
     SubmitVehicle event,
     Emitter<CreateVehicleState> emit,
   ) async {
-    print(state.vehicule!.model);
     final brandError = _validateBrand(state.vehicule!.brand);
     final modelError = _validateModel(state.vehicule!.model);
 

@@ -9,6 +9,9 @@ import 'package:chantier_plus/features/construction_site%20management/domain/rep
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/photo_repository.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/service/anomaly_service.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
+import 'package:chantier_plus/features/resource_mangement/data/source/resource_firestore.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/repository/ressource_repository.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/service/resource_service.dart';
 import 'package:get_it/get_it.dart';
 
 /// Configuration du service locator pour l'application.
@@ -26,6 +29,7 @@ Future<void> initializeDependencies() async {
   await initializeAuthServices();
   await initializeConstructionSiteServices();
   await initializenomalyService();
+  await initialiseResourceService();
 }
 
 Future<void> initializeAuthServices() async {
@@ -49,4 +53,10 @@ Future<void> initializenomalyService() async {
       photoRepository: serviceLocator<PhotoRepository>(),
       constructionSiteRepository:
           serviceLocator<ConstructionSiteRepository>()));
+}
+
+Future<void> initialiseResourceService() async {
+  serviceLocator.registerSingleton<RessourceRepository>(ResourceFirestore());
+  serviceLocator.registerSingleton<ResourceService>(
+      ResourceService(repository: serviceLocator<RessourceRepository>()));
 }

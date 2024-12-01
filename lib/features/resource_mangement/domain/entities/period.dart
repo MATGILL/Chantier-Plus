@@ -1,6 +1,8 @@
 import 'package:chantier_plus/common/utils/utils_date.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 
+///Class servant à représenter une pèriode donnée.
+///Représenté par un date de commencement, un durée en demie journée et un indicateur de demi journée.
 class Period {
   final HalfDay halfDayStart;
   final DateTime startingDate;
