@@ -12,11 +12,11 @@ class VehicleListBloc extends Bloc<VehicleListEvent, VehicleListState> {
 
   VehicleListBloc()
       : super(const VehicleListState(status: VehicleListStateStatus.initial)) {
-    on<FetchVehicles>(_onFetchConstructionSites);
+    on<FetchVehicles>(_onFetchVehicles);
   }
 
   // Gestionnaire d'événement pour FetchConstructionSites
-  Future<void> _onFetchConstructionSites(
+  Future<void> _onFetchVehicles(
     FetchVehicles event,
     Emitter<VehicleListState> emit,
   ) async {
