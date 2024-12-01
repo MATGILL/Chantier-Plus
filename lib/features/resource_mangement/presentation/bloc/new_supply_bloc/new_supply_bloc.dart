@@ -11,7 +11,7 @@ class CreateSupplyBloc extends Bloc<CreateSupplyEvent, CreateSupplyState> {
   final ResourceService _resourceService;
 
   CreateSupplyBloc()
-      : _resourceService = serviceLocator<ResourceService>(), //TODO change !!
+      : _resourceService = serviceLocator<ResourceService>(),
         super(const CreateSupplyState(
           supply: Supply(
             id: '',

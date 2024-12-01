@@ -11,7 +11,7 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
   final ResourceService _resourceService;
 
   CreateVehicleBloc()
-      : _resourceService = serviceLocator<ResourceService>(), //TODO change !!
+      : _resourceService = serviceLocator<ResourceService>(),
         super(const CreateVehicleState(
           vehicule: Vehicle(
             id: '',
