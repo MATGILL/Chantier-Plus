@@ -12,9 +12,9 @@ void main() {
         durationInHalfDay: 4,
       );
 
-      final halfDayStart2 = HalfDay.afternoon;
+      const halfDayStart2 = HalfDay.afternoon;
       final startingDate2 = DateTime(2024, 11, 30);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
@@ -32,9 +32,9 @@ void main() {
         durationInHalfDay: 2,
       );
 
-      final halfDayStart2 = HalfDay.afternoon;
+      const halfDayStart2 = HalfDay.afternoon;
       final startingDate2 = DateTime(2024, 12, 1);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
@@ -52,9 +52,9 @@ void main() {
         durationInHalfDay: 4,
       );
 
-      final halfDayStart2 = HalfDay.morning;
+      const halfDayStart2 = HalfDay.morning;
       final startingDate2 = DateTime(2024, 11, 30);
-      final durationInHalfDay2 = 4;
+      const durationInHalfDay2 = 4;
 
       // Act
       final overlaps =
@@ -72,9 +72,9 @@ void main() {
         durationInHalfDay: 4,
       );
 
-      final halfDayStart2 = HalfDay.afternoon;
+      const halfDayStart2 = HalfDay.afternoon;
       final startingDate2 = DateTime(2024, 12, 1);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
@@ -93,9 +93,9 @@ void main() {
         durationInHalfDay: 2,
       );
 
-      final halfDayStart2 = HalfDay.morning;
+      const halfDayStart2 = HalfDay.morning;
       final startingDate2 = DateTime(2024, 12, 1);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
@@ -113,9 +113,9 @@ void main() {
         durationInHalfDay: 4, // Jusqu'à 2 jours après-midi
       );
 
-      final halfDayStart2 = HalfDay.morning;
+      const halfDayStart2 = HalfDay.morning;
       final startingDate2 = DateTime(2024, 12, 1);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
@@ -134,9 +134,9 @@ void main() {
         durationInHalfDay: 2,
       );
 
-      final halfDayStart2 = HalfDay.afternoon;
+      const halfDayStart2 = HalfDay.afternoon;
       final startingDate2 = DateTime(2024, 11, 30);
-      final durationInHalfDay2 = 2;
+      const durationInHalfDay2 = 2;
 
       // Act
       final overlaps =
