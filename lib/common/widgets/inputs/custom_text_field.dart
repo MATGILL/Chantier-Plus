@@ -23,10 +23,17 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      maxLines: isLongText ? 5 : 1,
+      maxLines: isDigit
+          ? 1
+          : isLongText
+              ? 5
+              : 1,
       keyboardType: isDigit
           ? TextInputType.number
-          : TextInputType.text, // Change le type de clavier si isDigit est vrai
+          : isLongText
+              ? TextInputType.multiline
+              : TextInputType
+                  .text, // Change le type de clavier si isDigit est vrai
       inputFormatters: isDigit
           ? [
               FilteringTextInputFormatter.digitsOnly
