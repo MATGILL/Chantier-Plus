@@ -14,6 +14,8 @@ class AppTheme {
         indicatorColor: AppColors.primary,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       ),
+      tabBarTheme: TabBarTheme(
+          labelColor: AppColors.primary, indicatorColor: AppColors.primary),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
       ),

@@ -1,5 +1,5 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_resp.dart';
-import 'package:chantier_plus/features/construction_site%20management/presentation/pages/resource_list_screen.dart';
+import 'package:chantier_plus/features/resource_mangement/presentation/pages/resource_list_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/setting_screen.dart';
 import 'package:flutter/material.dart';
 
