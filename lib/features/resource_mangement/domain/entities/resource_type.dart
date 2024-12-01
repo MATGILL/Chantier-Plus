@@ -1,4 +1,4 @@
-enum ResourceType { vehicle, gear, supply }
+enum ResourceType { vehicle, supply }
 
 extension ResourceTypeExtension on ResourceType {
   String get displayName {
