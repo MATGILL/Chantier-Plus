@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/resource_mangement/domain/entities/resource_type.dart';
+import 'package:chantier_plus/features/resource_mangement/presentation/widget/vehicle_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chantier_plus/features/resource_mangement/presentation/pages/create_resource_screen.dart';
 
@@ -54,11 +55,9 @@ class _ResourceListScreenState extends State<ResourceListScreen>
           onPageChanged: (index) {
             _tabController.animateTo(index);
           },
-          children: [
+          children: const [
             //TODO replace by the corrects widget !!
-            Center(
-              child: Text('"hello'),
-            ),
+            VehicleListWidget(),
             Center(
               child: Text('"hello2'),
             )

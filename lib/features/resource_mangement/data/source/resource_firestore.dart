@@ -105,6 +105,58 @@ class ResourceFirestore implements RessourceRepository {
     return ServiceResult(content: docRef.id);
   }
 
+  @override
+  Future<ServiceResult<List<Supply>>> getAllSupply() async {
+    final owner = _auth.currentUser;
+    if (owner != null) {
+      try {
+        final snapshot =
+            await _firestore.collection(_collectionNameSupply).get();
+
+        if (snapshot.docs.isEmpty) {
+          return ServiceResult(content: []);
+        }
+
+        final supplies = snapshot.docs.map((doc) {
+          return Supply.fromJson(doc.data());
+        }).toList();
+
+        return ServiceResult<List<Supply>>(content: supplies);
+      } catch (e) {
+        return ServiceResult<List<Supply>>(
+            error: "Erreur lors de la récupération des fournitures : $e");
+      }
+    } else {
+      return ServiceResult(error: "Not connected");
+    }
+  }
+
+  @override
+  Future<ServiceResult<List<Vehicle>>> getAllVehicle() async {
+    final owner = _auth.currentUser;
+    if (owner != null) {
+      try {
+        final snapshot =
+            await _firestore.collection(_collectionNameVehicle).get();
+
+        if (snapshot.docs.isEmpty) {
+          return ServiceResult(content: []);
+        }
+
+        final vehicles = snapshot.docs.map((doc) {
+          return Vehicle.fromJson(doc.data()).copyWith(id: doc.id);
+        }).toList();
+
+        return ServiceResult<List<Vehicle>>(content: vehicles);
+      } catch (e) {
+        return ServiceResult<List<Vehicle>>(
+            error: "Erreur lors de la récupération des véhicules : $e");
+      }
+    } else {
+      return ServiceResult(error: "Not connected");
+    }
+  }
+
   /// Given a list of a resource's unavailabilities check if the given period
   /// does not cover a period contained in this list.
   /// In other word, this methods return [false] if one unavailability or more are found in the list

@@ -42,7 +42,7 @@ class Vehicle extends Resource {
   @override
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
-      id: json['id'] as String,
+      id: "",
       brand: json['brand'] as String,
       model: json['model'] as String,
       unavailabilities: (json['unavailabilities'] as List)

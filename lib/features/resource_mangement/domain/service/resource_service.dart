@@ -16,4 +16,12 @@ class ResourceService {
   Future<ServiceResult<String>> createSupply(Supply supply) async {
     return await _repository.createSupply(supply);
   }
+
+  Future<ServiceResult<List<Vehicle>>> getAllVehicle() async {
+    return await _repository.getAllVehicle();
+  }
+
+  Future<ServiceResult<List<Supply>>> getAllSupply() async {
+    return await _repository.getAllSupply();
+  }
 }
