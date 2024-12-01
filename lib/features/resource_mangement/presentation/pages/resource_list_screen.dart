@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/resource_mangement/domain/entities/resource_type.dart';
+import 'package:chantier_plus/features/resource_mangement/presentation/widget/supply_list_widget.dart';
 import 'package:chantier_plus/features/resource_mangement/presentation/widget/vehicle_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chantier_plus/features/resource_mangement/presentation/pages/create_resource_screen.dart';
@@ -56,11 +57,8 @@ class _ResourceListScreenState extends State<ResourceListScreen>
             _tabController.animateTo(index);
           },
           children: const [
-            //TODO replace by the corrects widget !!
             VehicleListWidget(),
-            Center(
-              child: Text('"hello2'),
-            )
+            SupplyListWidget(),
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
