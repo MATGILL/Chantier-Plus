@@ -37,6 +37,7 @@ class NewConstructionBloc
     on<NumberHalfDayChanged>(_onNumberHalfDayChanged);
     on<ContactChanged>(_onContactChanged);
     on<DateChanged>(_onDateChanged);
+    on<HalfDayChanged>(_onHalfDayChanged);
 
     //Submit
     on<SubmitConstructionSite>(_onSubmit);
@@ -74,6 +75,16 @@ class NewConstructionBloc
 
     emit(state.copyWith(
       constructionSite: state.constructionSite.copyWith(clientContact: contact),
+    ));
+  }
+
+  void _onHalfDayChanged(
+      HalfDayChanged event, Emitter<NewConstructionState> emit) {
+    final halfDay = event.halfDay;
+
+    emit(state.copyWith(
+      constructionSite:
+          state.constructionSite.copyWith(halfDayStarting: halfDay),
     ));
   }
 

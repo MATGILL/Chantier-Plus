@@ -44,6 +44,15 @@ class DateChanged extends NewConstructionEvent {
   List<Object?> get props => [date];
 }
 
+class HalfDayChanged extends NewConstructionEvent {
+  final HalfDay halfDay;
+
+  const HalfDayChanged(this.halfDay);
+
+  @override
+  List<Object?> get props => [halfDay];
+}
+
 //Photo sélection
 class PickPhotoFromCamera extends NewConstructionEvent {}
 

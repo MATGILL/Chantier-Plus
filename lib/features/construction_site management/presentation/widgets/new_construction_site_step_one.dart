@@ -1,4 +1,5 @@
 import 'package:chantier_plus/common/widgets/inputs/custom_date_picker.dart';
+import 'package:chantier_plus/common/widgets/inputs/custom_drop_down_menu.dart';
 import 'package:chantier_plus/common/widgets/inputs/custom_text_field.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/new_construction_site_bloc/new_construction_site_bloc.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
@@ -38,26 +39,14 @@ class NewConstructionSiteStepOne extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Matin ou Soir
-          const Text("Début du chantier"),
-          Row(
-            children: [
-              Expanded(
-                child: RadioListTile(
-                  title: const Text("Matin"),
-                  value: HalfDay.morning,
-                  groupValue: null, // Bloc gérera la sélection
-                  onChanged: (_) {},
-                ),
-              ),
-              Expanded(
-                child: RadioListTile(
-                  title: const Text("Après-midi"),
-                  value: HalfDay.afternoon,
-                  groupValue: null, // Bloc gérera la sélection
-                  onChanged: (_) {},
-                ),
-              ),
-            ],
+          CustomDropdownMenu<HalfDay>(
+            labelText: "Type",
+            hintText: "type de ressource",
+            value: state.constructionSite.halfDayStarting,
+            items: HalfDay.values,
+            onChanged: (value) {
+              context.read<NewConstructionBloc>().add(HalfDayChanged(value!));
+            },
           ),
           const SizedBox(height: 16),
 

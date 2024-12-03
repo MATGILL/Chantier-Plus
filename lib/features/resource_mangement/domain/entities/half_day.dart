@@ -21,4 +21,15 @@ extension HalfDayExtension on HalfDay {
         return 'AFTERNOON';
     }
   }
+
+  String get displayName {
+    switch (this) {
+      case HalfDay.morning:
+        return "Matin";
+      case HalfDay.afternoon:
+        return "Après-midi";
+      default:
+        return '';
+    }
+  }
 }

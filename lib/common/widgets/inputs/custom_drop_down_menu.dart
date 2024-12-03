@@ -1,5 +1,7 @@
-import 'package:chantier_plus/features/resource_mangement/domain/entities/resource_type.dart';
+import 'package:chantier_plus/core/configs/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/entities/resource_type.dart';
 
 class CustomDropdownMenu<T> extends StatelessWidget {
   final String labelText;
@@ -29,9 +31,8 @@ class CustomDropdownMenu<T> extends StatelessWidget {
         labelStyle: const TextStyle(
           color: Colors.black,
         ),
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
+        hintStyle:
+            const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
         filled: true,
         fillColor: Colors.white,
         border: const OutlineInputBorder(
@@ -50,19 +51,25 @@ class CustomDropdownMenu<T> extends StatelessWidget {
           ),
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        contentPadding: const EdgeInsets.only(top: 6, left: 14, right: 14),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<T>(
+          dropdownColor: AppColors.lightBackground,
           onChanged: onChanged,
           hint: Text(hintText),
-          isExpanded: true,
           value: value,
           items: items.map<DropdownMenuItem<T>>((T value) {
             return DropdownMenuItem<T>(
               value: value,
-              child: Text(value.runtimeType == ResourceType
-                  ? (value as ResourceType).displayName
-                  : value.toString()),
+              child: Text(
+                value.runtimeType == ResourceType
+                    ? (value as ResourceType).displayName
+                    : value.runtimeType == HalfDay
+                        ? (value as HalfDay).displayName
+                        : value.toString(),
+                style: const TextStyle(fontWeight: FontWeight.normal),
+              ),
             );
           }).toList(),
         ),
