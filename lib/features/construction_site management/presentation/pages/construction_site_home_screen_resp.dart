@@ -1,8 +1,9 @@
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/new_construction_site_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/construction_site_bloc_resp.dart/construction_site_resp_bloc.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/construction_card_overview_resp.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/summary_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConstructionSiteHomeScreenResp extends StatelessWidget {
   const ConstructionSiteHomeScreenResp({super.key});
@@ -80,6 +81,20 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
                             childCount: constructionSites.length,
                           ),
                         ),
+                        SliverToBoxAdapter(
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          NewConstructionSiteScreen(),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.add_box_outlined,
+                                  size: 50,
+                                ))),
                       ],
                     ),
                   ),

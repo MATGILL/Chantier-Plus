@@ -6,8 +6,10 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool isLongText;
   final ValueChanged<String>? onChanged;
+  final Function()? onTap;
   final String? erroText;
-  final bool isDigit; // Nouveau paramètre pour valider les chiffres
+  final bool isDigit;
+  final bool readOnly;
 
   const CustomTextField({
     super.key,
@@ -16,13 +18,15 @@ class CustomTextField extends StatelessWidget {
     this.isLongText = false,
     this.erroText = "",
     this.onChanged,
-    this.isDigit =
-        false, // Par défaut, on ne valide pas uniquement les chiffres
+    this.onTap,
+    this.isDigit = false,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      readOnly: readOnly,
       maxLines: isDigit
           ? 1
           : isLongText
@@ -32,16 +36,12 @@ class CustomTextField extends StatelessWidget {
           ? TextInputType.number
           : isLongText
               ? TextInputType.multiline
-              : TextInputType
-                  .text, // Change le type de clavier si isDigit est vrai
-      inputFormatters: isDigit
-          ? [
-              FilteringTextInputFormatter.digitsOnly
-            ] // Permet uniquement les chiffres
-          : [],
+              : TextInputType.text,
+      inputFormatters: isDigit ? [FilteringTextInputFormatter.digitsOnly] : [],
       textInputAction:
           isLongText ? TextInputAction.newline : TextInputAction.done,
       onChanged: onChanged,
+      onTap: onTap,
       decoration: InputDecoration(
         errorText: erroText,
         labelText: labelText,

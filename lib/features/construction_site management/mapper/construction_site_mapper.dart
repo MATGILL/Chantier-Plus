@@ -28,7 +28,9 @@ class ConstructionSiteMapper {
     return {
       'id': site.id,
       'object': site.object,
-      'startingDate': site.startingDate.toIso8601String(),
+      'startingDate': site.startingDate != null
+          ? site.startingDate!.toIso8601String()
+          : DateTime.now(),
       'durationInHalfDays': site.durationInHalfDays,
       'location': site.location,
       'clientContact': site.clientContact,

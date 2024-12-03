@@ -7,7 +7,7 @@ class ConstructionSite extends Equatable {
   final String id;
   final String object;
   final int durationInHalfDays;
-  final DateTime startingDate;
+  final DateTime? startingDate;
   final HalfDay halfDayStarting;
   final String location;
   final String clientContact;

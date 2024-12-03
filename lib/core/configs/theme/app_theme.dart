@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
+      primaryColorLight: AppColors.primary,
       useMaterial3: true,
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.lightBackground,
@@ -14,7 +15,23 @@ class AppTheme {
         indicatorColor: AppColors.primary,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       ),
-      tabBarTheme: TabBarTheme(
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: Colors.white,
+        todayBorder: BorderSide.none,
+        todayForegroundColor: WidgetStatePropertyAll(Colors.white),
+        rangePickerBackgroundColor: AppColors.primary,
+        dayOverlayColor:
+            WidgetStatePropertyAll<Color>(AppColors.primary.withOpacity(0.8)),
+        todayBackgroundColor:
+            WidgetStatePropertyAll<Color>(AppColors.primary.withOpacity(0.8)),
+        weekdayStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+        yearStyle: TextStyle(
+          color: AppColors.primary.withOpacity(0.8),
+        ),
+      ),
+      tabBarTheme: const TabBarTheme(
           labelColor: AppColors.primary, indicatorColor: AppColors.primary),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
