@@ -14,6 +14,7 @@ class NewConstructionState extends Equatable {
   final String? numberHalfDayError;
   final String? contactError;
   final String? errorDate;
+  final String? addresseError;
 
   // Étape 2 : Photos
   final String? errorPhoto;
@@ -30,6 +31,7 @@ class NewConstructionState extends Equatable {
     this.contactError,
     this.errorPhoto,
     this.errorDate,
+    this.addresseError,
     this.selectedPhotos = const [],
   });
 
@@ -44,6 +46,7 @@ class NewConstructionState extends Equatable {
       String? nameError,
       String? numberHalfDayError,
       String? errorDate,
+      String? addresseError,
       String? contactError}) {
     return NewConstructionState(
         currentStep: currentStep ?? this.currentStep,
@@ -56,6 +59,7 @@ class NewConstructionState extends Equatable {
         nameError: nameError,
         numberHalfDayError: numberHalfDayError,
         errorDate: errorDate,
+        addresseError: addresseError,
         contactError: contactError);
   }
 
@@ -71,6 +75,7 @@ class NewConstructionState extends Equatable {
         numberHalfDayError,
         contactError,
         errorPhoto,
-        errorDate
+        errorDate,
+        addresseError
       ];
 }

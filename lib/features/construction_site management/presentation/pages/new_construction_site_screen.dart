@@ -1,5 +1,7 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/new_construction_site_bloc/new_construction_site_bloc.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_one.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_three.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,43 +27,33 @@ class NewConstructionSitePage extends StatelessWidget {
         title: const Text("Créer un chantier"),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Titre pour l'Étape 1
-            const SectionTitle(title: "Informations du chantier"),
 
             // Etape 1 : Informations du chantier
-            const NewConstructionSiteStepOne(),
+            NewConstructionSiteStepOne(),
 
             // Titre pour l'Étape 2
-            const SectionTitle(title: "Sélection de photos"),
 
-            // Etape 2 : Sélection de photos
-            // NewConstructionSiteStepTwo(
-            //   selectedPhotos: state.selectedPhotos,
-            // ),
+            NewConstructionSiteStepTwo(),
 
             // // Titre pour l'Étape 3
-            // const SectionTitle(title: "Sélection des ressource"),
 
             // // Etape 3 : Ressources
-            // const NewConstructionSiteStepThree(),
+            const NewConstructionSiteStepThree(),
 
             // Bouton pour avancer
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Vérification si l'étape suivante est disponible et navigation
-                  context
-                      .read<NewConstructionBloc>()
-                      .add(SubmitConstructionSite());
-                },
-                child: const Text("Créer"),
-              ),
-            ),
+                  onPressed: () {
+                    context
+                        .read<NewConstructionBloc>()
+                        .add(SubmitConstructionSite());
+                  },
+                  child: Text("Envoyer")),
+            )
           ],
         ),
       ),
