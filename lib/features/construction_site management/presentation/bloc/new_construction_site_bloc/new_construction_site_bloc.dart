@@ -66,7 +66,15 @@ class NewConstructionBloc
     final date = event.date;
 
     emit(state.copyWith(
-      constructionSite: state.constructionSite.copyWith(startingDate: date),
+      constructionSite: state.constructionSite
+          .copyWith(startingDate: date, supplies: [], vehicles: []),
+    ));
+
+    // Déclenchement de FetchAvailableResource
+    add(FetchAvailableResource(
+      state.constructionSite.halfDayStarting,
+      state.constructionSite.startingDate,
+      state.constructionSite.durationInHalfDays,
     ));
   }
 
@@ -75,8 +83,15 @@ class NewConstructionBloc
     final numberHalfDay = event.numberHalfDay;
 
     emit(state.copyWith(
-      constructionSite:
-          state.constructionSite.copyWith(durationInHalfDays: numberHalfDay),
+      constructionSite: state.constructionSite.copyWith(
+          durationInHalfDays: numberHalfDay, supplies: [], vehicles: []),
+    ));
+
+    // Déclenchement de FetchAvailableResource
+    add(FetchAvailableResource(
+      state.constructionSite.halfDayStarting,
+      state.constructionSite.startingDate,
+      state.constructionSite.durationInHalfDays,
     ));
   }
 
@@ -94,8 +109,8 @@ class NewConstructionBloc
     final halfDay = event.halfDay;
 
     emit(state.copyWith(
-      constructionSite:
-          state.constructionSite.copyWith(halfDayStarting: halfDay),
+      constructionSite: state.constructionSite
+          .copyWith(halfDayStarting: halfDay, supplies: [], vehicles: []),
     ));
 
     // Déclenchement de FetchAvailableResource
