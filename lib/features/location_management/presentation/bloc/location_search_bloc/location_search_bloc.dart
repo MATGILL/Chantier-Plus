@@ -8,18 +8,19 @@ class LocationSearchBloc
     extends Bloc<LocationSearchEvent, LocationSearchState> {
   final PlacesSearch placesSearch;
 
-  LocationSearchBloc(this.placesSearch) : super(LocationSearchInitial());
+  LocationSearchBloc(this.placesSearch) : super(LocationSearchInitial()) {
+    on<SearchLocationEvent>(_searchLocationEvent);
+  }
 
-  Stream<LocationSearchState> mapEventToState(
-      LocationSearchEvent event) async* {
-    if (event is SearchLocationEvent) {
-      yield LocationSearchLoading();
-      try {
-        final places = await placesSearch.getPlaces(event.query);
-        yield LocationSearchSuccess(places ?? []);
-      } catch (e) {
-        yield LocationSearchFailure(e.toString());
-      }
+  // Modification ici: Utiliser Emitter au lieu de Stream.
+  Future<void> _searchLocationEvent(
+      SearchLocationEvent event, Emitter<LocationSearchState> emit) async {
+    emit(LocationSearchLoading());
+    try {
+      final places = await placesSearch.getPlaces(event.query);
+      emit(LocationSearchSuccess(places ?? []));
+    } catch (e) {
+      emit(LocationSearchFailure(e.toString()));
     }
   }
 }

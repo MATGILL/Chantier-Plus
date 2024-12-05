@@ -6,6 +6,7 @@ import 'package:chantier_plus/features/auth/domain/entities/user.dart';
 import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/supply.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
@@ -23,6 +24,8 @@ class NewConstructionBloc
   final ImagePicker _imagePicker = ImagePicker();
   final ResourceService _service = serviceLocator<ResourceService>();
   final AuthService _authService = serviceLocator<AuthService>();
+  final ConstructionSiteService _constructionSiteService =
+      serviceLocator<ConstructionSiteService>();
 
   NewConstructionBloc()
       : super(NewConstructionState(
@@ -328,16 +331,15 @@ class NewConstructionBloc
     emit(state.copyWith(isSubmitting: true));
     try {
       print(state.constructionSite);
-      //TODO change implemù
-      // // Appel Firebase ou autre service
-      // var result = await _anomalyService.createAnomaly(
-      //     state.anomaly, state.selectedPhotos);
+      // Appel Firebase ou autre service
+      var result = await _constructionSiteService.createConstructionSite(
+          state.constructionSite, state.selectedPhotos, state.selectedChef!);
 
-      // if (result.error.isEmpty) {
-      //   emit(state.copyWith(isSubmitting: false, isSuccess: true));
-      // } else {
-      //   emit(state.copyWith(isSubmitting: false, isError: true));
-      // }
+      if (result.error.isEmpty) {
+        emit(state.copyWith(isSubmitting: false, isSuccess: true));
+      } else {
+        emit(state.copyWith(isSubmitting: false, isError: true));
+      }
     } catch (_) {
       emit(state.copyWith(isSubmitting: false, isError: true));
     }

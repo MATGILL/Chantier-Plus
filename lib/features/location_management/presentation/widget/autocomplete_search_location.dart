@@ -16,64 +16,66 @@ class AutoCompleteSearchLocation extends StatelessWidget {
         PlacesSearch(apiKey: dotenv.env['GEOLOC_API_KEY']!, limit: 5);
 
     return BlocProvider(
-      create: (_) => LocationSearchBloc(placesSearch),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Sélection de l\'adresse')),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  if (value.isNotEmpty) {
-                    context
-                        .read<LocationSearchBloc>()
-                        .add(SearchLocationEvent(value));
-                  }
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Chercher une addresse',
-                  border: OutlineInputBorder(),
+        create: (_) => LocationSearchBloc(placesSearch),
+        child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
+            builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(title: const Text('Sélection de l\'adresse')),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        context
+                            .read<LocationSearchBloc>()
+                            .add(SearchLocationEvent(value));
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Chercher une addresse',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
-                builder: (context, state) {
-                  if (state is LocationSearchLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is LocationSearchFailure) {
-                    return Center(child: Text('Error: ${state.error}'));
-                  }
-                  if (state is LocationSearchSuccess) {
-                    return ListView.builder(
-                      itemCount: state.places.length,
-                      itemBuilder: (context, index) {
-                        final place = state.places[index];
-                        return ListTile(
-                          title: Text(place.placeName ?? 'Unknown Place'),
-                          subtitle: Text(
-                            'Coordinates: ${place.geometry?.coordinates.toString() ?? 'N/A'}',
-                          ),
-                          onTap: () {
-                            onTap(
-                                place.placeName ?? "",
-                                GeoPoint(place.geometry!.coordinates![1],
-                                    place.geometry!.coordinates![0]));
-                            Navigator.of(context).pop();
+                Expanded(
+                  child: BlocBuilder<LocationSearchBloc, LocationSearchState>(
+                    builder: (context, state) {
+                      if (state is LocationSearchLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is LocationSearchFailure) {
+                        return Center(child: Text('Error: ${state.error}'));
+                      }
+                      if (state is LocationSearchSuccess) {
+                        return ListView.builder(
+                          itemCount: state.places.length,
+                          itemBuilder: (context, index) {
+                            final place = state.places[index];
+                            return ListTile(
+                              title: Text(place.placeName ?? 'Unknown Place'),
+                              subtitle: Text(
+                                'Coordinates: ${place.geometry?.coordinates.toString() ?? 'N/A'}',
+                              ),
+                              onTap: () {
+                                onTap(
+                                    place.placeName ?? "",
+                                    GeoPoint(place.geometry!.coordinates![1],
+                                        place.geometry!.coordinates![0]));
+                                Navigator.of(context).pop();
+                              },
+                            );
                           },
                         );
-                      },
-                    );
-                  }
-                  return const Center(child: Text('No results'));
-                },
-              ),
+                      }
+                      return const Center(child: Text('No results'));
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        }));
   }
 }

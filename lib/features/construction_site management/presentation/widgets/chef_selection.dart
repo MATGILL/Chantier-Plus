@@ -15,13 +15,20 @@ class ChefSelection extends StatelessWidget {
         // Vérifier si l'état contient une liste d'utilisateurs
         List<UserEntity> users = state.chefs; // Liste des utilisateurs
 
+        // Créer un controller pour le champ de texte
+        TextEditingController controller = TextEditingController();
+
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: TypeAheadField<UserEntity>(
             builder: (context, controller, focusNode) {
+              if (state.selectedChef != null) {
+                state.selectedChef!.fullName!;
+              }
               return CustomTextFormField(
                 errorMessage: state.errorChef,
                 controller: controller,
+                focusNode: focusNode,
                 hintText: "Sélectionner le chef du chantier",
                 labelText: "Chef de chantier",
               );
@@ -41,8 +48,11 @@ class ChefSelection extends StatelessWidget {
               );
             },
             // Ajout du paramètre onSelected pour gérer la sélection
-            onSelected: (UserEntity value) {
-              print('Utilisateur sélectionné: ${value.fullName}');
+            onSelected: (UserEntity chef) {
+              // Mettre à jour le texte du contrôleur avec le nom du chef sélectionné
+
+              // Vous pouvez maintenant ajouter l'événement au bloc
+              context.read<NewConstructionBloc>().add(SelectChef(chef));
             },
           ),
         );

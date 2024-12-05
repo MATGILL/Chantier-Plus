@@ -24,8 +24,8 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
     final constructionSiteRef = _firestore.collection(_collectionName);
     final docRef = constructionSiteRef.doc(); // Crée un ID unique
 
-    final anomalyData =
-        ConstructionSiteMapper.toFirestore(constructionSite, chefId);
+    final anomalyData = ConstructionSiteMapper.toFirestore(
+        constructionSite, chefId, _firebaseAuth.currentUser!.uid);
 
     try {
       await docRef.set(anomalyData);
@@ -54,7 +54,7 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
                 .get()
             : await _firestore
                 .collection(_collectionName)
-                .where("respid", isEqualTo: owner.uid)
+                .where("respId", isEqualTo: owner.uid)
                 .get();
 
         if (snapshot.docs.isEmpty) {
