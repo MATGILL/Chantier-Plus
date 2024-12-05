@@ -3,6 +3,7 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/supply.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class ConstructionSite extends Equatable {
@@ -12,6 +13,7 @@ class ConstructionSite extends Equatable {
   final DateTime? startingDate;
   final HalfDay halfDayStarting;
   final String location;
+  final GeoPoint geoPoint;
   final String clientContact;
   final Status status;
   final List<String> photos;
@@ -28,6 +30,7 @@ class ConstructionSite extends Equatable {
     required this.startingDate,
     required this.halfDayStarting,
     required this.location,
+    required this.geoPoint,
     required this.clientContact,
     required this.status,
     required this.photos,
@@ -35,9 +38,6 @@ class ConstructionSite extends Equatable {
     this.supplies = const [],
     this.anomalyNumber = 0,
     this.anomalies = const [],
-    // this.vehicles = const [],
-    // this.materials = const [],
-    // this.teamMembers = const [],
   });
 
   @override
@@ -48,6 +48,7 @@ class ConstructionSite extends Equatable {
         startingDate,
         halfDayStarting,
         location,
+        geoPoint,
         clientContact,
         status,
         photos,
@@ -66,6 +67,7 @@ class ConstructionSite extends Equatable {
       HalfDay? halfDayStarting,
       DateTime? endingDate,
       String? location,
+      GeoPoint? geoPoint,
       String? clientContact,
       Status? status,
       List<String>? photos,
@@ -80,6 +82,7 @@ class ConstructionSite extends Equatable {
         startingDate: startingDate ?? this.startingDate,
         halfDayStarting: halfDayStarting ?? this.halfDayStarting,
         location: location ?? this.location,
+        geoPoint: geoPoint ?? this.geoPoint,
         clientContact: clientContact ?? this.clientContact,
         status: status ?? this.status,
         photos: photos ?? this.photos,

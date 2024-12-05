@@ -8,6 +8,7 @@ import 'package:chantier_plus/features/resource_mangement/domain/entities/half_d
 import 'package:chantier_plus/features/resource_mangement/domain/entities/supply.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/vehicle.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/service/resource_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +32,7 @@ class NewConstructionBloc
             status: Status.notStarted,
             startingDate: null,
             clientContact: '',
+            geoPoint: GeoPoint(0, 0),
             photos: [],
             anomalies: [],
           ),
@@ -124,9 +126,10 @@ class NewConstructionBloc
   void _onAddressChanged(
       AddressChanged event, Emitter<NewConstructionState> emit) {
     final location = event.location;
-
+    print("geoPoint : +" + event.geoPoint.toString());
     emit(state.copyWith(
-      constructionSite: state.constructionSite.copyWith(location: location),
+      constructionSite: state.constructionSite
+          .copyWith(location: location, geoPoint: event.geoPoint),
     ));
   }
 

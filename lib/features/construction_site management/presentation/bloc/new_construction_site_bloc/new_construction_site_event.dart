@@ -55,8 +55,9 @@ class HalfDayChanged extends NewConstructionEvent {
 
 class AddressChanged extends NewConstructionEvent {
   final String location;
+  final GeoPoint geoPoint;
 
-  const AddressChanged(this.location);
+  const AddressChanged(this.location, this.geoPoint);
 
   @override
   List<Object?> get props => [location];
