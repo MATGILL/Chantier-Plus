@@ -1,5 +1,7 @@
 part of 'new_construction_site_bloc.dart';
 
+enum NewConstructionStatus { initial, loading, success, error }
+
 class NewConstructionState extends Equatable {
   // General
   final int currentStep;
@@ -7,7 +9,9 @@ class NewConstructionState extends Equatable {
   final bool isSuccess;
   final bool isError;
   final ConstructionSite constructionSite;
-  final PageController pageController = PageController(initialPage: 0);
+  final NewConstructionStatus status;
+  final List<Supply> supplies;
+  final List<Vehicle> vehicles;
 
   // Étape 1 : Données du chantier
   final String? nameError;
@@ -32,6 +36,9 @@ class NewConstructionState extends Equatable {
     this.errorPhoto,
     this.errorDate,
     this.addresseError,
+    this.status = NewConstructionStatus.initial,
+    this.supplies = const [],
+    this.vehicles = const [],
     this.selectedPhotos = const [],
   });
 
@@ -47,6 +54,9 @@ class NewConstructionState extends Equatable {
       String? numberHalfDayError,
       String? errorDate,
       String? addresseError,
+      NewConstructionStatus? status,
+      List<Supply>? supplies,
+      List<Vehicle>? vehicles,
       String? contactError}) {
     return NewConstructionState(
         currentStep: currentStep ?? this.currentStep,
@@ -60,7 +70,10 @@ class NewConstructionState extends Equatable {
         numberHalfDayError: numberHalfDayError,
         errorDate: errorDate,
         addresseError: addresseError,
-        contactError: contactError);
+        contactError: contactError,
+        status: status ?? this.status,
+        supplies: supplies ?? this.supplies,
+        vehicles: vehicles ?? this.vehicles);
   }
 
   @override
@@ -76,6 +89,9 @@ class NewConstructionState extends Equatable {
         contactError,
         errorPhoto,
         errorDate,
-        addresseError
+        addresseError,
+        status,
+        supplies,
+        vehicles
       ];
 }

@@ -76,6 +76,38 @@ class PhotoRemoved extends NewConstructionEvent {
   List<Object?> get props => [photo];
 }
 
-//End
+class FetchAvailableResource extends NewConstructionEvent {
+  final HalfDay halfDayBeginning;
+  final DateTime? startingDate;
+  final int durationInDays;
 
+  const FetchAvailableResource(
+      this.halfDayBeginning, this.startingDate, this.durationInDays);
+}
+
+class SelectVehicle extends NewConstructionEvent {
+  final Vehicle vehicle;
+
+  const SelectVehicle(this.vehicle);
+}
+
+class SelectSupply extends NewConstructionEvent {
+  final Supply supply;
+
+  const SelectSupply(this.supply);
+}
+
+class RemoveSupply extends NewConstructionEvent {
+  final Supply supply;
+
+  const RemoveSupply(this.supply);
+}
+
+class RemoveVehicle extends NewConstructionEvent {
+  final Vehicle vehicle;
+
+  const RemoveVehicle(this.vehicle);
+}
+
+//End
 class SubmitConstructionSite extends NewConstructionEvent {}

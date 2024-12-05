@@ -118,7 +118,7 @@ class ResourceFirestore implements RessourceRepository {
         }
 
         final supplies = snapshot.docs.map((doc) {
-          return Supply.fromJson(doc.data());
+          return Supply.fromJson(doc.data()).copyWith(id: doc.id);
         }).toList();
 
         return ServiceResult<List<Supply>>(content: supplies);

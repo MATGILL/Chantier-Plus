@@ -36,8 +36,9 @@ class ConstructionSiteMapper {
       'clientContact': site.clientContact,
       'status': site.status.toString().split('.').last,
       'photos': site.photos,
-      'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList()
-      // Autres transformations nécessaires
+      'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList(),
+      'vehicles': site.vehicles.map((vehicle) => vehicle.id).toList(),
+      'supplies': site.vehicles.map((suply) => suply.id).toList()
     };
   }
 }
