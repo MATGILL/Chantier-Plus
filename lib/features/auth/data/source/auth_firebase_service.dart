@@ -91,6 +91,39 @@ class AuthFirebaseService extends AuthRepository {
     }
   }
 
+  @override
+  Future<ServiceResult<List<UserEntity>>> getAllChef() async {
+    try {
+      // Récupérer tous les utilisateurs de la collection "users" ayant le rôle spécifié
+      QuerySnapshot usersSnapshot = await _firestore
+          .collection('users')
+          .where('role', isEqualTo: "CHEF")
+          .get();
+
+      // Si des utilisateurs sont trouvés
+      if (usersSnapshot.docs.isNotEmpty) {
+        // Mapper les documents en objets UserEntity
+        List<UserEntity> users = usersSnapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return UserEntity(
+            userId: doc.id,
+            email: data['email'] ?? '',
+            fullName: data['fullName'],
+            role: data['role'] ?? '',
+          );
+        }).toList();
+
+        return ServiceResult<List<UserEntity>>(content: users);
+      } else {
+        return ServiceResult<List<UserEntity>>(
+            error: "Aucun utilisateur trouvé avec ce rôle.");
+      }
+    } catch (e) {
+      return ServiceResult<List<UserEntity>>(
+          error: "Erreur lors de la récupération des utilisateurs.");
+    }
+  }
+
   /// Retourne un message d'erreur basé sur le code d'erreur de l'exception FirebaseAuthException.
   ///
   /// [e] est l'exception capturée qui contient le code d'erreur.

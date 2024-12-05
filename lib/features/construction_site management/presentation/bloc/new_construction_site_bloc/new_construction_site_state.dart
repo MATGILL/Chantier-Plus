@@ -12,6 +12,7 @@ class NewConstructionState extends Equatable {
   final NewConstructionStatus status;
   final List<Supply> supplies;
   final List<Vehicle> vehicles;
+  final List<UserEntity> chefs;
 
   // Étape 1 : Données du chantier
   final String? nameError;
@@ -19,6 +20,8 @@ class NewConstructionState extends Equatable {
   final String? contactError;
   final String? errorDate;
   final String? addresseError;
+  final UserEntity? selectedChef;
+  final String? errorChef;
 
   // Étape 2 : Photos
   final String? errorPhoto;
@@ -29,6 +32,8 @@ class NewConstructionState extends Equatable {
     this.isSubmitting = false,
     this.isSuccess = false,
     this.isError = false,
+    this.errorChef,
+    this.selectedChef,
     required this.constructionSite,
     this.nameError,
     this.numberHalfDayError,
@@ -39,6 +44,7 @@ class NewConstructionState extends Equatable {
     this.status = NewConstructionStatus.initial,
     this.supplies = const [],
     this.vehicles = const [],
+    this.chefs = const [],
     this.selectedPhotos = const [],
   });
 
@@ -57,6 +63,9 @@ class NewConstructionState extends Equatable {
       NewConstructionStatus? status,
       List<Supply>? supplies,
       List<Vehicle>? vehicles,
+      List<UserEntity>? chefs,
+      UserEntity? selectedChef,
+      String? errorChef,
       String? contactError}) {
     return NewConstructionState(
         currentStep: currentStep ?? this.currentStep,
@@ -73,6 +82,9 @@ class NewConstructionState extends Equatable {
         contactError: contactError,
         status: status ?? this.status,
         supplies: supplies ?? this.supplies,
+        chefs: chefs ?? this.chefs,
+        selectedChef: selectedChef ?? this.selectedChef,
+        errorChef: errorChef,
         vehicles: vehicles ?? this.vehicles);
   }
 
@@ -92,6 +104,9 @@ class NewConstructionState extends Equatable {
         addresseError,
         status,
         supplies,
-        vehicles
+        vehicles,
+        selectedChef,
+        errorChef,
+        chefs
       ];
 }

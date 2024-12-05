@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:chantier_plus/core/service_locator.dart';
 import 'package:chantier_plus/core/service_result.dart';
+import 'package:chantier_plus/features/auth/domain/entities/user.dart';
+import 'package:chantier_plus/features/auth/domain/services/auth_service.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
@@ -20,6 +22,7 @@ class NewConstructionBloc
     extends Bloc<NewConstructionEvent, NewConstructionState> {
   final ImagePicker _imagePicker = ImagePicker();
   final ResourceService _service = serviceLocator<ResourceService>();
+  final AuthService _authService = serviceLocator<AuthService>();
 
   NewConstructionBloc()
       : super(NewConstructionState(
@@ -51,6 +54,8 @@ class NewConstructionBloc
     on<SelectSupply>(_selectSupply);
     on<RemoveSupply>(_removeSupply);
     on<RemoveVehicle>(_removeVehicle);
+    on<FetchAllChef>(_fetchAllChefs);
+    on<SelectChef>(_chefSelect);
 
     //Submit
     on<SubmitConstructionSite>(_onSubmit);
@@ -126,7 +131,6 @@ class NewConstructionBloc
   void _onAddressChanged(
       AddressChanged event, Emitter<NewConstructionState> emit) {
     final location = event.location;
-    print("geoPoint : +" + event.geoPoint.toString());
     emit(state.copyWith(
       constructionSite: state.constructionSite
           .copyWith(location: location, geoPoint: event.geoPoint),
@@ -268,6 +272,31 @@ class NewConstructionBloc
     }
   }
 
+  // Gestionnaire d'événement pour FetchConstructionSites
+  Future<void> _fetchAllChefs(
+    FetchAllChef event,
+    Emitter<NewConstructionState> emit,
+  ) async {
+    emit(state.copyWith(status: NewConstructionStatus.loading));
+
+    // Appel au service pour récupérer les données
+    final chefList = await _authService.getAllChef();
+    // Gestion du succès ou de l'échec
+    if (chefList.content != null) {
+      emit(state.copyWith(
+        status: NewConstructionStatus.success,
+        chefs: chefList.content!,
+      ));
+    }
+    if (chefList.content == null) {
+      emit(state.copyWith(status: NewConstructionStatus.error, chefs: []));
+    }
+  }
+
+  FutureOr<void> _chefSelect(event, emit) {
+    emit(state.copyWith(selectedChef: event.chef));
+  }
+
   Future<void> _onSubmit(
       SubmitConstructionSite event, Emitter<NewConstructionState> emit) async {
     final nameError = _validateFiled(state.constructionSite.object, "nom");
@@ -277,16 +306,22 @@ class NewConstructionBloc
         _validateFiledContact(state.constructionSite.clientContact, "contact");
     final validDate =
         _validateFiledDate(state.constructionSite.startingDate, "date");
+    final validateChef = _validateChef();
+    final validAdress = _validAddress();
 
     if (nameError != null ||
         numberHalfDayError != null ||
         contactError != null ||
-        validDate != null) {
+        validDate != null ||
+        validateChef != null ||
+        validAdress != null) {
       emit(state.copyWith(
           nameError: nameError,
           numberHalfDayError: numberHalfDayError,
           contactError: contactError,
-          errorDate: validDate));
+          errorDate: validDate,
+          errorChef: validateChef,
+          addresseError: validAdress));
       return;
     }
 
@@ -339,6 +374,20 @@ class NewConstructionBloc
   String? _validateFiledDate(DateTime? date, String fieldName) {
     if (date == null) {
       return "Le champ $fieldName est requis.";
+    }
+    return null;
+  }
+
+  String? _validateChef() {
+    if (state.selectedChef == null) {
+      return "Vous devez sélectionner un chef";
+    }
+    return null;
+  }
+
+  String? _validAddress() {
+    if (state.constructionSite.location.isEmpty) {
+      return "Vous devez sélectionner une localisation";
     }
     return null;
   }

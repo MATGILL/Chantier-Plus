@@ -33,4 +33,8 @@ class AuthService {
   Future<ServiceResult<UserEntity>> getUserById(String userId) async {
     return await _authRepository.getUserById(userId);
   }
+
+  Future<ServiceResult<List<UserEntity>>> getAllChef() async {
+    return await _authRepository.getAllChef();
+  }
 }

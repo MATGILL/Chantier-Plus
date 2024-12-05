@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/new_construction_site_bloc/new_construction_site_bloc.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/chef_selection.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_one.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_three.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/new_construction_site_step_two.dart';
@@ -11,7 +12,7 @@ class NewConstructionSiteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewConstructionBloc(),
+      create: (_) => NewConstructionBloc()..add(FetchAllChef()),
       child: const NewConstructionSitePage(),
     );
   }
@@ -34,6 +35,7 @@ class NewConstructionSitePage extends StatelessWidget {
 
             // Etape 1 : Informations du chantier
             NewConstructionSiteStepOne(),
+            ChefSelection(),
 
             // Titre pour l'Étape 2
 
@@ -43,6 +45,8 @@ class NewConstructionSitePage extends StatelessWidget {
 
             // // Etape 3 : Ressources
             const NewConstructionSiteStepThree(),
+
+            //Etape 4
 
             // Bouton pour avancer
             Center(

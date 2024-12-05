@@ -110,5 +110,13 @@ class RemoveVehicle extends NewConstructionEvent {
   const RemoveVehicle(this.vehicle);
 }
 
+class FetchAllChef extends NewConstructionEvent {}
+
+class SelectChef extends NewConstructionEvent {
+  final UserEntity chef;
+
+  const SelectChef(this.chef);
+}
+
 //End
 class SubmitConstructionSite extends NewConstructionEvent {}
