@@ -46,7 +46,8 @@ abstract class ConstructionSiteRepository {
   /// Paramètres :
   /// - [constructionSite] : L'instance de `ConstructionSite` représentant
   ///   les données du site à créer.
-  Future<void> create(ConstructionSite constructionSite);
+  Future<ServiceResult<String>> create(
+      ConstructionSite constructionSite, String chefId);
 
   /// Met à jour un site de construction existant.
   ///
@@ -87,4 +88,7 @@ abstract class ConstructionSiteRepository {
   /// [anomalyId] : Nouveau statut à définir.
   Future<ServiceResult<void>> addAnomalyToConstructionSite(
       String siteId, String anomalyId);
+
+  Future<ServiceResult<String>> addPhotosToConstructionSite(
+      String constructionSite, List<String> photos);
 }

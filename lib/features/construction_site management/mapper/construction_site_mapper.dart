@@ -25,7 +25,8 @@ class ConstructionSiteMapper {
         anomalies: anomalies);
   }
 
-  static Map<String, dynamic> toFirestore(ConstructionSite site) {
+  static Map<String, dynamic> toFirestore(
+      ConstructionSite site, String chefId) {
     return {
       'id': site.id,
       'object': site.object,
@@ -40,7 +41,8 @@ class ConstructionSiteMapper {
       'photos': site.photos,
       'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList(),
       'vehicles': site.vehicles.map((vehicle) => vehicle.id).toList(),
-      'supplies': site.vehicles.map((suply) => suply.id).toList()
+      'supplies': site.vehicles.map((suply) => suply.id).toList(),
+      'chefId': chefId
     };
   }
 }

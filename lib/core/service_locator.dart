@@ -42,7 +42,10 @@ Future<void> initializeConstructionSiteServices() async {
   serviceLocator.registerSingleton<ConstructionSiteRepository>(
       ConstructionSiteFirestore());
   serviceLocator.registerSingleton<ConstructionSiteService>(
-      ConstructionSiteService(serviceLocator<ConstructionSiteRepository>()));
+      ConstructionSiteService(
+          constructionSiteRepository:
+              serviceLocator<ConstructionSiteRepository>(),
+          photoRepository: PhotoFirebaseStorage()));
 }
 
 Future<void> initializenomalyService() async {

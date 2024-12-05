@@ -16,9 +16,24 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
   final String _collectionName = 'construction_sites';
 
   @override
-  Future<void> create(ConstructionSite constructionSite) {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<ServiceResult<String>> create(
+      ConstructionSite constructionSite, String chefId) async {
+    if (_firebaseAuth.currentUser == null) {
+      return ServiceResult(error: "User not connected");
+    }
+    final constructionSiteRef = _firestore.collection(_collectionName);
+    final docRef = constructionSiteRef.doc(); // Crée un ID unique
+
+    final anomalyData =
+        ConstructionSiteMapper.toFirestore(constructionSite, chefId);
+
+    try {
+      await docRef.set(anomalyData);
+    } catch (e) {
+      ServiceResult(error: "Unable to add the anomaly");
+    }
+
+    return ServiceResult(content: docRef.id);
   }
 
   @override
@@ -137,6 +152,46 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
     } catch (e) {
       return ServiceResult(
           error: "unable to add specified anomaly to constructionSite");
+    }
+  }
+
+  @override
+  Future<ServiceResult<String>> addPhotosToConstructionSite(
+      String constructionSiteId, List<String> photos) async {
+    if (_firebaseAuth.currentUser == null) {
+      return ServiceResult(error: "User not connected");
+    }
+
+    try {
+      // Récupère la référence du document d'anomalie
+      final anomalyRef =
+          _firestore.collection(_collectionName).doc(constructionSiteId);
+
+      // Récupère l'anomalie existante
+      final anomalySnapshot = await anomalyRef.get();
+
+      if (!anomalySnapshot.exists) {
+        return ServiceResult(error: "Anomaly not found");
+      }
+
+      // Récupère les photos existantes de l'anomalie
+      final anomalyData = anomalySnapshot.data()!;
+      List<String> existingPhotos =
+          List<String>.from(anomalyData['photos'] ?? []);
+
+      // Ajoute les nouvelles photos à la liste existante
+      existingPhotos.addAll(photos);
+
+      // Met à jour le document avec les photos ajoutées
+      await anomalyRef.update({
+        'photos': existingPhotos,
+      });
+
+      return ServiceResult(
+          content: constructionSiteId); // Retourne l'ID de l'anomalie
+    } catch (e) {
+      return ServiceResult(
+          error: "Unable to add photos to anomaly: ${e.toString()}");
     }
   }
 }

@@ -1,23 +1,60 @@
 import 'package:chantier_plus/core/service_result.dart';
+import 'package:chantier_plus/features/auth/domain/entities/user.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/construction_site_repository.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/repository/photo_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ConstructionSiteService {
   final ConstructionSiteRepository _repository;
+  final PhotoRepository _photoRepository;
+  ConstructionSiteService(
+      {required ConstructionSiteRepository constructionSiteRepository,
+      required PhotoRepository photoRepository})
+      : _repository = constructionSiteRepository,
+        _photoRepository = photoRepository;
 
-  ConstructionSiteService(this._repository);
-
+  //Récupère l'ensemble des chantier en fonction du role de l'utilisateur courant
   Future<ServiceResult<List<ConstructionSite>>> getAllConstructionSites(
       Role role) {
     return _repository.getAll(role);
   }
 
+  //Change le status d'u chantier
   Future<ServiceResult<String>> changeConstructionSiteStatus(
       String siteId, Status newStatus) {
     return _repository.changeStatus(siteId, newStatus);
   }
 
-  // Méthodes pour create, update, delete si nécessaire...
+  //Créer un nouveau chantier
+  Future<ServiceResult<String>> createConstructionSite(
+      ConstructionSite constructionSite,
+      List<XFile> photos,
+      UserEntity chef) async {
+    // Création de l'anomalie
+    var createAnomalyResult =
+        await _repository.create(constructionSite, chef.userId!);
+    if (createAnomalyResult.error.isNotEmpty) {
+      return ServiceResult(error: "Unable to create anomaly");
+    }
+
+    var anomalyId = createAnomalyResult.content;
+
+    // Upload des photos
+    if (photos.isNotEmpty) {
+      var photoResult = await _photoRepository.uploadConstructionSItePhotos(
+          anomalyId!, photos);
+      if (photoResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to upload photo.");
+      }
+
+      // Ajout des photos à l'anomalie
+      await _repository.addPhotosToConstructionSite(
+          anomalyId, photoResult.content!);
+    }
+
+    return Future.value(ServiceResult(content: anomalyId));
+  }
 }
