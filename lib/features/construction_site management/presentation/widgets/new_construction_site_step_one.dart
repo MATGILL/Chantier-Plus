@@ -3,6 +3,7 @@ import 'package:chantier_plus/common/widgets/inputs/custom_drop_down_menu.dart';
 import 'package:chantier_plus/common/widgets/inputs/custom_text_field.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/bloc/new_construction_site_bloc/new_construction_site_bloc.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/new_construction_site_screen.dart';
+import 'package:chantier_plus/features/location_management/presentation/widget/autocomplete_search_location.dart';
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,15 +78,23 @@ class NewConstructionSiteStepOne extends StatelessWidget {
 
             // Adresse
             CustomTextField(
-              labelText: "Adresse",
-              hintText: "Adresse du chantier",
-              erroText: state.addresseError,
-              onChanged: (location) {
-                context
-                    .read<NewConstructionBloc>()
-                    .add(AddressChanged(location));
-              },
-            ),
+                labelText: "Adresse",
+                hintText: "Adresse du chantier",
+                readOnly: true,
+                erroText: state.addresseError,
+                initialValue: state.constructionSite.location.isNotEmpty
+                    ? state.constructionSite.location
+                    : null,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (innerContext) => AutoCompleteSearchLocation(
+                            onTap: (location, geoPoint) {
+                              context
+                                  .read<NewConstructionBloc>()
+                                  .add(AddressChanged(location, geoPoint));
+                            },
+                          )));
+                }),
             const SizedBox(height: 16),
 
             // Contact du client

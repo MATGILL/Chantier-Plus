@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final String? erroText;
   final bool isDigit;
   final bool readOnly;
+  final String? initialValue;
 
   const CustomTextField({
     super.key,
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     this.onTap,
     this.isDigit = false,
     this.readOnly = false,
+    this.initialValue,
   });
 
   @override
@@ -42,6 +44,9 @@ class CustomTextField extends StatelessWidget {
           isLongText ? TextInputAction.newline : TextInputAction.done,
       onChanged: onChanged,
       onTap: onTap,
+      controller: initialValue != null
+          ? TextEditingController(text: initialValue)
+          : null, // Assigner la valeur initiale
       decoration: InputDecoration(
         errorText: erroText,
         labelText: labelText,

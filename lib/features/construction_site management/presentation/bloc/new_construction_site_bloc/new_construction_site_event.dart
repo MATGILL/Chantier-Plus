@@ -55,8 +55,9 @@ class HalfDayChanged extends NewConstructionEvent {
 
 class AddressChanged extends NewConstructionEvent {
   final String location;
+  final GeoPoint geoPoint;
 
-  const AddressChanged(this.location);
+  const AddressChanged(this.location, this.geoPoint);
 
   @override
   List<Object?> get props => [location];
@@ -76,6 +77,46 @@ class PhotoRemoved extends NewConstructionEvent {
   List<Object?> get props => [photo];
 }
 
-//End
+class FetchAvailableResource extends NewConstructionEvent {
+  final HalfDay halfDayBeginning;
+  final DateTime? startingDate;
+  final int durationInDays;
 
+  const FetchAvailableResource(
+      this.halfDayBeginning, this.startingDate, this.durationInDays);
+}
+
+class SelectVehicle extends NewConstructionEvent {
+  final Vehicle vehicle;
+
+  const SelectVehicle(this.vehicle);
+}
+
+class SelectSupply extends NewConstructionEvent {
+  final Supply supply;
+
+  const SelectSupply(this.supply);
+}
+
+class RemoveSupply extends NewConstructionEvent {
+  final Supply supply;
+
+  const RemoveSupply(this.supply);
+}
+
+class RemoveVehicle extends NewConstructionEvent {
+  final Vehicle vehicle;
+
+  const RemoveVehicle(this.vehicle);
+}
+
+class FetchAllChef extends NewConstructionEvent {}
+
+class SelectChef extends NewConstructionEvent {
+  final UserEntity chef;
+
+  const SelectChef(this.chef);
+}
+
+//End
 class SubmitConstructionSite extends NewConstructionEvent {}

@@ -17,6 +17,7 @@ class ConstructionSiteMapper {
         startingDate: data.startingDate,
         halfDayStarting: data.halfDayStarting,
         location: data.location,
+        geoPoint: data.geoPoint,
         clientContact: data.clientContact,
         status: StatusExtension.fromString(data.status),
         photos: data.photos,
@@ -24,20 +25,25 @@ class ConstructionSiteMapper {
         anomalies: anomalies);
   }
 
-  static Map<String, dynamic> toFirestore(ConstructionSite site) {
+  static Map<String, dynamic> toFirestore(
+      ConstructionSite site, String chefId, String respId) {
     return {
       'id': site.id,
       'object': site.object,
       'startingDate': site.startingDate != null
           ? site.startingDate!.toIso8601String()
           : DateTime.now(),
-      'durationInHalfDays': site.durationInHalfDays,
+      'duration_in_half_days': site.durationInHalfDays,
       'location': site.location,
-      'clientContact': site.clientContact,
-      'status': site.status.toString().split('.').last,
+      'geoPoint': site.geoPoint,
+      'client_contact': site.clientContact,
+      'status': site.status.firestoreFormat,
       'photos': site.photos,
-      'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList()
-      // Autres transformations nécessaires
+      'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList(),
+      'vehicles': site.vehicles.map((vehicle) => vehicle.id).toList(),
+      'supplies': site.vehicles.map((suply) => suply.id).toList(),
+      'chefId': chefId,
+      'respId': respId
     };
   }
 }

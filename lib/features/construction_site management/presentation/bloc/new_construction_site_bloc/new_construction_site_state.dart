@@ -1,5 +1,7 @@
 part of 'new_construction_site_bloc.dart';
 
+enum NewConstructionStatus { initial, loading, success, error }
+
 class NewConstructionState extends Equatable {
   // General
   final int currentStep;
@@ -7,7 +9,10 @@ class NewConstructionState extends Equatable {
   final bool isSuccess;
   final bool isError;
   final ConstructionSite constructionSite;
-  final PageController pageController = PageController(initialPage: 0);
+  final NewConstructionStatus status;
+  final List<Supply> supplies;
+  final List<Vehicle> vehicles;
+  final List<UserEntity> chefs;
 
   // Étape 1 : Données du chantier
   final String? nameError;
@@ -15,6 +20,8 @@ class NewConstructionState extends Equatable {
   final String? contactError;
   final String? errorDate;
   final String? addresseError;
+  final UserEntity? selectedChef;
+  final String? errorChef;
 
   // Étape 2 : Photos
   final String? errorPhoto;
@@ -25,6 +32,8 @@ class NewConstructionState extends Equatable {
     this.isSubmitting = false,
     this.isSuccess = false,
     this.isError = false,
+    this.errorChef,
+    this.selectedChef,
     required this.constructionSite,
     this.nameError,
     this.numberHalfDayError,
@@ -32,6 +41,10 @@ class NewConstructionState extends Equatable {
     this.errorPhoto,
     this.errorDate,
     this.addresseError,
+    this.status = NewConstructionStatus.initial,
+    this.supplies = const [],
+    this.vehicles = const [],
+    this.chefs = const [],
     this.selectedPhotos = const [],
   });
 
@@ -47,6 +60,12 @@ class NewConstructionState extends Equatable {
       String? numberHalfDayError,
       String? errorDate,
       String? addresseError,
+      NewConstructionStatus? status,
+      List<Supply>? supplies,
+      List<Vehicle>? vehicles,
+      List<UserEntity>? chefs,
+      UserEntity? selectedChef,
+      String? errorChef,
       String? contactError}) {
     return NewConstructionState(
         currentStep: currentStep ?? this.currentStep,
@@ -60,7 +79,13 @@ class NewConstructionState extends Equatable {
         numberHalfDayError: numberHalfDayError,
         errorDate: errorDate,
         addresseError: addresseError,
-        contactError: contactError);
+        contactError: contactError,
+        status: status ?? this.status,
+        supplies: supplies ?? this.supplies,
+        chefs: chefs ?? this.chefs,
+        selectedChef: selectedChef ?? this.selectedChef,
+        errorChef: errorChef,
+        vehicles: vehicles ?? this.vehicles);
   }
 
   @override
@@ -76,6 +101,12 @@ class NewConstructionState extends Equatable {
         contactError,
         errorPhoto,
         errorDate,
-        addresseError
+        addresseError,
+        status,
+        supplies,
+        vehicles,
+        selectedChef,
+        errorChef,
+        chefs
       ];
 }

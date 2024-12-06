@@ -6,12 +6,16 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final bool optional;
   final bool isLongText;
+  final FocusNode? focusNode;
+  final String? errorMessage;
 
   const CustomTextFormField({
     super.key,
     required this.labelText,
     required this.hintText,
     required this.controller,
+    this.focusNode,
+    this.errorMessage,
     this.optional = false,
     this.isLongText = false,
   });
@@ -20,12 +24,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      validator: (value) {
-        if ((value == null || value.isEmpty) && !optional) {
-          return "$labelText est un champ obligatoire.";
-        }
-        return null;
-      },
+      focusNode: focusNode,
       maxLines: isLongText
           ? 5
           : 1, // Fixe la taille visible à 5 lignes pour les textes longs
@@ -33,6 +32,7 @@ class CustomTextFormField extends StatelessWidget {
       textInputAction:
           isLongText ? TextInputAction.newline : TextInputAction.done,
       decoration: InputDecoration(
+        errorText: errorMessage,
         labelText: labelText,
         hintText: hintText,
         labelStyle: const TextStyle(

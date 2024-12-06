@@ -18,9 +18,13 @@ class AuthFirebaseService extends AuthRepository {
   Future<ServiceResult<String>> login(LoginUser user) async {
     return await _handleAuthAction(
       () async {
-        await _auth.signInWithEmailAndPassword(
-            email: user.email, password: user.password);
-        return ServiceResult<String>(content: "Login was successful");
+        try {
+          await _auth.signInWithEmailAndPassword(
+              email: user.email, password: user.password);
+          return ServiceResult<String>(content: "Login was successful");
+        } catch (e) {
+          return ServiceResult<String>(error: "Unable to authenticate");
+        }
       },
     );
   }
@@ -88,6 +92,39 @@ class AuthFirebaseService extends AuthRepository {
     } catch (e) {
       return ServiceResult<UserEntity>(
           error: "Erreur lors de la récupération de l'utilisateur.");
+    }
+  }
+
+  @override
+  Future<ServiceResult<List<UserEntity>>> getAllChef() async {
+    try {
+      // Récupérer tous les utilisateurs de la collection "users" ayant le rôle spécifié
+      QuerySnapshot usersSnapshot = await _firestore
+          .collection('users')
+          .where('role', isEqualTo: "CHEF")
+          .get();
+
+      // Si des utilisateurs sont trouvés
+      if (usersSnapshot.docs.isNotEmpty) {
+        // Mapper les documents en objets UserEntity
+        List<UserEntity> users = usersSnapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return UserEntity(
+            userId: doc.id,
+            email: data['email'] ?? '',
+            fullName: data['fullName'],
+            role: data['role'] ?? '',
+          );
+        }).toList();
+
+        return ServiceResult<List<UserEntity>>(content: users);
+      } else {
+        return ServiceResult<List<UserEntity>>(
+            error: "Aucun utilisateur trouvé avec ce rôle.");
+      }
+    } catch (e) {
+      return ServiceResult<List<UserEntity>>(
+          error: "Erreur lors de la récupération des utilisateurs.");
     }
   }
 

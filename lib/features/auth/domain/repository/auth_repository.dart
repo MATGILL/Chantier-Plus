@@ -38,4 +38,6 @@ abstract class AuthRepository {
   ///   de l'échec (par exemple, utilisateur non trouvé, problème de connexion à la base
   ///   de données, ou autorisation refusée).
   Future<ServiceResult<UserEntity>> getUserById(String userId);
+
+  Future<ServiceResult<List<UserEntity>>> getAllChef();
 }

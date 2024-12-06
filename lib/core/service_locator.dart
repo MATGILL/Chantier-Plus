@@ -26,10 +26,10 @@ final GetIt serviceLocator = GetIt.instance;
 
 Future<void> initializeDependencies() async {
   //Authentification services
+  await initialiseResourceService();
   await initializeAuthServices();
   await initializeConstructionSiteServices();
   await initializenomalyService();
-  await initialiseResourceService();
 }
 
 Future<void> initializeAuthServices() async {
@@ -42,7 +42,11 @@ Future<void> initializeConstructionSiteServices() async {
   serviceLocator.registerSingleton<ConstructionSiteRepository>(
       ConstructionSiteFirestore());
   serviceLocator.registerSingleton<ConstructionSiteService>(
-      ConstructionSiteService(serviceLocator<ConstructionSiteRepository>()));
+      ConstructionSiteService(
+          constructionSiteRepository:
+              serviceLocator<ConstructionSiteRepository>(),
+          photoRepository: PhotoFirebaseStorage(),
+          ressourceRepository: serviceLocator<RessourceRepository>()));
 }
 
 Future<void> initializenomalyService() async {

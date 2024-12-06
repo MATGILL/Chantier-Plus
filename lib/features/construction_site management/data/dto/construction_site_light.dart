@@ -1,4 +1,5 @@
 import 'package:chantier_plus/features/resource_mangement/domain/entities/half_day.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class ConstructionSiteLightDto extends Equatable {
@@ -9,6 +10,7 @@ class ConstructionSiteLightDto extends Equatable {
   final HalfDay halfDayStarting;
   final DateTime endingDate;
   final String location;
+  final GeoPoint geoPoint;
   final String clientContact;
   final String status;
   final List<String> photos;
@@ -22,6 +24,7 @@ class ConstructionSiteLightDto extends Equatable {
       required this.halfDayStarting,
       required this.endingDate,
       required this.location,
+      required this.geoPoint,
       required this.clientContact,
       required this.status,
       required this.photos,
@@ -36,6 +39,7 @@ class ConstructionSiteLightDto extends Equatable {
         halfDayStarting,
         endingDate,
         location,
+        geoPoint,
         clientContact,
         status,
         photos,
@@ -53,6 +57,7 @@ class ConstructionSiteLightDto extends Equatable {
             HalfDayExtension.fromString(json['halfDayStarting'] ?? ""),
         endingDate: DateTime.now(),
         location: json['location'] as String,
+        geoPoint: json['geoPoint'] as GeoPoint,
         clientContact: json['client_contact'] as String,
         status: json['status'] as String,
         photos: List<String>.from(
@@ -71,6 +76,7 @@ class ConstructionSiteLightDto extends Equatable {
       'halfDayStarting': halfDayStarting.toFirebaseFormat(),
       'endingDate': endingDate.toIso8601String(),
       'location': location,
+      'geoPoint': geoPoint,
       'client_contact': clientContact,
       'status': status,
       'photos': photos,
@@ -86,6 +92,7 @@ class ConstructionSiteLightDto extends Equatable {
       HalfDay? halfDayStarting,
       DateTime? endingDate,
       String? location,
+      GeoPoint? geoPoint,
       String? clientContact,
       String? status,
       List<String>? photos,
@@ -98,6 +105,7 @@ class ConstructionSiteLightDto extends Equatable {
         halfDayStarting: halfDayStarting ?? this.halfDayStarting,
         endingDate: endingDate ?? this.endingDate,
         location: location ?? this.location,
+        geoPoint: geoPoint ?? this.geoPoint,
         clientContact: clientContact ?? this.clientContact,
         status: status ?? this.status,
         photos: photos ?? this.photos,

@@ -18,4 +18,7 @@ abstract class PhotoRepository {
   ///   the URL of a photo stored in Firebase Storage.
   Future<ServiceResult<List<String>>> uploadAnomalyPhotos(
       String anomalyId, List<XFile> photos);
+
+  Future<ServiceResult<List<String>>> uploadConstructionSItePhotos(
+      String constructionSiteId, List<XFile> photos);
 }
