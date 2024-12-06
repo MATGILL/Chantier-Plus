@@ -69,3 +69,39 @@ La classe `AutoCompleteSearchLocation` intègre la recherche d'adresses via l'AP
 - **Sélection des résultats** : Une fois une adresse sélectionnée, son nom et ses coordonnées GPS sont renvoyés pour utilisation (par exemple, pour localiser un site ou enregistrer une adresse).
 
 ---
+
+## Utilisation du Pattern Bloc
+
+Le projet utilise le **pattern Bloc** pour gérer les états de l'application de manière claire et réactive. Ce pattern permet de séparer la logique métier de l'interface utilisateur, tout en simplifiant la gestion des données dynamiques.
+
+---
+
+### **Comment ça fonctionne ?**
+
+1. **BlocProvider** : Permet de fournir un bloc à une partie de l'application.
+2. **BlocBuilder** : Écoute les changements d'état dans le bloc et met à jour l'interface utilisateur en conséquence.
+3. **Événements et États** :
+    - Les **événements** déclenchent des actions (par exemple, récupérer des données).
+    - Les **états** représentent le résultat de ces actions (par exemple, chargement terminé ou échec).
+
+---
+
+### **Exemple dans ce projet**
+
+#### **MapPage** :
+- Un bloc (`ConstructionSiteBloc`) est utilisé pour récupérer et afficher les sites de construction sur une carte.
+- Les marqueurs sont mis à jour dynamiquement en fonction des données récupérées.
+
+#### **Recherche de localisation** :
+- Un autre bloc gère la recherche d'adresses avec autocomplétion via Mapbox.
+- L'interface affiche les résultats de recherche et permet de sélectionner une adresse.
+
+---
+
+### **Pourquoi utiliser Bloc ?**
+
+- **Réactivité** : Les données et l'interface sont toujours synchronisées.
+- **Séparation des responsabilités** : La logique métier est isolée de l'interface utilisateur.
+- **Extensibilité** : Il est facile d'ajouter de nouvelles fonctionnalités ou de gérer des états plus complexes.
+
+Ce pattern offre une structure solide pour maintenir et faire évoluer le projet.
