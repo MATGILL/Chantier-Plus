@@ -5,14 +5,13 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 class ConstructionSiteDetails extends StatelessWidget {
   final ConstructionSite constructionSite;
 
-  const ConstructionSiteDetails({Key? key, required this.constructionSite})
-      : super(key: key);
+  const ConstructionSiteDetails({super.key, required this.constructionSite});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Détails du chantier"),
+        title: const Text("Détails du chantier"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -32,8 +31,11 @@ class ConstructionSiteDetails extends StatelessWidget {
                   items: constructionSite.photos.map((photoUrl) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
+                        return SizedBox(
+                            child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          width: double
+                              .infinity, // Prendre toute la largeur de l'écran
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.grey[200],
@@ -47,14 +49,14 @@ class ConstructionSiteDetails extends StatelessWidget {
                                 return const Center(
                                   child: Icon(
                                     Icons.broken_image,
-                                    size: 50,
+                                    size: 100,
                                     color: Colors.grey,
                                   ),
                                 );
                               },
                             ),
                           ),
-                        );
+                        ));
                       },
                     );
                   }).toList(),
@@ -64,8 +66,8 @@ class ConstructionSiteDetails extends StatelessWidget {
 
               // Informations générales
               Text(
-                "Informations générales",
-                style: Theme.of(context).textTheme.titleLarge,
+                constructionSite.object,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               _buildInfoRow("Objet :", constructionSite.object),
@@ -79,7 +81,8 @@ class ConstructionSiteDetails extends StatelessWidget {
                       : "Non spécifiée"),
               _buildInfoRow("Lieu :", constructionSite.location),
               _buildInfoRow("Contact client :", constructionSite.clientContact),
-              _buildInfoRow("Statut :", constructionSite.status.toString()),
+              _buildInfoRow(
+                  "Statut :", constructionSite.status.name.toLowerCase()),
 
               const SizedBox(height: 20),
 
