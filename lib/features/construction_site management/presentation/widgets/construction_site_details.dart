@@ -125,7 +125,7 @@ class ConstructionSiteDetails extends StatelessWidget {
                 ),
               if (constructionSite.supplies.isNotEmpty)
                 const Text(
-                  "Fournitures Assignés ",
+                  "Fournitures Assignées ",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               if (constructionSite.supplies.isNotEmpty)

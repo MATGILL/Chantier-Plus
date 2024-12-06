@@ -59,25 +59,27 @@ class NewConstructionSitePage extends StatelessWidget {
                 // // Etape 3 : Ressources
                 const NewConstructionSiteStepThree(),
 
-                ElevatedButton(
-                  onPressed: state.isSubmitting
-                      ? null // Désactiver le bouton si isSubmitting est true
-                      : () {
-                          // context
-                          //     .read<NewConstructionBloc>()
-                          //     .add(SubmitConstructionSite());
-                          print(state.constructionSite.vehicles);
-                        },
-                  child: state.isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white, // Couleur du loader
-                            strokeWidth: 2, // Épaisseur du loader
-                          ),
-                        )
-                      : const Text("Envoyer"),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 100.0),
+                  child: ElevatedButton(
+                    onPressed: state.isSubmitting
+                        ? null // Désactiver le bouton si isSubmitting est true
+                        : () {
+                            context
+                                .read<NewConstructionBloc>()
+                                .add(SubmitConstructionSite());
+                          },
+                    child: state.isSubmitting
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white, // Couleur du loader
+                              strokeWidth: 2, // Épaisseur du loader
+                            ),
+                          )
+                        : const Text("Envoyer"),
+                  ),
                 ),
               ],
             ),

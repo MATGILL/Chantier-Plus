@@ -330,7 +330,6 @@ class NewConstructionBloc
 
     emit(state.copyWith(isSubmitting: true));
     try {
-      print(state.constructionSite);
       // Appel Firebase ou autre service
       var result = await _constructionSiteService.createConstructionSite(
           state.constructionSite, state.selectedPhotos, state.selectedChef!);

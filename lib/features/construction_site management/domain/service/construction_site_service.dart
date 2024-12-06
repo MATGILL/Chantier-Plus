@@ -85,8 +85,8 @@ class ConstructionSiteService {
     if (constructionSite.supplies.isNotEmpty) {
       suppliesResult = await _ressourceRepository.getAllSupplyFromlistString(
           constructionSite.supplies.map((s) => s.id).toList());
-      if (vehicleResult.error.isNotEmpty) {
-        return ServiceResult(error: "Unable to get the desire vehicless");
+      if (suppliesResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to get the desire suplies");
       }
     }
 

@@ -225,7 +225,7 @@ class ResourceFirestore implements RessourceRepository {
       for (final docSnapshot in documentSnapshots) {
         if (docSnapshot.exists) {
           if (docSnapshot.exists) {
-            // Transformer les données du document en entité `Vehicle`
+            // Transformer les données du document en entité `Supply`
             final suppliesData = docSnapshot.data();
             supplies.add(Supply.fromJson(suppliesData as Map<String, dynamic>));
           }

@@ -43,7 +43,7 @@ class ConstructionSiteMapper {
       'photos': site.photos,
       'anomalies': site.anomalies.map((anomalu) => anomalu.id).toList(),
       'vehicles': site.vehicles.map((vehicle) => vehicle.id).toList(),
-      'supplies': site.vehicles.map((suply) => suply.id).toList(),
+      'supplies': site.supplies.map((suply) => suply.id).toList(),
       'chefId': chefId,
       'respId': respId
     };

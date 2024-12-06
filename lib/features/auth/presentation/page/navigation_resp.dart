@@ -30,7 +30,6 @@ class _NavigationChefState extends State<NavigationResp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: _currentIndex != 2,
       body: _screens[_currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
