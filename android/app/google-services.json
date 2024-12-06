@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "934856756615",
+    "project_id": "chantierplus-b9b6a",
+    "storage_bucket": "chantierplus-b9b6a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934856756615:android:4132d953d0ddae5e35d722",
+        "android_client_info": {
+          "package_name": "fr.istic.chantier_plus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArx9o5b_bbu6ZYl51VCG_4TnX64vgvKlg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934856756615:android:bd0f3c53e4481dfd35d722",
+        "android_client_info": {
+          "package_name": "fr.istic.chantierplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArx9o5b_bbu6ZYl51VCG_4TnX64vgvKlg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

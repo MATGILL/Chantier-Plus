@@ -3,25 +3,57 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.lightBackground,
-    brightness: Brightness.light,
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary, // Couleur de fond
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100.0), // Ajuste le rayon ici
-        ),
-        foregroundColor: Colors.white,
-        textStyle: const TextStyle(
-          fontSize: 24.0, // Ajuste la taille de texte ici
-          fontWeight: FontWeight.bold, // Ajuste le poids de texte ici
-          color: Colors.white, // Couleur du texte
-        ),
-        fixedSize: const Size(214, 52),
+      primaryColorLight: AppColors.primary,
+      useMaterial3: true,
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.lightBackground,
+      brightness: Brightness.light,
+      indicatorColor: AppColors.primary,
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        indicatorColor: AppColors.primary,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       ),
-    ),
-  );
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: Colors.white,
+        todayBorder: BorderSide.none,
+        todayForegroundColor: WidgetStatePropertyAll(Colors.white),
+        rangePickerBackgroundColor: AppColors.primary,
+        dayOverlayColor:
+            WidgetStatePropertyAll<Color>(AppColors.primary.withOpacity(0.8)),
+        todayBackgroundColor:
+            WidgetStatePropertyAll<Color>(AppColors.primary.withOpacity(0.8)),
+        weekdayStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+        yearStyle: TextStyle(
+          color: AppColors.primary.withOpacity(0.8),
+        ),
+      ),
+      tabBarTheme: const TabBarTheme(
+          labelColor: AppColors.primary, indicatorColor: AppColors.primary),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColors.primary,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          focusColor: AppColors.primary, backgroundColor: AppColors.primary),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary, // Couleur de fond
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100.0), // Ajuste le rayon ici
+          ),
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontSize: 24.0, // Ajuste la taille de texte ici
+            fontWeight: FontWeight.bold, // Ajuste le poids de texte ici
+            color: Colors.white, // Couleur du texte
+          ),
+          fixedSize: const Size(214, 52),
+        ),
+      ),
+      appBarTheme: const AppBarTheme(color: AppColors.lightBackground));
 } 
 
 //TODO maybe install a darkTheme later

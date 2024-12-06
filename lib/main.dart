@@ -1,8 +1,25 @@
 import 'package:chantier_plus/core/configs/theme/app_theme.dart';
-import 'package:chantier_plus/presentation/page/auth/auth_screen.dart';
+import 'package:chantier_plus/features/auth/presentation/bloc/authentication_bloc.dart';
+import 'package:chantier_plus/features/auth/presentation/page/auth_gate.dart';
+import 'package:chantier_plus/firebase_options.dart';
+import 'package:chantier_plus/core/service_locator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true, // Active le cache local
+  );
+  initializeDependencies();
+
   runApp(const MainApp());
 }
 
@@ -11,9 +28,18 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.lightTheme,
-      home: const AuthScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              AuthenticationBloc()..add(AuthenticationSubscriptionRequested()),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        home: const AuthGate(),
+      ),
     );
   }
 }

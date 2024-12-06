@@ -1,4 +1,4 @@
-package com.example.chantier_plus
+package fr.istic.chantierplus
 
 import io.flutter.embedding.android.FlutterActivity
 

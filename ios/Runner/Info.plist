@@ -24,6 +24,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to add image to add library photo to chantierPlus</string>
+	<key>NSCameraUsageDescription</key>
+	<string> Used by chantier plus</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used by chantierPlus<string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -1,0 +1,77 @@
+import 'package:chantier_plus/core/service_locator.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/role.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/service/construction_site_service.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+part 'construction_site_event.dart';
+part 'construction_site_state.dart';
+
+class ConstructionSiteBloc
+    extends Bloc<ConstructionSiteEvent, ConstructionSiteState> {
+  final ConstructionSiteService _service =
+      serviceLocator<ConstructionSiteService>();
+
+  ConstructionSiteBloc()
+      : super(const ConstructionSiteState(
+            status: ConstructionStateStatus.initial)) {
+    on<FetchConstructionSites>(_onFetchConstructionSites);
+    on<ChangeConstructionSiteStatus>(_onChangeConstructionSiteStatus);
+  }
+
+  // Gestionnaire d'événement pour FetchConstructionSites
+  Future<void> _onFetchConstructionSites(
+    FetchConstructionSites event,
+    Emitter<ConstructionSiteState> emit,
+  ) async {
+    emit(const ConstructionSiteState(status: ConstructionStateStatus.loading));
+
+    // Appel au service pour récupérer les données
+    final result = await _service.getAllConstructionSites(Role.chef);
+
+    // Gestion du succès ou de l'échec
+    if (result.content != null) {
+      emit(ConstructionSiteState(
+        status: ConstructionStateStatus.success,
+        constructionSites: result.content!,
+      ));
+    } else {
+      emit(const ConstructionSiteState(
+        status: ConstructionStateStatus.error,
+        constructionSites: [],
+      ));
+    }
+  }
+
+  // Gestionnaire d'événement pour ChangeConstructionSiteStatus
+  Future<void> _onChangeConstructionSiteStatus(
+    ChangeConstructionSiteStatus event,
+    Emitter<ConstructionSiteState> emit,
+  ) async {
+    // Appel au service pour changer le statut
+    final result = await _service.changeConstructionSiteStatus(
+      event.siteId,
+      event.newStatus,
+    );
+
+    // Gestion du succès ou de l'échec
+    if (result.error.isNotEmpty) {
+      emit(state.copyWith(status: ConstructionStateStatus.error));
+    } else {
+      // Met à jour l'état avec les chantiers mis à jour
+      final updatedSites = state.constructionSites.map((site) {
+        if (site.id == event.siteId) {
+          return site.copyWith(status: event.newStatus);
+        }
+        return site;
+      }).toList();
+
+      emit(state.copyWith(
+        status: ConstructionStateStatus.success,
+        constructionSites: updatedSites,
+      ));
+    }
+  }
+}
