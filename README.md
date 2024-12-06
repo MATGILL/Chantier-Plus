@@ -3,7 +3,7 @@
 
 > [uml du projet](./READMES/project_structure_README.md)
 >
-> Ce modèle à évolué au fil du développement de l'application
+> Ce modèle a évolué au fil du développement de l'application
 >
 
 ## Demo 
