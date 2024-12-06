@@ -20,5 +20,8 @@ abstract class AnomalyRepository {
   Future<ServiceResult<String>> addPhotosToAnomaly(
       String anomalyId, List<String> photos);
 
+  Future<ServiceResult<List<Anomaly>>> getAnomalyForConstructionSite(
+      String siteId);
+
   //TODO implement the rest
 }

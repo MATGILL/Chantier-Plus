@@ -71,6 +71,6 @@ class Anomaly extends Equatable {
         date: DateTime.parse(json['date'] as String),
         photos: List<String>.from(json['photos'] as List),
         authorId: json['authorId'] as String,
-        constructionSiteId: json['constructionSiteId'] as String);
+        constructionSiteId: json['constructionSiteid'] as String);
   }
 }

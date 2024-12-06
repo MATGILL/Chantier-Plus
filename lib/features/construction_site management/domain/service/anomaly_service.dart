@@ -52,4 +52,22 @@ class AnomalyService {
 
     return Future.value(ServiceResult(content: anomalyId));
   }
+
+  // Méthode pour récupérer les anomalies d'un chantier donné
+  Future<ServiceResult<List<Anomaly>>> getAnomalyForConstructionSite(
+      String siteId) async {
+    try {
+      // Récupère les anomalies pour le chantier spécifié
+      var anomaliesResult =
+          await _anomalyRepository.getAnomalyForConstructionSite(siteId);
+
+      if (anomaliesResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to fetch anomalies");
+      }
+
+      return anomaliesResult;
+    } catch (e) {
+      return ServiceResult(error: "Unable to fetch anomalies: ${e.toString()}");
+    }
+  }
 }

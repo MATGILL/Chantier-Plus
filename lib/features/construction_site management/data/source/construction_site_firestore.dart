@@ -87,7 +87,7 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
         return ServiceResult(error: "Aucun site trouvé avec l'ID : $id");
       }
       final constructionSiteLightDto =
-          ConstructionSiteLightDto.fromJson(doc.data()!);
+          ConstructionSiteLightDto.fromJson(doc.data()!).copyWith(id: doc.id);
 
       return ServiceResult<ConstructionSite>(
           content: ConstructionSiteMapper.fromDto(constructionSiteLightDto));

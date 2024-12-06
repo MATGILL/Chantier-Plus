@@ -68,4 +68,31 @@ class AnomalyFirestore implements AnomalyRepository {
           error: "Unable to add photos to anomaly: ${e.toString()}");
     }
   }
+
+  @override
+  Future<ServiceResult<List<Anomaly>>> getAnomalyForConstructionSite(
+      String siteId) async {
+    try {
+      // Récupère les anomalies où le 'constructionSiteId' correspond au siteId
+      final querySnapshot = await _firestore
+          .collection(_collectionName)
+          .where('constructionSiteid', isEqualTo: siteId)
+          .get();
+
+      // Si aucune anomalie n'est trouvée, retourne une liste vide
+      if (querySnapshot.docs.isEmpty) {
+        return ServiceResult(content: []);
+      }
+
+      // Mappe les documents récupérés en objets Anomaly
+      List<Anomaly> anomalies = querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return Anomaly.fromJson(data);
+      }).toList();
+
+      return ServiceResult(content: anomalies);
+    } catch (e) {
+      return ServiceResult(error: "Unable to fetch anomalies: ${e.toString()}");
+    }
+  }
 }

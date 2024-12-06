@@ -1,4 +1,5 @@
 import 'package:chantier_plus/core/configs/theme/app_colors.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/construction_site_anomalies_list.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
@@ -162,12 +163,13 @@ class ConstructionSiteDetails extends StatelessWidget {
                   },
                 ),
               // Nombre d'anomalies
-              Text(
+              const Text(
                 "Anomalies détectées",
-                style: Theme.of(context).textTheme.titleLarge,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 10),
-              Text("Nombre d'anomalies : ${constructionSite.anomalyNumber}"),
+              ConstructionSiteAnomaliesList(
+                siteId: constructionSite.id,
+              ),
             ],
           ),
         ),
