@@ -41,7 +41,7 @@ class PhotoFirebaseStorage implements PhotoRepository {
       // Crée un chemin structuré
       final photoRef = _firebaseStorage
           .ref()
-          .child('anomalies/$constructionSiteId/${photo.name}');
+          .child('constructionSites/$constructionSiteId/${photo.name}');
 
       try {
         await photoRef.putFile(File(photo.path));

@@ -18,9 +18,13 @@ class AuthFirebaseService extends AuthRepository {
   Future<ServiceResult<String>> login(LoginUser user) async {
     return await _handleAuthAction(
       () async {
-        await _auth.signInWithEmailAndPassword(
-            email: user.email, password: user.password);
-        return ServiceResult<String>(content: "Login was successful");
+        try {
+          await _auth.signInWithEmailAndPassword(
+              email: user.email, password: user.password);
+          return ServiceResult<String>(content: "Login was successful");
+        } catch (e) {
+          return ServiceResult<String>(error: "Unable to authenticate");
+        }
       },
     );
   }

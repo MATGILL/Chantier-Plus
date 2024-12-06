@@ -24,44 +24,64 @@ class NewConstructionSitePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Créer un chantier"),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Titre pour l'Étape 1
-
-            // Etape 1 : Informations du chantier
-            NewConstructionSiteStepOne(),
-            ChefSelection(),
-
-            // Titre pour l'Étape 2
-
-            NewConstructionSiteStepTwo(),
-
-            // // Titre pour l'Étape 3
-
-            // // Etape 3 : Ressources
-            const NewConstructionSiteStepThree(),
-
-            //Etape 4
-
-            // Bouton pour avancer
-            Center(
-              child: ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<NewConstructionBloc>()
-                        .add(SubmitConstructionSite());
-                  },
-                  child: Text("Envoyer")),
-            )
-          ],
+        appBar: AppBar(
+          title: const Text("Créer un chantier"),
         ),
-      ),
-    );
+        body: BlocBuilder<NewConstructionBloc, NewConstructionState>(
+            builder: (context, state) {
+          if (state.isSuccess) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pop();
+            });
+          }
+          if (state.isError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text("Erreur while creating the constructionSIte")),
+            );
+          }
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // Titre pour l'Étape 1
+
+                // Etape 1 : Informations du chantier
+                NewConstructionSiteStepOne(),
+                ChefSelection(),
+
+                // Titre pour l'Étape 2
+
+                NewConstructionSiteStepTwo(),
+
+                // // Titre pour l'Étape 3
+
+                // // Etape 3 : Ressources
+                const NewConstructionSiteStepThree(),
+
+                ElevatedButton(
+                  onPressed: state.isSubmitting
+                      ? null // Désactiver le bouton si isSubmitting est true
+                      : () {
+                          context
+                              .read<NewConstructionBloc>()
+                              .add(SubmitConstructionSite());
+                        },
+                  child: state.isSubmitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white, // Couleur du loader
+                            strokeWidth: 2, // Épaisseur du loader
+                          ),
+                        )
+                      : const Text("Envoyer"),
+                ),
+              ],
+            ),
+          );
+        }));
   }
 }
 
