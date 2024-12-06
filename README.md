@@ -105,3 +105,51 @@ Le projet utilise le **pattern Bloc** pour gérer les états de l'application de
 - **Extensibilité** : Il est facile d'ajouter de nouvelles fonctionnalités ou de gérer des états plus complexes.
 
 Ce pattern offre une structure solide pour maintenir et faire évoluer le projet.
+
+---
+
+## Classe `ServiceResult<T>`
+
+La classe `ServiceResult<T>` est utilisée pour gérer les résultats des opérations ou des services dans l'application. Elle permet de savoir si une opération a réussi ou échoué tout en retournant soit un contenu, soit un message d'erreur.
+
+---
+
+### **Comment ça fonctionne ?**
+1. **Propriétés :**
+   - `content` : Le résultat si tout s'est bien passé.
+   - `error` : Le message d'erreur si quelque chose a échoué.
+
+2. **Méthodes :**
+   - `success` : Vérifie si l'opération a réussi (il y a un contenu et pas d'erreur).
+   - `getErrorMessage()` : Retourne le message d'erreur ou un message par défaut.
+
+---
+
+### **Exemple :**
+
+#### Lorsqu'un service retourne un résultat :
+```dart
+Future<ServiceResult<String>> fetchData() async {
+  try {
+    final data = await api.getData();
+    return ServiceResult(content: data); // Succès
+  } catch (e) {
+    return ServiceResult(error: 'Failed to fetch data'); // Échec
+  }
+}
+```
+
+#### Vérification du résultat :
+```dart
+void handleFetch() async {
+  final result = await fetchData();
+
+  if (result.success) {
+    print("Succès : ${result.content}");
+  } else {
+    print("Erreur : ${result.getErrorMessage()}");
+  }
+}
+```
+
+---
