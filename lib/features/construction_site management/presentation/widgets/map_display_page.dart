@@ -24,35 +24,14 @@ class MapPage extends StatelessWidget {
             // Create markers from constructionSites
             final List<Marker> markers = constructionSites.map((site) {
               // Parse latitude and longitude from the location string
-              final coords = site.location.split(',').map((e) => double.parse(e.trim())).toList();
-              final LatLng position = LatLng(coords[0], coords[1]);
+              final LatLng position = LatLng(site.geoPoint.latitude, site.geoPoint.longitude);
 
               return Marker(
                 point: position,
                 width: 40.0,
                 height: 40.0,
                 builder: (context) => GestureDetector(
-                  onTap: () {
-                    // Show details of the construction site
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: Text("Construction Site Details"),
-                        content: Text(
-                          "Object: ${site.object}\n"
-                              "Location: ${site.location}\n"
-                              "Status: ${site.status.name}\n"
-                              "Lat: ${position.latitude}, Lon: ${position.longitude}",
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(ctx).pop(),
-                            child: const Text("Close"),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                  onTap: () {},
                   child: Image.asset(
                     'assets/images/cone.png', // Path to your image
                     width: 30.0,
