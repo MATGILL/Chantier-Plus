@@ -16,7 +16,7 @@ class _NavigationChefState extends State<NavigationChef> {
 
   final List<Widget> _screens = [
     const ConstructionSiteListScreenChef(), // Écran principal
-    MapPage(),
+    MaPageChef(),
     const SettingsScreen()
   ];
 

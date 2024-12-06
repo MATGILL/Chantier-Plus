@@ -125,7 +125,7 @@ class ConstructionSiteDetails extends StatelessWidget {
                 ),
               if (constructionSite.supplies.isNotEmpty)
                 const Text(
-                  "Fourniture Assignés ",
+                  "Fournitures Assignés ",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               if (constructionSite.supplies.isNotEmpty)
@@ -140,8 +140,7 @@ class ConstructionSiteDetails extends StatelessWidget {
                       child: Card(
                         color: AppColors.lightBackground,
                         elevation: 3,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
                         child: Row(
                           children: [
                             // Trait bleu sur la gauche
