@@ -202,7 +202,7 @@ Pour ce projet nous avons utilisé firebase pour :
 
 Dans notre base de donnée firestore les fichiers sont séparé en 5 collectons : 
 
-![Alt text](image.png)
+![Alt text](./docs/image.png)
 
 Et dans notre stockage `Firebase storage` nos fichiers respectent une certaine hiéracrhie : 
 
