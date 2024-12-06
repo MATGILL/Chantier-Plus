@@ -1,3 +1,4 @@
+import 'package:chantier_plus/core/configs/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
@@ -85,7 +86,82 @@ class ConstructionSiteDetails extends StatelessWidget {
                   "Statut :", constructionSite.status.name.toLowerCase()),
 
               const SizedBox(height: 20),
-
+              if (constructionSite.vehicles.isNotEmpty)
+                const Text(
+                  "Véhicule Assignés ",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              if (constructionSite.vehicles.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: constructionSite.vehicles.length,
+                  itemBuilder: (context, index) {
+                    final vehicle = constructionSite.vehicles[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13.0, horizontal: 10),
+                      child: Card(
+                        color: AppColors.lightBackground,
+                        elevation: 3,
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 5,
+                              height: 80,
+                              color: AppColors.primary,
+                            ),
+                            Expanded(
+                              child: ListTile(
+                                title: Text(vehicle.brand),
+                                subtitle: Text(vehicle.model),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              if (constructionSite.supplies.isNotEmpty)
+                const Text(
+                  "Fourniture Assignés ",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              if (constructionSite.supplies.isNotEmpty)
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: constructionSite.supplies.length,
+                  itemBuilder: (context, index) {
+                    final supply = constructionSite.supplies[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13.0, horizontal: 10),
+                      child: Card(
+                        color: AppColors.lightBackground,
+                        elevation: 3,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Row(
+                          children: [
+                            // Trait bleu sur la gauche
+                            Container(
+                              width: 5,
+                              height: 80,
+                              color: AppColors.primary,
+                            ),
+                            Expanded(
+                              child: ListTile(
+                                title: Text(supply.name),
+                                subtitle: Text(supply.type),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               // Nombre d'anomalies
               Text(
                 "Anomalies détectées",
