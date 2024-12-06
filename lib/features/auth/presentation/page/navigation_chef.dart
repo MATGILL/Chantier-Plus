@@ -1,6 +1,9 @@
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_home_screen_chef.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/setting_screen.dart';
+import 'package:chantier_plus/features/construction_site%20management/presentation/widgets/autocomplete_search_location.dart';
 import 'package:flutter/material.dart';
+
+import '../../../construction_site management/presentation/widgets/map_display_page.dart';
 
 class NavigationChef extends StatefulWidget {
   const NavigationChef({super.key});
@@ -14,7 +17,7 @@ class _NavigationChefState extends State<NavigationChef> {
 
   final List<Widget> _screens = [
     const ConstructionSiteListScreenChef(), // Écran principal
-    const Center(child: Text('Map Screen')),
+    MapPage(),
     const SettingsScreen()
   ];
 
