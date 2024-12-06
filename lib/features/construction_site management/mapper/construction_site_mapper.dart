@@ -22,6 +22,8 @@ class ConstructionSiteMapper {
         status: StatusExtension.fromString(data.status),
         photos: data.photos,
         anomalyNumber: anomalies.length,
+        vehicles: data.vehicles,
+        supplies: data.supplies,
         anomalies: anomalies);
   }
 

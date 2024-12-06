@@ -62,7 +62,7 @@ class ConstructionSiteService {
     return Future.value(ServiceResult(content: anomalyId));
   }
 
-  Future<ServiceResult<ConstructionSite>> getAllConstructionSitesById(
+  Future<ServiceResult<ConstructionSite>> getConstructionSiteById(
       String id) async {
     //Get the constructionSite
     var result = await _repository.getById(id);
@@ -71,22 +71,28 @@ class ConstructionSiteService {
     }
 
     ConstructionSite constructionSite = result.content!;
-
-    //Load resources
-    var vehicleResult =
-        await _ressourceRepository.getAllVehicleFromConstructionSIte(id);
-    if (vehicleResult.error.isNotEmpty) {
-      return ServiceResult(error: "Unable to get the desire vehicless");
+    var vehicleResult;
+    if (constructionSite.vehicles.isNotEmpty) {
+      //Load resources
+      vehicleResult = await _ressourceRepository.getAllVehicleFromlistString(
+          constructionSite.vehicles.map((v) => v.id).toList());
+      if (vehicleResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to get the desire vehicless");
+      }
     }
 
-    var suppliesResult =
-        await _ressourceRepository.getAllSupplyFromConstructionSIte(id);
-    if (vehicleResult.error.isNotEmpty) {
-      return ServiceResult(error: "Unable to get the desire vehicless");
+    var suppliesResult;
+    if (constructionSite.supplies.isNotEmpty) {
+      suppliesResult = await _ressourceRepository.getAllSupplyFromlistString(
+          constructionSite.supplies.map((s) => s.id).toList());
+      if (vehicleResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to get the desire vehicless");
+      }
     }
 
     return ServiceResult(
         content: constructionSite.copyWith(
-            vehicles: vehicleResult.content, supplies: suppliesResult.content));
+            vehicles: vehicleResult != null ? vehicleResult.content : [],
+            supplies: suppliesResult != null ? suppliesResult.content : []));
   }
 }

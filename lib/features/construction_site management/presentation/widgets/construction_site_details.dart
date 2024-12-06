@@ -1,0 +1,117 @@
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:chantier_plus/features/construction_site%20management/domain/entities/construction_site.dart';
+
+class ConstructionSiteDetails extends StatelessWidget {
+  final ConstructionSite constructionSite;
+
+  const ConstructionSiteDetails({Key? key, required this.constructionSite})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Détails du chantier"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Carrousel d'images
+              if (constructionSite.photos.isNotEmpty)
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200.0,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
+                    autoPlay: true,
+                  ),
+                  items: constructionSite.photos.map((photoUrl) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.grey[200],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(
+                              photoUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+
+              const SizedBox(height: 20),
+
+              // Informations générales
+              Text(
+                "Informations générales",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 10),
+              _buildInfoRow("Objet :", constructionSite.object),
+              _buildInfoRow("Durée :",
+                  "${constructionSite.durationInHalfDays} demi-journées"),
+              _buildInfoRow(
+                  "Date de début :",
+                  constructionSite.startingDate != null
+                      ? "${constructionSite.startingDate!.toLocal()}"
+                          .split(' ')[0]
+                      : "Non spécifiée"),
+              _buildInfoRow("Lieu :", constructionSite.location),
+              _buildInfoRow("Contact client :", constructionSite.clientContact),
+              _buildInfoRow("Statut :", constructionSite.status.toString()),
+
+              const SizedBox(height: 20),
+
+              // Nombre d'anomalies
+              Text(
+                "Anomalies détectées",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 10),
+              Text("Nombre d'anomalies : ${constructionSite.anomalyNumber}"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(value),
+          ),
+        ],
+      ),
+    );
+  }
+}

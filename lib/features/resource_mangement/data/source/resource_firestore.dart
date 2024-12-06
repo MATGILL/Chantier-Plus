@@ -33,7 +33,8 @@ class ResourceFirestore implements RessourceRepository {
       // Vérification des disponibilités
       if (isResourceAvailable(unavailabilities, halfDayBeginning, startingDate,
           durationInHalfDays)) {
-        availableVehicles.add(Vehicle.fromJson(vehicleData));
+        availableVehicles
+            .add(Vehicle.fromJson(vehicleData).copyWith(id: doc.id));
       }
     }
 
@@ -79,7 +80,7 @@ class ResourceFirestore implements RessourceRepository {
       // Vérification des disponibilités
       if (isResourceAvailable(unavailabilities, halfDayBeginning, startingDate,
           durationInHalfDays)) {
-        availableSupply.add(Supply.fromJson(supplyData));
+        availableSupply.add(Supply.fromJson(supplyData).copyWith(id: doc.id));
       }
     }
 
@@ -174,26 +175,31 @@ class ResourceFirestore implements RessourceRepository {
   }
 
   @override
-  Future<ServiceResult<List<Vehicle>>> getAllVehicleFromConstructionSIte(
-      String siteId) async {
+  Future<ServiceResult<List<Vehicle>>> getAllVehicleFromlistString(
+      List<String> siteIds) async {
     try {
       // Obtenir une collection de Firestore
       final vehiclesCollection = _firestore.collection(_collectionNameVehicle);
 
-      // Récupérer le document correspondant au siteId
-      final docSnapshot = await vehiclesCollection.doc(siteId).get();
+      // Récupérer tous les documents avec les IDs spécifiés dans la liste
+      final documentSnapshots = await Future.wait(
+          siteIds.map((siteId) => vehiclesCollection.doc(siteId).get()));
 
-      if (!docSnapshot.exists) {
-        return ServiceResult(error: "Aucun site trouvé avec l'ID : $siteId");
+      // Vérifier si aucun document n'a été trouvé
+      final vehicles = <Vehicle>[];
+
+      for (final docSnapshot in documentSnapshots) {
+        if (docSnapshot.exists) {
+          // Transformer les données du document en entité `Vehicle`
+          final vehicleData = docSnapshot.data();
+          vehicles.add(Vehicle.fromJson(vehicleData as Map<String, dynamic>));
+        }
       }
 
-      // Récupérer les données des véhicules à partir du document
-      final List<dynamic> vehiclesData = docSnapshot.data()?['vehicles'] ?? [];
-
-      // Transformer les données en entités `Vehicle`
-      final vehicles = vehiclesData
-          .map((data) => Vehicle.fromJson(data as Map<String, dynamic>))
-          .toList();
+      if (vehicles.isEmpty) {
+        return ServiceResult(
+            error: "Aucun véhicule trouvé pour les sites spécifiés.");
+      }
 
       return ServiceResult(content: vehicles);
     } catch (e) {
@@ -203,31 +209,39 @@ class ResourceFirestore implements RessourceRepository {
   }
 
   @override
-  Future<ServiceResult<List<Supply>>> getAllSupplyFromConstructionSIte(
-      String siteId) async {
+  Future<ServiceResult<List<Supply>>> getAllSupplyFromlistString(
+      List<String> siteIds) async {
     try {
       // Obtenir une collection de Firestore
       final suppliesCollection = _firestore.collection(_collectionNameSupply);
 
-      // Récupérer le document correspondant au siteId
-      final docSnapshot = await suppliesCollection.doc(siteId).get();
+      // Récupérer tous les documents avec les IDs spécifiés dans la liste
+      final documentSnapshots = await Future.wait(
+          siteIds.map((siteId) => suppliesCollection.doc(siteId).get()));
 
-      if (!docSnapshot.exists) {
-        return ServiceResult(error: "Aucun site trouvé avec l'ID : $siteId");
+      // Vérifier si des documents ont été trouvés
+      final supplies = <Supply>[];
+
+      for (final docSnapshot in documentSnapshots) {
+        if (docSnapshot.exists) {
+          if (docSnapshot.exists) {
+            // Transformer les données du document en entité `Vehicle`
+            final suppliesData = docSnapshot.data();
+            supplies.add(Supply.fromJson(suppliesData as Map<String, dynamic>));
+          }
+          // Récupérer les données des fournitures à partir du document
+        }
       }
 
-      // Récupérer les données des véhicules à partir du document
-      final List<dynamic> suppliesData = docSnapshot.data()?['vehicles'] ?? [];
+      if (supplies.isEmpty) {
+        return ServiceResult(
+            error: "Aucune fourniture trouvée pour les sites spécifiés.");
+      }
 
-      // Transformer les données en entités `Vehicle`
-      final vehicles = suppliesData
-          .map((data) => Supply.fromJson(data as Map<String, dynamic>))
-          .toList();
-
-      return ServiceResult(content: vehicles);
+      return ServiceResult(content: supplies);
     } catch (e) {
       return ServiceResult(
-          error: 'Erreur lors de la récupération des véhicules : $e');
+          error: 'Erreur lors de la récupération des fournitures : $e');
     }
   }
 }
