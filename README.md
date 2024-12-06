@@ -1,4 +1,4 @@
-# ChantierPlus
+# ChantierPlus - GILLARD Mathis / HURBAIN Raphael
 
 
 > [uml du projet](./READMES/project_structure_README.md)
