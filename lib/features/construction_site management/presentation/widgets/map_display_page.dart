@@ -1,3 +1,4 @@
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -31,7 +32,9 @@ class MapPage extends StatelessWidget {
                 width: 40.0,
                 height: 40.0,
                 builder: (context) => GestureDetector(
-                  onTap: () {},
+                  onTap: () {Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ConstructionSiteDetailsScreen(siteId: site.id)));
+                  },
                   child: Image.asset(
                     'assets/images/cone.png', // Path to your image
                     width: 30.0,
