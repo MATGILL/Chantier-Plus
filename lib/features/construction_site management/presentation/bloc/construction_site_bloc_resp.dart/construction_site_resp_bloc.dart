@@ -36,12 +36,17 @@ class ConstructionSiteRespBloc
 
     // Gestion du succès ou de l'échec
     if (result.error.isEmpty) {
-      emit(ConstructionSiteRespState(
-          status: ConstructionStateRespStatus.success,
-          constructionSites: result.content!,
-          totalAnomalies: result.content!
-              .map((site) => site.anomalyNumber)
-              .reduce((value, element) => value + element)));
+      if (result.content!.isNotEmpty) {
+        emit(ConstructionSiteRespState(
+            status: ConstructionStateRespStatus.success,
+            constructionSites: result.content!,
+            totalAnomalies: result.content!
+                .map((site) => site.anomalyNumber)
+                .reduce((value, element) => value + element)));
+      } else {
+        emit(const ConstructionSiteRespState(
+            status: ConstructionStateRespStatus.success, totalAnomalies: 0));
+      }
     } else {
       emit(const ConstructionSiteRespState(
         status: ConstructionStateRespStatus.error,
