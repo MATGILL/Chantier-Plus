@@ -17,4 +17,9 @@ abstract class RessourceRepository {
   Future<ServiceResult<List<Vehicle>>> getAllVehicle();
 
   Future<ServiceResult<List<Supply>>> getAllSupply();
+
+  Future<ServiceResult<List<Vehicle>>> getAllVehicleFromConstructionSIte(
+      String siteId);
+  Future<ServiceResult<List<Supply>>> getAllSupplyFromConstructionSIte(
+      String siteId);
 }

@@ -5,16 +5,20 @@ import 'package:chantier_plus/features/construction_site%20management/domain/ent
 import 'package:chantier_plus/features/construction_site%20management/domain/entities/status.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/construction_site_repository.dart';
 import 'package:chantier_plus/features/construction_site%20management/domain/repository/photo_repository.dart';
+import 'package:chantier_plus/features/resource_mangement/domain/repository/ressource_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ConstructionSiteService {
   final ConstructionSiteRepository _repository;
   final PhotoRepository _photoRepository;
+  final RessourceRepository _ressourceRepository;
   ConstructionSiteService(
       {required ConstructionSiteRepository constructionSiteRepository,
-      required PhotoRepository photoRepository})
+      required PhotoRepository photoRepository,
+      required RessourceRepository ressourceRepository})
       : _repository = constructionSiteRepository,
-        _photoRepository = photoRepository;
+        _photoRepository = photoRepository,
+        _ressourceRepository = ressourceRepository;
 
   //Récupère l'ensemble des chantier en fonction du role de l'utilisateur courant
   Future<ServiceResult<List<ConstructionSite>>> getAllConstructionSites(
@@ -56,5 +60,33 @@ class ConstructionSiteService {
     }
 
     return Future.value(ServiceResult(content: anomalyId));
+  }
+
+  Future<ServiceResult<ConstructionSite>> getAllConstructionSitesById(
+      String id) async {
+    //Get the constructionSite
+    var result = await _repository.getById(id);
+    if (result.error.isNotEmpty) {
+      return ServiceResult(error: "Unable to get the desire constructionSitet");
+    }
+
+    ConstructionSite constructionSite = result.content!;
+
+    //Load resources
+    var vehicleResult =
+        await _ressourceRepository.getAllVehicleFromConstructionSIte(id);
+    if (vehicleResult.error.isNotEmpty) {
+      return ServiceResult(error: "Unable to get the desire vehicless");
+    }
+
+    var suppliesResult =
+        await _ressourceRepository.getAllSupplyFromConstructionSIte(id);
+    if (vehicleResult.error.isNotEmpty) {
+      return ServiceResult(error: "Unable to get the desire vehicless");
+    }
+
+    return ServiceResult(
+        content: constructionSite.copyWith(
+            vehicles: vehicleResult.content, supplies: suppliesResult.content));
   }
 }

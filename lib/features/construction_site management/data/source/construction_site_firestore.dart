@@ -88,6 +88,7 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
       }
       final constructionSiteLightDto =
           ConstructionSiteLightDto.fromJson(doc.data()!);
+
       return ServiceResult<ConstructionSite>(
           content: ConstructionSiteMapper.fromDto(constructionSiteLightDto));
     } catch (e) {
