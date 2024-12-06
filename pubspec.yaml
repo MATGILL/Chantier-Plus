@@ -23,6 +23,8 @@ dependencies:
   flutter_dotenv: ^5.2.1
   flutter_typeahead: ^5.2.0
   carousel_slider: ^5.0.0
+  flutter_map: ^4.0.0 # Use the latest version
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:
