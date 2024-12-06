@@ -42,3 +42,36 @@ Architecture adopté :
 ```
 
 > [Doc sur l'architecture du projet](./READMES/project_structure_README.md)
+
+## Intégration de Mapbox
+
+Ce projet utilise Mapbox pour offrir des fonctionnalités de cartographie et de recherche d'adresses dans l'application. L'objectif est de permettre une visualisation interactive des sites de construction ainsi qu'une recherche facile des localisations.
+
+---
+
+### **1. Affichage des sites sur une carte**
+
+Dans la classe `MapPage`, une carte Mapbox est affichée grâce au package `flutter_map`. Les sites de construction sont représentés par des marqueurs dynamiques. Chaque marqueur affiche l'icône d'un plot de travaux et permet, lorsqu'on clique dessus, de naviguer vers un écran de détails du site.
+
+#### **Fonctionnalités principales :**
+- **Carte Mapbox interactive** : La carte est centrée sur une zone définie et utilise un style personnalisé de Mapbox.
+- **Marqueurs dynamiques** : Chaque site de construction est affiché à sa position géographique sous forme de marqueur.
+- **Navigation aux détails** : Cliquer sur un marqueur redirige vers l'écran des détails du site.
+
+---
+
+### **2. Recherche d’adresses avec autocomplétion**
+
+La classe `AutoCompleteSearchLocation` intègre la recherche d'adresses via l'API Places de Mapbox. Elle permet aux utilisateurs de saisir une adresse et de sélectionner une suggestion pour récupérer ses coordonnées GPS.
+
+#### **Fonctionnalités principales :**
+- **Autocomplétion** : Recherche en temps réel des adresses correspondant à la saisie.
+- **Sélection des résultats** : Une fois une adresse sélectionnée, son nom et ses coordonnées GPS sont renvoyés pour utilisation (par exemple, pour localiser un site ou enregistrer une adresse).
+
+---
+
+### **Résumé technique**
+- Les données des sites de construction sont gérées via un `Bloc` pour synchroniser l'état entre la carte et l'application.
+- L'intégration avec Mapbox permet de combiner des fonctionnalités de cartographie et de recherche de localisation pour une expérience utilisateur fluide.
+
+---
