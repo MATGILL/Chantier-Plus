@@ -58,6 +58,21 @@ class ConstructionSite extends Equatable {
         supplies,
         // teamMembers,
       ];
+  const ConstructionSite.empty()
+      : id = '',
+        object = '',
+        durationInHalfDays = 0,
+        startingDate = null,
+        halfDayStarting = HalfDay.morning,
+        location = '',
+        geoPoint = const GeoPoint(0, 0),
+        clientContact = '',
+        status = Status.notStarted,
+        photos = const [],
+        anomalyNumber = 0,
+        anomalies = const [],
+        vehicles = const [],
+        supplies = const [];
 
   ConstructionSite copyWith(
       {String? id,

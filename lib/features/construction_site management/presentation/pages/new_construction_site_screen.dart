@@ -63,9 +63,10 @@ class NewConstructionSitePage extends StatelessWidget {
                   onPressed: state.isSubmitting
                       ? null // Désactiver le bouton si isSubmitting est true
                       : () {
-                          context
-                              .read<NewConstructionBloc>()
-                              .add(SubmitConstructionSite());
+                          // context
+                          //     .read<NewConstructionBloc>()
+                          //     .add(SubmitConstructionSite());
+                          print(state.constructionSite.vehicles);
                         },
                   child: state.isSubmitting
                       ? const SizedBox(

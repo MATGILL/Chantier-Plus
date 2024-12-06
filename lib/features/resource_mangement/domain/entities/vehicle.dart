@@ -39,6 +39,11 @@ class Vehicle extends Resource {
     };
   }
 
+  const Vehicle.empty()
+      : brand = '',
+        model = '',
+        super(id: '', unavailabilities: const []);
+
   @override
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(

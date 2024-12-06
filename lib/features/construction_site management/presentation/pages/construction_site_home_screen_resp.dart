@@ -1,3 +1,4 @@
+import 'package:chantier_plus/features/construction_site%20management/presentation/pages/construction_site_details_screen.dart';
 import 'package:chantier_plus/features/construction_site%20management/presentation/pages/new_construction_site_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +11,13 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          ConstructionSiteRespBloc()..add(FetchConstructionSitesResp()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              ConstructionSiteRespBloc()..add(FetchConstructionSitesResp()),
+        ),
+      ],
       child: Scaffold(
         body: BlocListener<ConstructionSiteRespBloc, ConstructionSiteRespState>(
           listener: (context, state) {
@@ -72,29 +77,37 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     bottom: 16.0, left: 16.0, right: 16.0),
                                 child: ConstructionSiteCardOverviewResp(
-                                  key: Key(constructionSite.id),
-                                  constructionSite: constructionSite,
-                                  onIconPressed: () {},
-                                ),
+                                    key: Key(constructionSite.id),
+                                    constructionSite: constructionSite,
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ConstructionSiteDetailsScreen(
+                                                    siteId: constructionSite.id,
+                                                  )));
+                                    }),
                               );
                             },
                             childCount: constructionSites.length,
                           ),
                         ),
                         SliverToBoxAdapter(
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          NewConstructionSiteScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.add_box_outlined,
-                                  size: 50,
-                                ))),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      NewConstructionSiteScreen(),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.add_box_outlined,
+                              size: 50,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

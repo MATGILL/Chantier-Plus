@@ -27,6 +27,11 @@ class Supply extends Resource {
     );
   }
 
+  const Supply.empty()
+      : name = '',
+        type = '',
+        super(id: '', unavailabilities: const []);
+
   @override
   List<Object?> get props => [id, name, type, unavailabilities];
 
