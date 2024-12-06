@@ -77,16 +77,26 @@ class ConstructionSiteHomeScreenResp extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     bottom: 16.0, left: 16.0, right: 16.0),
                                 child: ConstructionSiteCardOverviewResp(
-                                    key: Key(constructionSite.id),
-                                    constructionSite: constructionSite,
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ConstructionSiteDetailsScreen(
-                                                    siteId: constructionSite.id,
-                                                  )));
-                                    }),
+                                  key: Key(constructionSite.id),
+                                  constructionSite: constructionSite,
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConstructionSiteDetailsScreen(
+                                                  siteId: constructionSite.id,
+                                                )));
+                                  },
+                                  onDelete: () {
+                                    // Logique pour envoyer un événement de suppression au Bloc
+                                    context
+                                        .read<ConstructionSiteRespBloc>()
+                                        .add(
+                                          DeleteConstructionSiteResp(
+                                              constructionSite.id),
+                                        );
+                                  },
+                                ),
                               );
                             },
                             childCount: constructionSites.length,

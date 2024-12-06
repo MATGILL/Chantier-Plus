@@ -54,4 +54,26 @@ class PhotoFirebaseStorage implements PhotoRepository {
     }
     return ServiceResult(content: photoUrls);
   }
+
+  @override
+  Future<ServiceResult<String>> deleteAllConstructionSitePhotos(
+      String siteId) async {
+    try {
+      // Référence du dossier des photos du chantier
+      final directoryRef =
+          _firebaseStorage.ref().child('constructionSites/$siteId');
+
+      // Liste tous les objets dans le dossier
+      final ListResult result = await directoryRef.listAll();
+
+      // Parcourt chaque objet (fichier) et le supprime
+      for (var item in result.items) {
+        await item.delete();
+      }
+
+      return ServiceResult(content: "All photos deleted successfully.");
+    } catch (e) {
+      return ServiceResult(error: "Failed to delete photos: ${e.toString()}");
+    }
+  }
 }

@@ -21,4 +21,6 @@ abstract class PhotoRepository {
 
   Future<ServiceResult<List<String>>> uploadConstructionSItePhotos(
       String constructionSiteId, List<XFile> photos);
+
+  Future<ServiceResult<String>> deleteAllConstructionSitePhotos(String siteId);
 }

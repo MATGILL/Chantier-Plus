@@ -18,6 +18,8 @@ class ConstructionSiteRespBloc
       : super(const ConstructionSiteRespState(
             status: ConstructionStateRespStatus.initial)) {
     on<FetchConstructionSitesResp>(_onFetchConstructionSites);
+    on<DeleteConstructionSiteResp>(
+        _onDeleteConstructionSite); // Ajout de l'événement de suppression
   }
 
   // Gestionnaire d'événement pour FetchConstructionSites
@@ -41,6 +43,31 @@ class ConstructionSiteRespBloc
               .map((site) => site.anomalyNumber)
               .reduce((value, element) => value + element)));
     } else {
+      emit(const ConstructionSiteRespState(
+        status: ConstructionStateRespStatus.error,
+        constructionSites: [],
+      ));
+    }
+  }
+
+  // Gestionnaire d'événement pour DeleteConstructionSite
+  Future<void> _onDeleteConstructionSite(
+    DeleteConstructionSiteResp event,
+    Emitter<ConstructionSiteRespState> emit,
+  ) async {
+    emit(const ConstructionSiteRespState(
+        status: ConstructionStateRespStatus.loading));
+
+    // Appel au service pour supprimer le chantier
+    ServiceResult<String> result =
+        await _service.deleteConstructionSite(event.siteId);
+
+    // Gestion du succès ou de l'échec
+    if (result.error.isEmpty) {
+      // Mise à jour de l'état après la suppression réussie
+      add(FetchConstructionSitesResp());
+    } else {
+      // En cas d'erreur, mise à jour de l'état avec un message d'erreur
       emit(const ConstructionSiteRespState(
         status: ConstructionStateRespStatus.error,
         constructionSites: [],

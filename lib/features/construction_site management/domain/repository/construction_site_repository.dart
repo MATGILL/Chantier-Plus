@@ -49,18 +49,6 @@ abstract class ConstructionSiteRepository {
   Future<ServiceResult<String>> create(
       ConstructionSite constructionSite, String chefId);
 
-  /// Met à jour un site de construction existant.
-  ///
-  /// Cette méthode met à jour les informations d'un site déjà enregistré
-  /// dans la base de données.
-  ///
-  /// - En cas de succès : les nouvelles données sont enregistrées.
-  /// - En cas d'échec : une erreur est levée (par exemple, ID introuvable).
-  ///
-  /// Paramètres :
-  /// - [constructionSite] : L'instance mise à jour de `ConstructionSite`.
-  Future<void> update(ConstructionSite constructionSite);
-
   /// Supprime un site de construction à partir de son identifiant unique.
   ///
   /// Cette méthode retire le site de construction correspondant à l'ID fourni
@@ -72,7 +60,7 @@ abstract class ConstructionSiteRepository {
   ///
   /// Paramètres :
   /// - [id] : L'identifiant unique du site de construction à supprimer.
-  Future<void> delete(String id);
+  Future<ServiceResult<String>> delete(String id);
 
   /// Change le statut d'un chantier dans Firestore.
   ///

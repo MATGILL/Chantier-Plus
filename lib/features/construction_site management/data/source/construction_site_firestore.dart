@@ -37,9 +37,45 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
   }
 
   @override
-  Future<void> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<ServiceResult<String>> delete(String id) async {
+    try {
+      // Vérifie si l'utilisateur est connecté
+      final owner = _firebaseAuth.currentUser;
+      if (owner == null) {
+        return ServiceResult(error: "Utilisateur non connecté");
+      }
+
+      // Récupère la référence du document de chantier
+      final docRef = _firestore.collection(_collectionName).doc(id);
+      final docSnapshot = await docRef.get();
+
+      // Vérifie si le chantier existe
+      if (!docSnapshot.exists) {
+        return ServiceResult(error: "Aucun chantier trouvé avec l'ID : $id");
+      }
+
+      // Supprime les anomalies associées à ce chantier
+      final anomaliesSnapshot = await _firestore
+          .collection(
+              'anomalies') // Remplacez 'anomalies' par le nom de votre collection d'anomalies
+          .where('constructionSiteId', isEqualTo: id)
+          .get();
+
+      for (var anomalyDoc in anomaliesSnapshot.docs) {
+        await anomalyDoc.reference
+            .delete(); // Supprime chaque document d'anomalie
+      }
+
+      // Supprime le document de chantier
+      await docRef.delete();
+
+      return ServiceResult(
+          content: "Chantier et anomalies supprimés avec succès");
+    } catch (e) {
+      return ServiceResult(
+          error:
+              "Erreur lors de la suppression du chantier et des anomalies : $e");
+    }
   }
 
   @override
@@ -95,12 +131,6 @@ class ConstructionSiteFirestore implements ConstructionSiteRepository {
       return ServiceResult(
           error: "Erreur lors de la récupération du site : $e");
     }
-  }
-
-  @override
-  Future<void> update(ConstructionSite constructionSite) {
-    // TODO: implement update
-    throw UnimplementedError();
   }
 
   @override

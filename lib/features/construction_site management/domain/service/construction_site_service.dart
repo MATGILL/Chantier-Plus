@@ -95,4 +95,30 @@ class ConstructionSiteService {
             vehicles: vehicleResult != null ? vehicleResult.content : [],
             supplies: suppliesResult != null ? suppliesResult.content : []));
   }
+
+  // Supprimer un chantier et ses photos associées
+  Future<ServiceResult<String>> deleteConstructionSite(String id) async {
+    try {
+      // Suppression des photos associées au chantier
+      var deletePhotosResult =
+          await _photoRepository.deleteAllConstructionSitePhotos(id);
+      if (deletePhotosResult.error.isNotEmpty) {
+        return ServiceResult(
+            error:
+                "Unable to delete photos associated with the construction site.");
+      }
+
+      // Suppression du chantier
+      var deleteResult = await _repository.delete(id);
+      if (deleteResult.error.isNotEmpty) {
+        return ServiceResult(error: "Unable to delete the construction site.");
+      }
+
+      return ServiceResult(
+          content:
+              "Construction site and associated photos deleted successfully.");
+    } catch (e) {
+      return ServiceResult(error: "An error occurred during the deletion: $e");
+    }
+  }
 }

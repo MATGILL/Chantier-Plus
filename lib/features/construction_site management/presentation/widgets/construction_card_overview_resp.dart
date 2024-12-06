@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 
 class ConstructionSiteCardOverviewResp extends StatelessWidget {
   final GestureTapCallback _onTap;
+  final void Function() onDelete; // Fonction de suppression
   final ConstructionSite _constructionSite;
 
   ConstructionSiteCardOverviewResp({
     super.key,
+    required this.onDelete,
     required GestureTapCallback onTap,
     required ConstructionSite constructionSite,
   })  : _constructionSite = constructionSite,
@@ -16,7 +18,7 @@ class ConstructionSiteCardOverviewResp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Default image in case of error or no photos.
+    // Default image in case of error or no photos.
     var defauldImage = Image.asset(
       "assets/images/Image_not_found.png",
       height: 64.0,
@@ -41,11 +43,15 @@ class ConstructionSiteCardOverviewResp extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: _constructionSite.photos.isNotEmpty
-                        ? Image.network(_constructionSite.photos[0],
-                            height: 64.0, width: 64.0, fit: BoxFit.cover,
+                        ? Image.network(
+                            _constructionSite.photos[0],
+                            height: 64.0,
+                            width: 64.0,
+                            fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                            return defauldImage;
-                          })
+                              return defauldImage;
+                            },
+                          )
                         : defauldImage,
                   ),
                   const SizedBox(width: 12.0),
@@ -55,10 +61,10 @@ class ConstructionSiteCardOverviewResp extends StatelessWidget {
                       children: [
                         Text(
                           _constructionSite.object,
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -85,9 +91,50 @@ class ConstructionSiteCardOverviewResp extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
+            // Ajout du bouton de suppression
+            Positioned(
+              top: 20.0,
+              right: 10.0,
+              child: IconButton(
+                icon: Icon(Icons.delete_outline, color: AppColors.error),
+                onPressed: () {
+                  // Demander confirmation avant de supprimer
+                  _showDeleteConfirmationDialog(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  // Méthode pour afficher la confirmation de suppression
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content:
+              const Text('Êtes-vous sûr de vouloir supprimer ce chantier ?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Fermer la boîte de dialogue
+              },
+              child: const Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete(); // Appel de la logique de suppression
+                Navigator.of(context).pop();
+              },
+              child: const Text('Supprimer'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
