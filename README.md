@@ -69,9 +69,3 @@ La classe `AutoCompleteSearchLocation` intègre la recherche d'adresses via l'AP
 - **Sélection des résultats** : Une fois une adresse sélectionnée, son nom et ses coordonnées GPS sont renvoyés pour utilisation (par exemple, pour localiser un site ou enregistrer une adresse).
 
 ---
-
-### **Résumé technique**
-- Les données des sites de construction sont gérées via un `Bloc` pour synchroniser l'état entre la carte et l'application.
-- L'intégration avec Mapbox permet de combiner des fonctionnalités de cartographie et de recherche de localisation pour une expérience utilisateur fluide.
-
----
