@@ -1,7 +1,7 @@
 # ChantierPlus - GILLARD Mathis / HURBAIN Raphael
 
 
-> [uml du projet](./READMES/project_structure_README.md)
+> [architecture du projet](./READMES/project_structure_README.md)
 >
 > Ce modèle a évolué au fil du développement de l'application
 >
